@@ -6,14 +6,14 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/16 13:30:34 by rcochran         ###   ########.fr        #
+#    Updated: 2025/04/16 13:51:38 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY : all clean fclean re
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -lreadline
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -lreadline
 AR			=	ar -rcs
 NAME		= 	minishell
 
