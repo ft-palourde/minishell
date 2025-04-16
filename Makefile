@@ -6,7 +6,7 @@
 #    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/16 19:32:04 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/16 19:36:42 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) -lreadline $(INCLUDES) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
+	$(CC) $(CFLAGS) -lreadline $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
@@ -59,6 +59,6 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
 
-debug : $(LIBFT) $(OBJ_DIR) $(OBJ) Makefile
-	$(CC) -g3 $(CFLAGS) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
+debug : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN) Makefile
+	$(CC) -g3 $(CFLAGS) -lreadline  $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:28:30 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/16 19:20:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:46:09 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ char	*get_pwd(char **env)
 		j++;
 	if (!i || !j)
 		return (ft_strdup(""));
-	while (env[i][j] != '/')
+	j--;
+	while (env[i][j] != 47 && env[i][j])
 		j--;
-	return (ft_strdup(env[i + j + 1]));
+	return (ft_strdup(env[i] + j + 1));
 }
 
 char	*get_prompt(char **env)
 {
-	const char	*start = "\001\x1b[30;47;1m\002 TCoeffet & RCochran \001\033[0m>\x1b[1m\002";
+	const char	*start = "\001\x1b[30;47;1m\002 TCoeffet & RCochran \001\033[0m\x1b[1m\002 ";
 	char		*tmp;
 	char		*prompt;
 
