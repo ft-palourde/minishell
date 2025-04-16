@@ -1,0 +1,8 @@
+.DS_Store
+/.vscode
+
+/obj
+/libft/obj
+/libft/libft.a
+
+minishell
