@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:33:26 by rcochran          #+#    #+#             */
-/*   Updated: 2024/11/19 17:07:06 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:29:28 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ static int	ft_check_nb_pow(unsigned int nb)
 	int	nb_pow;
 
 	nb_pow = 1;
-	if (nb < 0)
-	{
-		nb = -nb;
-	}
 	while (nb >= 10)
 	{
 		nb = nb / 10;
