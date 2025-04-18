@@ -6,7 +6,7 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 17:15:49 by rcochran          #+#    #+#              #
-#    Updated: 2025/02/18 12:40:19 by rcochran         ###   ########.fr        #
+#    Updated: 2025/04/18 17:26:03 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILES :=	ft_atoi \
 			ft_strlen \
 			ft_strmapi \
 			ft_strncmp \
+			ft_strndup \
 			ft_strnstr \
 			ft_strrchr \
 			ft_strtrim \

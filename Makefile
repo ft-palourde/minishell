@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
+#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/16 19:36:42 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/18 17:24:04 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re debug
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP 
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
 AR			=	ar -rcs
 NAME		= 	minishell
 
@@ -23,7 +23,12 @@ LIBFT		=	$(LIBFT_PATH)/libft.a
 INCLUDES	= 	-I$(LIBFT_PATH)/includes\
 				-I./includes
 
-FILES		= 	prompt
+FILES		= 	prompt \
+				lexer_utils \
+				lexer \
+				operator \
+				parse \
+				token
 				
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))
@@ -48,7 +53,7 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) -lreadline $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -lreadline -L$(LIBFT_PATH) -lft -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
