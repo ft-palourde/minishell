@@ -6,9 +6,11 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:03 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/17 19:50:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/18 13:41:54 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
 
 //envoyer un arg qui contient tout l'argument apres echo sans aucun traitement
 
@@ -45,24 +47,26 @@ void	bi_echo(char **arg)
 {
 	int		option;
 	int		i;
-	char	*echo;
-	char	*tmp;
 
 	i = 0;
 	option = check_option(arg[0]);
 	if (option)
 		i++;
-	tmp = ft_strdup("");
-	if (!tmp)
-		return ;
 	while (arg[i])
 	{
-		tmp = ft_strjoin(echo, arg[i]);
-		if (!tmp)
-			return ;
-		free(echo);
-		echo = tmp;
+		printf("%s", arg[i]);
+		i++;
+		if (arg[i])
+			printf(" ");
 	}
-	ft_putstr(echo);
-	free(echo);
+	if (!option)
+		printf("\n");
 }
+
+/* //test main
+int main(int ac, char **av)
+{
+	(void) ac;
+	bi_echo(&av[1]);
+	return (0);
+} */
