@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 15:44:31 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:02 by rcochran         ###   ########.fr       */
+/*   Created: 2025/04/18 15:33:28 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/18 16:29:52 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
+char	*ft_strndup(const char *s, int n);
 
-# include "libft.h"
-# include "minishell_structs.h"
-# include "minishell_proto.h"
-# include <stdbool.h>
+char	*ft_strndup(const char *s, int n)
+{
+	int		s_len;
+	int		i;
+	char	*dest;
 
-#endif
+	i = 0;
+	s_len = 0;
+	while (s[s_len])
+		s_len++;
+	dest = malloc(sizeof(char) * (s_len + 1));
+	if (!dest)
+		return (NULL);
+	while (s[i] && i < n)
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}

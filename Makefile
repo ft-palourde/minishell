@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
+#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:15:38 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/21 15:30:39 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re debug
 
 CC			= 	cc
 CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
@@ -30,7 +30,12 @@ FILES		= 	builtin_cd\
 				builtin_export\
 				builtin_pwd\
 				builtin_unset\
-				prompt\
+				prompt \
+				lexer_utils \
+				lexer \
+				operator \
+				parse \
+				token\
 				set_env
 				
 SRC_DIR		= 	src/

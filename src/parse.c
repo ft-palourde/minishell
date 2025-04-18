@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:20 by rcochran         ###   ########.fr       */
+/*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/18 17:23:11 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **env)
-{
-	char	*prompt;
-	char	*line;
-	t_token	*tokens;
+/* char	**parse(char *input);
 
-	(void) ac;
-	(void) av;
-	prompt = get_prompt(env);
-	line = readline(prompt);
-	printf("%s", line);
-	tokens = lexer(line);
-	if (!tokens)
-	{
-		printf("Lexer error\n");
-		free(line);
-		free(prompt);
-		return (1);
-	}
-	while (tokens)
-	{
-		printf("\nToken: %s\n", tokens->str);
-		tokens = tokens->next;
-	}
-	free(prompt);
-	return (0);
-}
- */
+char	**parse(char *input)
+{
+	char	**parsed_input;
+
+	parsed_input = NULL;
+	return (parsed_input);
+} */
