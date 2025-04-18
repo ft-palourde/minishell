@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:44:34 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 16:47:07 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:36:03 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	is_closed(char *s, char c)
 	return (0);
 }
 
-static int	pipex_split_len(char const *s, char c)
+static int	get_split_len(char const *s, char c)
 {
 	int	i;
 	int	to_close;
@@ -74,7 +74,7 @@ static int	pipex_split_len(char const *s, char c)
 	return (i);
 }
 
-static void	pipex_count_word(char const *s, char c, int *count)
+static void	get_split_count_word(char const *s, char c, int *count)
 {
 	int	i;
 
@@ -113,7 +113,7 @@ char	**one_split(const char *s)
 	return (split);
 }
 
-char	**pipex_split(char const *s, char c)
+char	**custom_split(char const *s, char c)
 {
 	char	**str;
 	int		count;
@@ -121,7 +121,7 @@ char	**pipex_split(char const *s, char c)
 
 	i = 0;
 	count = 0;
-	pipex_count_word(s, c, &count);
+	get_split_count_word(s, c, &count);
 	if (!count)
 		return (one_split(s));
 	str = 0;
@@ -132,14 +132,11 @@ char	**pipex_split(char const *s, char c)
 	{
 		while (*(char *)s == c)
 			s++;
-		str[i] = ft_strldup((char *)s, pipex_split_len(s, c));
+		str[i] = ft_strldup((char *)s, get_split_len(s, c));
 		if (!(str[i]))
 			return (clear_split(str), NULL);
 		i++;
-		s += pipex_split_len(s, c);
+		s += get_split_len(s, c);
 	}
 	return (str);
 } */
-
-
-
