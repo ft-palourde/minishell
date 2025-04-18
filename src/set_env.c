@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:46:02 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 18:21:28 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:28:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**set_default_env(void)
 	new = ft_calloc(4, sizeof(char *));
 	if (!new)
 		return (0);
-	new[0] = ft_strdup("PWD=/home/tcoeffet\n");
+	new[0] = ft_strdup("PWD=/home/tcoeffet\n"); //a revoir comment on fait selon le user ?
 	if (!new[0])
 		return (free(new), NULL);
 	new[1] = ft_strdup("SHLVL=1\n");
@@ -57,6 +57,30 @@ char	**set_default_env(void)
 		return (nfree(new, 1));
 	new[2] = ft_strdup("_=/usr/bin/env\n");
 	return (new);
+}
+
+char	*check_newlvl(char *str)
+{
+	int		num;
+	char	*tmp;
+	char	*ret;
+
+	num = ft_atoi(str) + 1;
+	ret = ft_itoa(num);
+	if (!ret)
+		return (0);
+	if (num < 0)
+		return (ft_strdup("0"));
+	else if (num > 1000)
+	{
+		write (2, "warning: shell level ", 22);
+		write (2, ret, ft_strlen(ret));
+		write (2, " too high, resetting to 1\n", 27);
+		free(ret);
+		return (ft_strdup("1"));
+	}
+	else
+		return (ret);
 }
 
 int	change_shlvl(char **env)
