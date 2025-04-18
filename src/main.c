@@ -6,13 +6,13 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/16 19:22:33 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:03:15 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+/* int	main(int ac, char **av, char **env)
 {
 	char	*prompt;
 	char	*line;
@@ -26,3 +26,4 @@ int	main(int ac, char **av, char **env)
 	free(prompt);
 	return (0);
 }
+ */
