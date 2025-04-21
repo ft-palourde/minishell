@@ -6,14 +6,14 @@
 #    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/18 18:16:20 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/21 15:05:05 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY : all clean fclean re
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -g
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
 AR			=	ar -rcs
 NAME		= 	minishell
 
@@ -42,6 +42,9 @@ OBJ_DIR		= 	obj/
 OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 OBJ_MAIN	=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_DIR)$(MAIN))
 
+ifneq ($(filter bonus, $(MAKECMDGOALS)),)
+CFLAGS += -g -v
+endif
 
 all : $(NAME)
 
@@ -56,7 +59,7 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) -lreadline $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -lreadline -L$(LIBFT_PATH) -lft -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
@@ -67,6 +70,4 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
 
-debug : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN) Makefile
-	$(CC) -g $(CFLAGS) -lreadline  $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -o $(NAME)
-
+debug : all
