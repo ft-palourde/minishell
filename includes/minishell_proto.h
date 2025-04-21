@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 12:01:59 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:14:03 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,9 @@ int				handle_operator(char *input, t_token **tokens);
 t_token_type	get_operator_type(char *input);
 int				operator_len(t_token_type type);
 bool			is_operator(char c);
+
+/* QUOTES */
+int				is_quote(char c);
+int				handle_quote(char *input, t_token **tokens);
 
 #endif

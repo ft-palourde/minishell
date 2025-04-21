@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 11:47:40 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:11:07 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,55 +62,6 @@ t_token	*lexer(char *input)
 	return (tokens);
 }
 
-int	handle_operator(char *input, t_token **tokens)
-{
-	t_token_type	type;
-	int				len;
-	t_token			*new;
-
-	type = get_operator_type(input);
-	// if (type == T_UNKNOWN)
-	// 	return quelle value pour signifier error? -1 ?//TODO
-	len = operator_len(type);
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (0);
-	new->type = type;
-	new->str = ft_strndup(input, len);
-	new->next = NULL;
-	ft_memset(&new->data, 0, sizeof(new->data));
-	add_to_tokens(new, tokens);
-	return (len);
-}
-
-int	is_quote(char c)
-{
-	return (c == '\'' || c == '\"');
-}
-
-int	handle_quote(char *input, t_token **tokens)
-{
-	t_token			*new_token;
-	int				len;
-	char			quote;
-
-	len = 1;
-	quote = *input;
-	while (input[len] && input[len] != quote)
-		len++;
-	if (input[len] == quote)
-		len++;
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return (0);
-	new_token->type = T_WORD;
-	new_token->str = ft_strndup(input, len);
-	new_token->next = NULL;
-	ft_memset(&new_token->data, 0, sizeof(new_token->data));
-	add_to_tokens(new_token, tokens);
-	return (len);
-}
-
 int	extract_word_len(const char *input)
 {
 	int	i;
@@ -138,7 +89,7 @@ int	is_closed(char *input, char quote)
 	i = 1;
 	while (input[i])
 	{
-		if (input[i] == quote)
+		if (input[i] == quote && input[i - 1] != 92)
 			return (i);
 		i++;
 	}

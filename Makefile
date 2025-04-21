@@ -6,7 +6,7 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:34:58 by rcochran         ###   ########.fr        #
+#    Updated: 2025/04/21 15:36:04 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ FILES		= 	builtin_cd\
 				operator \
 				parse \
 				prompt \
+				quote \
 				token\
 				set_env
 				

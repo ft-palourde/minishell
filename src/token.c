@@ -6,12 +6,13 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 17:23:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:53:40 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//new_token data = ??//TODO
 t_token	*constr_new_token(t_token_type type, char *str)
 {
 	t_token	*new_token;
@@ -22,7 +23,6 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token->type = type;
 	new_token->str = str;
 	new_token->next = NULL;
-	//new_token data = ??//TODO
 	return (new_token);
 }
 
