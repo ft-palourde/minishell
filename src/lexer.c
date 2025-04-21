@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 19:37:04 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:47:40 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	handle_word(char *input, t_token **tokens)
 	new->type = T_WORD;
 	new->str = ft_strndup(input, len);
 	new->next = NULL;
-	memset(&new->data, 0, sizeof(new->data));
+	ft_memset(&new->data, 0, sizeof(new->data));
 	add_to_tokens(new, tokens);
 	return (len);
 }

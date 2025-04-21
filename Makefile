@@ -6,7 +6,7 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:30:39 by rcochran         ###   ########.fr        #
+#    Updated: 2025/04/21 15:34:58 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT_PATH	=	./libft
 LIBFT		=	$(LIBFT_PATH)/libft.a
 
 INCLUDES	= 	-I$(LIBFT_PATH)/includes\
-				-I./includes
+				-I ./includes
 
 FILES		= 	builtin_cd\
 				builtin_echo\
@@ -30,11 +30,11 @@ FILES		= 	builtin_cd\
 				builtin_export\
 				builtin_pwd\
 				builtin_unset\
-				prompt \
 				lexer_utils \
 				lexer \
 				operator \
 				parse \
+				prompt \
 				token\
 				set_env
 				
@@ -64,7 +64,7 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -lreadline -L$(LIBFT_PATH) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:33:28 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 16:29:52 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:11:51 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strndup(const char *s, int n)
 	s_len = 0;
 	while (s[s_len])
 		s_len++;
-	dest = malloc(sizeof(char) * (s_len + 1));
+	dest = malloc(sizeof(char) * (n + 1));
 	if (!dest)
 		return (NULL);
 	while (s[i] && i < n)

@@ -6,13 +6,12 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 16:27:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:23:49 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
-# include <stdbool.h>
 
 typedef enum e_attribute
 {
@@ -28,7 +27,6 @@ typedef enum e_attribute
 }				t_attribute;
 
 /* 
-typedef enum e_built_in
 {
 	B_NONE,
 	B_CD,
@@ -62,7 +60,7 @@ typedef enum e_conf
 	C_EXIT
 }				t_conf;
 
-/* typedef struct s_token
+/*
 {
 	t_attribute	attribute;
 	t_built_in	built_in;
@@ -102,27 +100,45 @@ typedef enum e_token_type
 	T_HEREDOC,
 	T_UNKNOWN
 }	t_token_type;
-
-struct	s_cmd
+/* 
+{
+	char	**args;
+	char	*path;
+	bool	is_builtin;
+}	t_cmd;
+*/
+typedef struct s_cmd
 {
 	char	**args;
 	char	*path;
 	bool	is_builtin;
 }	t_cmd;
 
-struct s_redir
+/* 
 {
 	bool	is_append;
 	bool	is_truncate;
 } t_redir;
-
-union u_data
+*/
+typedef struct s_redir
+{
+	bool	is_append;
+	bool	is_truncate;
+}	t_redir;
+/* 
 {
 	struct s_cmd	cmd;
 	struct s_redir	rd;
 };
+*/
+typedef union u_data
+{
+	struct s_cmd	cmd;
+	struct s_redir	rd;
+}	t_data;
 
-/* {
+/*
+{
 	t_token_type	type;
 	char			*str;
 	union u_data	data;

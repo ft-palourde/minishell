@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:31 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:02 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:33:17 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # include "libft.h"
 # include "minishell_structs.h"
 # include "minishell_proto.h"
-# include <stdbool.h>
 
 #endif
