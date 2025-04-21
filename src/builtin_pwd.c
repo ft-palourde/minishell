@@ -6,11 +6,12 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:13 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 18:40:56 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:52:50 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	bi_pwd(char **env)
+/* int	bi_pwd(char **env)
 {
 	while ()
 }
+ */

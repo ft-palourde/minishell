@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:46:02 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 19:28:31 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:54:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	**set_default_env(void)
 char	*check_newlvl(char *str)
 {
 	int		num;
-	char	*tmp;
 	char	*ret;
 
 	num = ft_atoi(str) + 1;
