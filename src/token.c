@@ -6,11 +6,15 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 14:53:40 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:07:06 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_token(t_token *token);
+void	free_tokens(t_token *tokens);
+// void	free_token_data(t_token *token);
 
 //new_token data = ??//TODO
 t_token	*constr_new_token(t_token_type type, char *str)
@@ -40,3 +44,40 @@ void	add_to_tokens(t_token *new_token, t_token **tokens)
 		tmp->next = new_token;
 	}
 }
+
+void	free_token(t_token *token)
+{
+	if (token)
+	{
+		if (token->str)
+			free(token->str);
+		// free_token_data(token);
+		free(token);
+	}
+	return ;
+}
+
+void	free_tokens(t_token *head)
+{
+	t_token	*cursor;
+
+	cursor = head;
+	while (head)
+	{
+		cursor = head->next;
+		free_token(head);
+		head = cursor;
+	}
+}
+
+// void	free_token_data(t_token *token)
+// {
+// 	if (!token)
+// 		return ;
+// 	if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
+// 		|| token->type == T_APPEND || token->type == T_HEREDOC)
+// 	{
+// 		free(token->data->rd->is_append);
+// 		free(token->data->rd->is_truncate);
+// 	}
+// }

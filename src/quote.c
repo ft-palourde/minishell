@@ -6,11 +6,14 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:15:23 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:11:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		handle_quote(char *input, t_token **tokens);
+int		is_quote(char c);
 
 int	is_quote(char c)
 {

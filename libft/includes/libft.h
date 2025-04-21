@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:28:08 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 15:36:22 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:02:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int					is_base_valid(char *base);
 
 void				ft_swap(long *a, long *b);
 char				*ft_strndup(const char *s, int n);
+void				*reverse_cascade_free(char **str, int i);
 
 #endif

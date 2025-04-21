@@ -6,17 +6,18 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:11:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	char	*prompt;
 	char	*line;
 	t_token	*tokens;
+	t_token	*cursor;
 
 	(void) ac;
 	(void) av;
@@ -31,12 +32,14 @@
 		free(prompt);
 		return (1);
 	}
-	while (tokens)
+	cursor = tokens;
+	while (cursor)
 	{
-		printf("\nToken: %s\n", tokens->str);
-		tokens = tokens->next;
+		printf("\nToken: %s\n", cursor->str);
+		cursor = cursor->next;
 	}
 	free(prompt);
+	free_tokens(tokens);
 	return (0);
 }
- */
+

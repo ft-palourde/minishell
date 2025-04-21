@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 12:23:49 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:58:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ typedef struct s_redir
 */
 typedef union u_data
 {
-	struct s_cmd	cmd;
-	struct s_redir	rd;
+	struct s_cmd	*cmd;
+	struct s_redir	*rd;
 }	t_data;
 
 /*
@@ -149,7 +149,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*str;
-	union u_data	data;
+	union u_data	*data;
 	struct s_token	*next;
 }	t_token;
 
