@@ -6,7 +6,7 @@
 #    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:05:05 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/21 15:15:38 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ OBJ_DIR		= 	obj/
 OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 OBJ_MAIN	=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_DIR)$(MAIN))
 
-ifneq ($(filter bonus, $(MAKECMDGOALS)),)
+ifneq ($(filter debug, $(MAKECMDGOALS)),)
 CFLAGS += -g -v
 endif
 
