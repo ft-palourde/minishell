@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 18:07:06 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:17:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,15 @@ void	free_token(t_token *token)
 	{
 		if (token->str)
 			free(token->str);
-		// free_token_data(token);
+		if (token->data)
+		{
+			if (token->type == T_WORD)
+				free_cmd(token->data->cmd);
+			else if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
+				|| token->type == T_APPEND || token->type == T_HEREDOC)
+				free_redir(token->data->rd);
+			free(token->data);
+		}
 		free(token);
 	}
 	return ;
