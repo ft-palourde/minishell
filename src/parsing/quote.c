@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 11:00:27 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:08:04 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_quote(char *input, t_token **tokens)
 	quote = *input;
 	while (input[len])
 	{
-		if (input[len] != quote && !is_escaped(input, len))
+		if (input[len] == quote && !is_escaped(input, len))
 			break ;
 		len++;
 	}
