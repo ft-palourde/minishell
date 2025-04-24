@@ -6,7 +6,7 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:36:04 by rcochran         ###   ########.fr        #
+#    Updated: 2025/04/24 10:59:04 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,22 +23,25 @@ LIBFT		=	$(LIBFT_PATH)/libft.a
 INCLUDES	= 	-I$(LIBFT_PATH)/includes\
 				-I ./includes
 
-FILES		= 	builtin_cd\
-				builtin_echo\
-				builtin_env\
-				builtin_exit\
-				builtin_export\
-				builtin_pwd\
-				builtin_unset\
-				lexer_utils \
-				lexer \
-				operator \
-				parse \
+FILES		= 	builtin/builtin_cd\
+				builtin/builtin_echo\
+				builtin/builtin_env\
+				builtin/builtin_exit\
+				builtin/builtin_export\
+				builtin/builtin_pwd\
+				builtin/builtin_unset\
+				parsing/backslash \
+				parsing/cmd \
+				parsing/lexer_utils \
+				parsing/lexer \
+				parsing/operator \
+				parsing/parse \
+				parsing/quote \
+				parsing/redirection \
+				parsing/token\
 				prompt \
-				quote \
-				token\
 				set_env
-				
+
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -75,5 +78,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/builtin
+	@mkdir -p $(OBJ_DIR)/parsing
 
 debug : all
