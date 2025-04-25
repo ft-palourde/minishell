@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:06 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 18:40:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:58:35 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	bi_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		printf("%s", env[i]);
+		printf("%s\n", env[i]);
 		i++;
 	}
 	return (0);

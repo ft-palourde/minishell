@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:23:10 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 16:58:15 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:58:00 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char			**ft_split(char const *s, char c);
 static size_t	get_word_count(const char *str, char separator);
 static size_t	get_word_length(const char *str, char separator);
-static void		*reverse_cascade_free(char **str, int i);
+void			*reverse_cascade_free(char **str, int i);
 
 static size_t	get_word_count(const char *str, char separator)
 {

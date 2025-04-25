@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:46:02 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 17:03:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:02:09 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ char	**set_default_env(void)
 {
 	char	**new;
 	char	*pwd;
-	char	*tmp;
 
-	pwd = get_pwd(1);
+	pwd = ft_get_pwd(1);
 	if (!pwd)
 		return (0);
 	new = ft_calloc(4, sizeof(char *));
@@ -106,7 +105,6 @@ char	**set_env(char **env, int has_env)
 	int		i;
 	int		lvl;
 	char	**new;
-	char	*tmp;
 
 	i = -1;
 	if (!has_env)
@@ -123,10 +121,7 @@ char	**set_env(char **env, int has_env)
 	lvl = change_shlvl(new);
 	if (!new || lvl == -1)
 		return (reverse_cascade_free(new, i - 1));
-	tmp = ft_strjoin(new[lvl], "\n");
-	if (!tmp)
-		return (NULL);
-	return (free(new[lvl]), (new[lvl] = tmp), new);
+	return (new);
 }
 
 /* mini main de test

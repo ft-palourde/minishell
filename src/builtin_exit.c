@@ -6,11 +6,12 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 16:32:13 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:55:46 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	exit(char **env)
+int	bi_exit(char **env)
 {
+	(void) env;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:13 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 16:12:55 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:55:56 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	bi_pwd(void)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (perror(malloc), 1);
+		return (perror("malloc"), 1);
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);

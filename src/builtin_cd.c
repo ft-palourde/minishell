@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 17:24:01 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:33:55 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,56 @@ static char	*ft_strreplace(char *s1, char *s2, int n)
 	return (new);
 }
 
-int	bi_cd(char **env, char *path)
+int	errors_cd(char path)
 {
+	ft_putstr_fd(2, "cd : ");
+	ft_putstr_fd(2, path);
+	if (errno == ENOENT)
+		ft_putstr_fd(2, " No suc file or directory\n");
+	else if (errno == EACCES)
+		ft_putstr_fd(2, " Permission denied\n");
+	else
+		ft_putstr_fd(2, " Failed to change directory\n");
+	return (1);
+}
+
+char	*get_home(char **env)
+{
+	char	*home;
 	int		i;
-	char	*tmp;
 
 	i = 0;
-	chdir((const char *)path);
+	while (env[i] && strncmp(env[i], "HOME=", 5))
+		i++;
+	if (!env[i])
+		return (ft_putstr_fd(2, "cd : HOME not set\n"), NULL);
+	home = get_var_value(env[i]);
+	if (!home)
+		return (perror("malloc"), 0);
+	return (home);
+}
+
+int	bi_cd(char **env, char *path)
+{
+	char	*new_path;
+	int		i;
+	int		ret;
+
+	i = 0;
+	path = expend_path(env, path);
+	if (!path)
+		return (1);
+	ret = chdir((const char *)path);
+	if (ret)
+		return (errors_cd(path));
 	while (env[i] && !ft_strncmp("PWD=", env[i], 4))
 		i++;
 	if (!env[i])
 		return (1);
-	tmp = ft_strreplace(env[i], path, i);
-	if (!tmp)
-		return (perror(malloc), 1);
+	new_path = ft_get_pwd(1);
+	if (!new_path)
+		return (perror("malloc failed"), 1);
 	free(env[i]);
-	env[i] = tmp;
+	env[i] = new_path;
 	return (0);
 }

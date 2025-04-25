@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/16 16:18:50 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:46:34 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,12 @@ typedef struct s_input
 	char	*line;
 	int		retval;
 }				t_input;
+
+typedef struct s_tree
+{
+	struct s_tree	*left;
+	struct s_tree	*right;
+	t_token			*token;
+}			t_tree;
 
 #endif
