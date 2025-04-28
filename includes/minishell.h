@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:31 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 15:33:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/23 13:11:43 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <stdbool.h>
 
 # include "libft.h"

@@ -6,37 +6,24 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:34:19 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	char	*prompt;
-	char	*line;
-	t_token	*tokens;
+	char	**new_env;
 
-	(void) ac;
 	(void) av;
-	prompt = get_prompt(env);
-	line = readline(prompt);
-	printf("%s", line);
-	tokens = lexer(line);
-	if (!tokens)
-	{
-		printf("Lexer error\n");
-		free(line);
-		free(prompt);
-		return (1);
-	}
-	while (tokens)
-	{
-		printf("\nToken: %s\n", tokens->str);
-		tokens = tokens->next;
-	}
-	free(prompt);
+	(void) ac;
+	new_env = set_env(env, 1);
+	if (!new_env)
+		return (0);
+	bi_export(&new_env, &av[1]);
+	printf("\n\n");
+	bi_env(new_env);
+	reverse_cascade_free(new_env, split_len(new_env));
 	return (0);
 }
- */

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/21 15:14:03 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:32:32 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,26 @@ bool			is_operator(char c);
 /* QUOTES */
 int				is_quote(char c);
 int				handle_quote(char *input, t_token **tokens);
+
+///////// BUILT-INS /////////
+
+int		bi_cd(char **env, char *path);
+void	bi_echo(char **arg);
+int		bi_env(char **env);
+int		bi_pwd(void);
+int		bi_unset(char **env, char **var);
+int		bi_exit(char **env);
+int		bi_export(char ***args, char **env);
+
+char	*ft_get_pwd(int prefix);
+
+char	*get_var_value(char *var);
+
+int		split_len(char **split);
+
+//////// SET_ENV /////////
+
+char	**set_env(char **env, int has_env);
+
 
 #endif
