@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
+#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
 #    Updated: 2025/04/28 09:53:45 by tcoeffet         ###   ########.fr        #
@@ -32,6 +32,13 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
 				prompt\
+				lexer_utils \
+				lexer \
+				operator \
+				parse \
+				prompt \
+				quote \
+				token\
 				set_env
 
 SRC_DIR		= 	src/

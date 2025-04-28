@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:28:30 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/16 19:46:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:46:43 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define S_PR "\001\x1b[30;47;1m\002 TCoeffet & RCochran \001\033[0m\x1b[1m\002 "
 
 char	*get_pwd(char **env)
 {
@@ -33,7 +34,7 @@ char	*get_pwd(char **env)
 
 char	*get_prompt(char **env)
 {
-	const char	*start = "\001\x1b[30;47;1m\002 TCoeffet & RCochran \001\033[0m\x1b[1m\002 ";
+	const char	*start = S_PR;
 	char		*tmp;
 	char		*prompt;
 

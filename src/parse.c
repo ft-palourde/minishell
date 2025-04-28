@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 15:44:31 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/23 13:11:43 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/18 17:23:11 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdbool.h>
+/* char	**parse(char *input);
 
-# include "libft.h"
-# include "minishell_structs.h"
-# include "minishell_proto.h"
+char	**parse(char *input)
+{
+	char	**parsed_input;
 
-#endif
+	parsed_input = NULL;
+	return (parsed_input);
+} */
