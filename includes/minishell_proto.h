@@ -47,4 +47,25 @@ void			free_tokens(t_token *tokens);
 int				is_backslash(char c);
 int				is_escaped(char *input, int index);
 
+///////// BUILT-INS /////////
+
+int		bi_cd(char **env, char *path);
+void	bi_echo(char **arg);
+int		bi_env(char **env);
+int		bi_pwd(void);
+int		bi_unset(char **env, char **var);
+int		bi_exit(char **env);
+int		bi_export(char ***args, char **env);
+
+char	*ft_get_pwd(int prefix);
+
+char	*get_var_value(char *var);
+
+int		split_len(char **split);
+
+//////// SET_ENV /////////
+
+char	**set_env(char **env, int has_env);
+
+
 #endif

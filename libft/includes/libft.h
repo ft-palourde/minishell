@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:28:08 by rcochran          #+#    #+#             */
 /*   Updated: 2025/04/21 18:02:44 by rcochran         ###   ########.fr       */
@@ -97,6 +97,7 @@ char				*update_buf(char *buf);
 char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int					is_in_base(char c, char *base);
 int					is_base_valid(char *base);
+void				*reverse_cascade_free(char **str, int i);
 
 void				ft_swap(long *a, long *b);
 char				*ft_strndup(const char *s, int n);

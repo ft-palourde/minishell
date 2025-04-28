@@ -7,6 +7,7 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
 #    Updated: 2025/04/24 10:59:04 by rcochran         ###   ########.fr        #
+
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +31,7 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_export\
 				builtin/builtin_pwd\
 				builtin/builtin_unset\
+				builtin/builtin_utils\
 				parsing/backslash \
 				parsing/cmd \
 				parsing/lexer_utils \
@@ -39,6 +41,11 @@ FILES		= 	builtin/builtin_cd\
 				parsing/quote \
 				parsing/redirection \
 				parsing/token\
+				prompt\
+				lexer_utils \
+				lexer \
+				operator \
+				parse \
 				prompt \
 				set_env
 

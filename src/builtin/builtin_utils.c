@@ -1,17 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/22 17:55:46 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
+/*   Updated: 2025/04/28 10:27:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	bi_exit(char **env)
+#include "minishell.h"
+
+char	*get_var_value(char *var)
 {
-	(void) env;
-	return (0);
+	int		i;
+	char	*value;
+
+	i = 0;
+	while (var[i] != '=')
+		i++;
+	value = ft_strdup(var + i);
+	if (!value)
+		return (perror("malloc"), NULL);
+	return (value);
+}
+
+int	split_len(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		i++;
+	return (i);
 }
