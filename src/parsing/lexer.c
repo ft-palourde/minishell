@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:11:07 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:11:35 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_token	*lexer(char *input);
 int		handle_word(char *input, t_token **tokens);
-int		handle_quote(char *input, t_token **tokens);
 int		is_quote(char c);
 int		is_closed(char *input, char quote);
 

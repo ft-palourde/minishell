@@ -6,11 +6,14 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:15:23 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:08:04 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		handle_quote(char *input, t_token **tokens);
+int		is_quote(char c);
 
 int	is_quote(char c)
 {
@@ -25,8 +28,12 @@ int	handle_quote(char *input, t_token **tokens)
 
 	len = 1;
 	quote = *input;
-	while (input[len] && input[len] != quote)
+	while (input[len])
+	{
+		if (input[len] == quote && !is_escaped(input, len))
+			break ;
 		len++;
+	}
 	if (input[len] == quote)
 		len++;
 	new_token = malloc(sizeof(t_token));

@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   backslash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 15:33:28 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 10:57:37 by rcochran         ###   ########.fr       */
+/*   Created: 2025/04/23 12:43:25 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/24 11:00:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strndup(const char *s, int n);
+// int		handle_backslash(char *input, t_token **tokens);
+int		is_backslash(char c);
+int		is_escaped(char *input, int index);
 
-char	*ft_strndup(const char *s, int n)
+int	is_backslash(char c)
 {
-	int		i;
-	char	*dest;
+	return (c == '\\');
+}
 
-	i = 0;
-	dest = malloc(sizeof(char) * (n + 1));
-	if (!dest)
-		return (NULL);
-	while (s[i] && i < n)
+int	is_escaped(char *input, int index)
+{
+	int	is_escaped;
+
+	is_escaped = 0;
+	index--;
+	while (index >= 0 && is_backslash(input[index]))
 	{
-		dest[i] = s[i];
-		i++;
+		is_escaped++;
+		index--;
 	}
-	dest[i] = '\0';
-	return (dest);
+	is_escaped = is_escaped % 2;
+	return (is_escaped);
 }

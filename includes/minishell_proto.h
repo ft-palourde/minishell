@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 11:32:32 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:01:05 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ bool			is_operator(char c);
 /* QUOTES */
 int				is_quote(char c);
 int				handle_quote(char *input, t_token **tokens);
+void			free_tokens(t_token *tokens);
+int				is_backslash(char c);
+int				is_escaped(char *input, int index);
 
 ///////// BUILT-INS /////////
 

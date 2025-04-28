@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 15:33:28 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 10:57:37 by rcochran         ###   ########.fr       */
+/*   Created: 2025/04/21 16:30:46 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/24 11:14:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strndup(const char *s, int n);
+void	free_cmd(t_cmd *cmd);
 
-char	*ft_strndup(const char *s, int n)
+void	free_cmd(t_cmd *cmd)
 {
-	int		i;
-	char	*dest;
+	int	i;
 
-	i = 0;
-	dest = malloc(sizeof(char) * (n + 1));
-	if (!dest)
-		return (NULL);
-	while (s[i] && i < n)
+	if (!cmd)
+		return ;
+	if (cmd->args)
 	{
-		dest[i] = s[i];
-		i++;
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
 	}
-	dest[i] = '\0';
-	return (dest);
+	if (cmd->path)
+		free(cmd->path);
+	free(cmd);
 }

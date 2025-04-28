@@ -14,16 +14,27 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char	**new_env;
-
 	(void) av;
-	(void) ac;
-	new_env = set_env(env, 1);
-	if (!new_env)
-		return (0);
-	bi_export(&new_env, &av[1]);
-	printf("\n\n");
-	bi_env(new_env);
-	reverse_cascade_free(new_env, split_len(new_env));
+	prompt = get_prompt(env);
+	line = readline(prompt);
+	printf("%s", line);
+	tokens = lexer(line);
+	if (!tokens)
+	{
+		printf("Lexer error\n");
+		free(line);
+		free(prompt);
+		return (1);
+	}
+	cursor = tokens;
+	while (cursor)
+	{
+		printf("\nToken: %s\n", cursor->str);
+		cursor = cursor->next;
+	}
+	free(prompt);
+	free_tokens(tokens);
 	return (0);
 }
+
+

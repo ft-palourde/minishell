@@ -6,7 +6,8 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/28 09:53:45 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/24 10:59:04 by rcochran         ###   ########.fr        #
+
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +32,21 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_pwd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
+				parsing/backslash \
+				parsing/cmd \
+				parsing/lexer_utils \
+				parsing/lexer \
+				parsing/operator \
+				parsing/parse \
+				parsing/quote \
+				parsing/redirection \
+				parsing/token\
 				prompt\
 				lexer_utils \
 				lexer \
 				operator \
 				parse \
 				prompt \
-				quote \
-				token\
 				set_env
 
 SRC_DIR		= 	src/
