@@ -41,11 +41,6 @@ FILES		= 	builtin/builtin_cd\
 				parsing/quote \
 				parsing/redirection \
 				parsing/token\
-				prompt\
-				lexer_utils \
-				lexer \
-				operator \
-				parse \
 				prompt \
 				set_env
 

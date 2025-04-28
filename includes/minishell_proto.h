@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/24 11:01:05 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/28 17:29:03 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int				handle_quote(char *input, t_token **tokens);
 void			free_tokens(t_token *tokens);
 int				is_backslash(char c);
 int				is_escaped(char *input, int index);
+void	        free_cmd(t_cmd *cmd);
+void	        free_redir(t_redir *rd);
 
 ///////// BUILT-INS /////////
 

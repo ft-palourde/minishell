@@ -5,5 +5,7 @@
 /libft/obj
 /libft/libft.a
 
+/test
+
 minishell
 *.d
