@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/22 17:55:31 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:32:32 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ int		bi_cd(char **env, char *path);
 void	bi_echo(char **arg);
 int		bi_env(char **env);
 int		bi_pwd(void);
-int		bi_unset(char **env, char *var);
+int		bi_unset(char **env, char **var);
 int		bi_exit(char **env);
+int		bi_export(char ***args, char **env);
 
 char	*ft_get_pwd(int prefix);
+
+char	*get_var_value(char *var);
+
+int		split_len(char **split);
 
 //////// SET_ENV /////////
 

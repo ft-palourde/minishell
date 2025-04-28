@@ -6,45 +6,22 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/23 14:33:55 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:06:19 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_strreplace(char *s1, char *s2, int n)
+int	errors_cd(char *path)
 {
-	int		i;
-	char	*new;
-
-	i = 0;
-	new = ft_calloc(ft_strlen(s2) + n, sizeof(char));
-	if (!new)
-		return (0);
-	while (i < n)
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[i])
-	{
-		new[i + n] = s2[i];
-		i++;
-	}
-	return (new);
-}
-
-int	errors_cd(char path)
-{
-	ft_putstr_fd(2, "cd : ");
-	ft_putstr_fd(2, path);
+	ft_putstr_fd("cd : ", 2);
+	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
-		ft_putstr_fd(2, " No suc file or directory\n");
+		ft_putstr_fd(" No suc file or directory\n", 2);
 	else if (errno == EACCES)
-		ft_putstr_fd(2, " Permission denied\n");
+		ft_putstr_fd(" Permission denied\n", 2);
 	else
-		ft_putstr_fd(2, " Failed to change directory\n");
+		ft_putstr_fd(" Failed to change directory\n", 2);
 	return (1);
 }
 
@@ -57,10 +34,10 @@ char	*get_home(char **env)
 	while (env[i] && strncmp(env[i], "HOME=", 5))
 		i++;
 	if (!env[i])
-		return (ft_putstr_fd(2, "cd : HOME not set\n"), NULL);
+		return (ft_putstr_fd("cd : HOME not set\n", 2), NULL);
 	home = get_var_value(env[i]);
 	if (!home)
-		return (perror("malloc"), 0);
+		return (perror("malloc"), NULL);
 	return (home);
 }
 
@@ -71,7 +48,6 @@ int	bi_cd(char **env, char *path)
 	int		ret;
 
 	i = 0;
-	path = expend_path(env, path);
 	if (!path)
 		return (1);
 	ret = chdir((const char *)path);

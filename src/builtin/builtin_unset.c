@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:16 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/22 17:56:26 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:22:26 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	delete_resort(char **env, int pos)
 	env[i] = 0;
 }
 
-int	bi_unset(char **env, char *var)
+int	unset(char **env, char *var)
 {
 	int	i;
 	int	len;
@@ -36,5 +36,18 @@ int	bi_unset(char **env, char *var)
 	while (env[i] && !ft_strncmp(env[i], var, len))
 		i++;
 	delete_resort(env, i);
+	return (0);
+}
+
+int	bi_unset(char **env, char **arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		unset(env, arg[i]);
+		i++;
+	}
 	return (0);
 }

@@ -6,11 +6,11 @@
 #    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/21 15:15:38 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/04/28 09:53:45 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re debug
 
 CC			= 	cc
 CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
@@ -21,18 +21,19 @@ LIBFT_PATH	=	./libft
 LIBFT		=	$(LIBFT_PATH)/libft.a
 
 INCLUDES	= 	-I$(LIBFT_PATH)/includes\
-				-I./includes
+				-I ./includes
 
-FILES		= 	builtin_cd\
-				builtin_echo\
-				builtin_env\
-				builtin_exit\
-				builtin_export\
-				builtin_pwd\
-				builtin_unset\
+FILES		= 	builtin/builtin_cd\
+				builtin/builtin_echo\
+				builtin/builtin_env\
+				builtin/builtin_exit\
+				builtin/builtin_export\
+				builtin/builtin_pwd\
+				builtin/builtin_unset\
+				builtin/builtin_utils\
 				prompt\
 				set_env
-				
+
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -59,7 +60,7 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -lreadline -L$(LIBFT_PATH) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
@@ -69,5 +70,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/builtin
+	@mkdir -p $(OBJ_DIR)/parsing
 
 debug : all
