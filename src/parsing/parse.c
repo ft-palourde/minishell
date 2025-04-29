@@ -6,18 +6,58 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/18 17:23:11 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:49:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* char	**parse(char *input);
+t_token		*parse(char *input);
+static int	check_syntax_error(t_token *tokens);
+/* ************************************************************************** */
 
-char	**parse(char *input)
+t_token	*parse(char *input)
 {
-	char	**parsed_input;
+	t_token	*cursor;
+	t_token	*tokens;
 
-	parsed_input = NULL;
-	return (parsed_input);
-} */
+	tokens = lexer(input);
+	cursor = tokens;
+	while (cursor)
+	{
+		if (check_syntax_error(cursor))
+		{
+			free_tokens(tokens);
+			return (NULL);
+		}
+		cursor = cursor->next;
+	}
+	return (tokens);
+}
+
+int	check_syntax_error(t_token *tokens)
+{
+	t_token	*cursor;
+
+	cursor = tokens;
+	while (cursor)
+	{
+		if (cursor->type == T_PIPE && (!cursor->next
+				|| cursor->next->type == T_PIPE))
+		{
+			ft_putstr_fd("unexpected token `|'\n", 2);
+			return (1);
+		}
+		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
+			|| cursor->type == T_APPEND || cursor->type == T_HEREDOC)
+		{
+			if (!cursor->next || cursor->next->type != T_WORD)
+			{
+				ft_putstr_fd("syntax error: missing file after rd\n", 2);
+				return (1);
+			}
+		}
+		cursor = cursor->next;
+	}
+	return (0);
+}

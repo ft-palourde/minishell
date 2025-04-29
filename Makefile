@@ -34,6 +34,7 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_utils\
 				parsing/backslash \
 				parsing/cmd \
+				parsing/debug_display \
 				parsing/lexer_utils \
 				parsing/lexer \
 				parsing/operator \

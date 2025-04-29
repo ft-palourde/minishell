@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 17:27:40 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:42:54 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ typedef enum e_token_type
 */
 typedef struct s_cmd
 {
-	char	**args;
-	char	*path;
-	bool	is_builtin;
+	char			**args;
+	char			*path;
+	bool			is_builtin;
 }	t_cmd;
 
 /* 
@@ -162,5 +162,11 @@ typedef struct s_tree
 	t_token			*token;
 }			t_tree;
 
+typedef struct s_cmd_block
+{
+	t_token				*start;
+	t_token				*end;
+	struct s_cmd_block	*next;
+}			t_cmd_block;
 
 #endif
