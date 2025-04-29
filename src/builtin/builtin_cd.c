@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 10:06:19 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:50:53 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	errors_cd(char *path)
 	ft_putstr_fd("cd : ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
-		ft_putstr_fd(" No suc file or directory\n", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
 	else if (errno == EACCES)
 		ft_putstr_fd(" Permission denied\n", 2);
 	else

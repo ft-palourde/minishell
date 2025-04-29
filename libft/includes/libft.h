@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:28:08 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 18:02:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:00:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void				*reverse_cascade_free(char **str, int i);
 void				ft_swap(long *a, long *b);
 char				*ft_strndup(const char *s, int n);
 void				*reverse_cascade_free(char **str, int i);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif
