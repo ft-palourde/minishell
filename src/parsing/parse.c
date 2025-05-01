@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/29 18:03:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:37:54 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 t_token		*parse(char *input);
 static int	check_syntax_error(t_token *tokens);
 static bool	is_builtin_cmd(const char *cmd);
-void		get_cmd_args(t_token *token, t_cmd *cmd);
+void		merge_word_tokens(t_token *token);
+void		set_cmd_args(t_token *token);
 void		handle_cmd(t_token *token);
 /* ************************************************************************** */
 
@@ -33,14 +34,23 @@ t_token	*parse(char *input)
 			free_tokens(tokens);
 			return (NULL);
 		}
+		//TODO : here handle operators -> store word token in token's filename attribute BEFORE handle_cmd
 		if (cursor->type == T_WORD)
 		{
 			handle_cmd(cursor);
-			while (cursor->next && cursor->next->type == T_WORD)
-				cursor = cursor->next;
+			if (!cursor->data || !cursor->data->cmd)
+			{
+				free_tokens(tokens);
+				return (NULL);
+			}
 		}
+		// if (cursor)
+			// printf("cursor type: %d\n", cursor->type);
+		if (!cursor)
+			break ;
 		cursor = cursor->next;
 	}
+	// printf("parse: end\n");
 	return (tokens);
 }
 
@@ -74,13 +84,6 @@ int	check_syntax_error(t_token *tokens)
 	return (0);
 }
 
-
-// si le token est un mot, on met le mot dans le token et dans data->cmd->args[0]
-// on va vérifier si le mot est un builtin ou pas
-// on va ensuite regarder le token suivant.
-// tant que le token suivant est un mot, on va l'ajouter à data->cmd->args[i], i++
-// on va continuer jusqu'à ce qu'on trouve un token qui n'est pas un mot
-
 /* 
 allocate a new t_cmd struct and fill it with the command and its arguments
 the command is the first word in the token list
@@ -90,15 +93,23 @@ if the command is a builtin, is_builtin is set to true
 */
 void	handle_cmd(t_token *token)
 {
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
+	if (!token || token->type != T_WORD)
 		return ;
-	get_cmd_args(token, cmd);
-	token->data->cmd = cmd;
-	//cmd->path = find_path(cmd->args[0]);
-	cmd->is_builtin = is_builtin_cmd(cmd->args[0]);
+	// printf("\nhandle_cmd\n");
+	token->data = malloc(sizeof(union u_data));
+	if (!token->data)
+		return ;
+	token->data->cmd = new_cmd();
+	if (!token->data->cmd)
+		return ;
+	token->data->cmd->is_builtin = is_builtin_cmd(token->str);
+	set_cmd_args(token);
+	if (!token->data->cmd)
+	{
+		free(token->data);
+		return ;
+	}
+	// printf("handle_cmd end\n");
 }
 
 /* 
@@ -125,28 +136,54 @@ int	get_arg_count(t_token *token)
 		count++;
 		token = token->next;
 	}
+	// printf("get_arg_count: %d\n", count);
 	return (count);
 }
-// void	get_cmd_arg
 
-//find_paths(char *cmd)
-
-void	get_cmd_args(t_token *token, t_cmd *cmd)
+void	set_cmd_args(t_token *token)
 {
-	int		i;
 	int		arg_count;
 
-	arg_count = get_arg_count(token);
-	cmd->args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!cmd->args)
+	// printf("set_cmd_args\n");
+	if (!token || token->type != T_WORD || !token->data)
 		return ;
-	i = 0;
-	while (token && token->type == T_WORD)
+	arg_count = get_arg_count(token);
+
+	if (arg_count == 0)
 	{
-		cmd->args[i] = ft_strdup(token->str);
-		token = token->next;
+		free(token->data);
+		return ;
+	}
+	// printf("coucou\n");
+
+	token->data->cmd->args = malloc(sizeof(char *) * (arg_count + 1));
+	if (!token->data->cmd->args)
+		return ;
+	merge_word_tokens(token);
+	// printf("set_cmd_args end\n");
+}
+
+void	merge_word_tokens(t_token *token)
+{
+	t_token	*cursor;
+	t_token	*to_free;
+	int		i;
+
+	// printf("merge_word_tokens\n");
+	if (!token || token->type != T_WORD)
+		return ;
+	cursor = token;
+	i = 0;
+	while (cursor && cursor->type == T_WORD)
+	{
+		token->data->cmd->args[i] = ft_strdup(cursor->str);
+		to_free = cursor;
+		cursor = cursor->next;
+		if (i > 0)
+			free_token(to_free);
 		i++;
 	}
-	cmd->args[i] = NULL;
-	token->data->cmd = cmd;
+	token->data->cmd->args[i] = NULL;
+	token->next = cursor;
+	// printf("merge_word_tokens end\n");
 }

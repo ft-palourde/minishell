@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/29 16:42:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:02:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,24 @@ typedef struct s_cmd
 	bool			is_builtin;
 }	t_cmd;
 
-/* 
+typedef union u_rd
 {
-	bool	is_append;
-	bool	is_truncate;
-} t_redir;
-*/
-typedef struct s_redir
+	struct s_rd_file	*file;
+	struct s_rd_heredoc	*heredoc;
+}	t_rd;
+
+typedef struct s_rd_heredoc
 {
-	bool	is_append;
-	bool	is_truncate;
-}	t_redir;
+	int				fd[2];
+	char			*lim;
+}	t_rd_heredoc;
+
+typedef struct s_rd_file
+{
+	int		fd;
+	char	*filename;
+}	t_rd_file;
+
 /* 
 {
 	struct s_cmd	cmd;
@@ -135,7 +142,7 @@ typedef struct s_redir
 typedef union u_data
 {
 	struct s_cmd	*cmd;
-	struct s_redir	*rd;
+	union u_rd		*rd;
 }	t_data;
 
 /*
@@ -153,20 +160,18 @@ typedef struct s_token
 	union u_data	*data;
 	struct s_token	*next;
 }	t_token;
-
-
+/* 
+{
+	struct s_tree	*left;
+	struct s_tree	*right;
+	t_token			*token;
+}	t_tree;
+*/
 typedef struct s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
 	t_token			*token;
 }			t_tree;
-
-typedef struct s_cmd_block
-{
-	t_token				*start;
-	t_token				*end;
-	struct s_cmd_block	*next;
-}			t_cmd_block;
 
 #endif

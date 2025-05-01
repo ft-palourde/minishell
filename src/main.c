@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/29 16:50:01 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:10:24 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **env)
 		free(prompt);
 		return (1);
 	}
-	display_tokens(tokens);
+	debug_display_token_args(tokens);
 	free(prompt);
 	free_tokens(tokens);
 	return (0);

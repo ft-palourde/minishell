@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:11:50 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/29 15:19:08 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:17:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		display_tokens(t_token *tokens);
 static char	*get_token_type_str(t_token *token);
+void		debug_display_token_args(t_token *tokens);
 
 void	display_tokens(t_token *tokens)
 {
@@ -54,4 +55,36 @@ static char	*get_token_type_str(t_token *token)
 		return ("HEREDOC");
 	else
 		return ("UNKNOWN");
+}
+
+void	debug_display_token_args(t_token *tokens)
+{
+	t_token	*cursor;
+	int		i;
+	char	*type_str;
+
+	printf("\nDisplay token args:\n");
+	if (!tokens)
+	{
+		printf("No tokens\n");
+		return ;
+	}
+	cursor = tokens;
+	while (cursor)
+	{
+		type_str = get_token_type_str(cursor);
+		if (cursor->type == T_WORD && cursor->data && cursor->data->cmd)
+		{
+			i = 0;
+			printf("Token: %s - Type : %s\n", cursor->str, type_str);
+			while (cursor->data->cmd->args[i])
+			{
+				printf("Arg [%d]: %s\n", i, cursor->data->cmd->args[i]);
+				i++;
+			}
+		}
+		else
+			printf("Token: %s - Type : %s\n", cursor->str, type_str);
+		cursor = cursor->next;
+	}
 }

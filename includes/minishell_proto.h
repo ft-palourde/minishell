@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/29 16:06:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:10:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				is_space(char c);
 /* token constructor */
 t_token			*constr_new_token(t_token_type type, char *str);
 void			add_to_tokens(t_token *new_token, t_token **tokens);
+void			free_token(t_token *token);
 
 /* OPERATOR */
 int				handle_operator(char *input, t_token **tokens);
@@ -47,11 +48,16 @@ void			free_tokens(t_token *tokens);
 int				is_backslash(char c);
 int				is_escaped(char *input, int index);
 void			free_cmd(t_cmd *cmd);
-void			free_redir(t_redir *rd);
+void			free_redir(t_rd *rd);
+
+/* WORD */
+
+t_cmd			*new_cmd(void);
 
 /* DEBUG DISPLAY */
 
 void			display_tokens(t_token *tokens);
+void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
 t_token			*parse(char *input);
