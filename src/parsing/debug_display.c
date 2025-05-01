@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:11:50 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/01 17:17:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:20:29 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static char	*get_token_type_str(t_token *token)
 		return ("APPEND");
 	else if (token->type == T_HEREDOC)
 		return ("HEREDOC");
+	else if (token->type == T_CMD)
+		return ("T_CMD");
 	else
 		return ("UNKNOWN");
 }

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/01 15:02:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:18:33 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef enum e_token_type
 	T_REDIR_OUT,
 	T_APPEND,
 	T_HEREDOC,
+	T_CMD,
 	T_UNKNOWN
 }	t_token_type;
 /* 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/01 17:37:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:19:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*parse(char *input)
 		//TODO : here handle operators -> store word token in token's filename attribute BEFORE handle_cmd
 		if (cursor->type == T_WORD)
 		{
-			handle_cmd(cursor);
+			handle_cmd(cursor);//rename in parse_cmd ?
 			if (!cursor->data || !cursor->data->cmd)
 			{
 				free_tokens(tokens);
@@ -109,6 +109,7 @@ void	handle_cmd(t_token *token)
 		free(token->data);
 		return ;
 	}
+	token->type = T_CMD;
 	// printf("handle_cmd end\n");
 }
 
