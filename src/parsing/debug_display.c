@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:11:50 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/01 18:20:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:26:35 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	debug_display_token_args(t_token *tokens)
 	while (cursor)
 	{
 		type_str = get_token_type_str(cursor);
-		if (cursor->type == T_WORD && cursor->data && cursor->data->cmd)
+		if (cursor->type == T_CMD && cursor->data && cursor->data->cmd)
 		{
 			i = 0;
 			printf("Token: %s - Type : %s\n", cursor->str, type_str);
