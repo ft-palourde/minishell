@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/01 18:19:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:30:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,8 @@ void	merge_word_tokens(t_token *token)
 	while (cursor && cursor->type == T_WORD)
 	{
 		token->data->cmd->args[i] = ft_strdup(cursor->str);
+		if (!(token->data->cmd->args[i]))
+			free_tokens(token);
 		to_free = cursor;
 		cursor = cursor->next;
 		if (i > 0)
