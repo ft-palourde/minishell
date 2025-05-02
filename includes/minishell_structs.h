@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/01 18:18:33 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:29:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ typedef struct s_cmd
 	char			**args;
 	char			*path;
 	bool			is_builtin;
+	int				in_fd;
+	int				out_fd;
 }	t_cmd;
 
 typedef union u_rd
