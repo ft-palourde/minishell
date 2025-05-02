@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/02 12:26:41 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:11:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void			debug_display_token_args(t_token *tokens);
 /* PARSE */
 t_token			*parse(char *input);
 void			parse_cmd(t_token *token);
+
+/* PARSE UTILS */
+
+int				is_word(t_token *token);
 
 ///////// BUILT-INS /////////
 

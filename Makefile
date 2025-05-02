@@ -44,6 +44,7 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_cmd \
 				parsing/parse_heredoc \
 				parsing/parse_rd_file \
+				parsing/parse_utils \
 				parsing/parse \
 				prompt \
 				set_env
