@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 12:38:04 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:15:35 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ t_token	*parse(char *input)
 			parse_rd_file(cursor);
 		// else if (cursor->type == T_HEREDOC)
 		// 	parse_heredoc(cursor);
+		else if (cursor->type == T_HEREDOC)
+			cursor->data = NULL;//TODO : change here when heredoc is implemented
+		else if (cursor->type == T_PIPE)
+			cursor->data = NULL;
+		else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
+			cursor->data = NULL;
 		else if (cursor->type == T_WORD)
 			parse_cmd(cursor);
-		if (!cursor->data)
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
+		// if (!cursor->data)
+		// {
+		// 	free_tokens(tokens);
+		// 	return (NULL);
+		// }
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
