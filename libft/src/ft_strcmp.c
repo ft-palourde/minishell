@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 16:31:01 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 11:15:23 by rcochran         ###   ########.fr       */
+/*   Created: 2025/04/29 17:58:25 by rcochran          #+#    #+#             */
+/*   Updated: 2025/04/29 18:00:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_redir(t_redir *rd);
+int	ft_strcmp(const char *s1, const char *s2);
 
-void	free_redir(t_redir *rd)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (!rd)
-		return ;
-	free(rd);
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

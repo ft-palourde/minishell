@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 13:36:46 by rcochran         ###   ########.fr       */
+/*   Created: 2025/05/02 12:29:17 by rcochran          #+#    #+#             */
+/*   Updated: 2025/05/02 12:36:11 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
-{
-	char		*prompt;
-	char		*line;
-	t_token		*tokens;
+void	parse_heredoc(t_token *token);
 
-	(void) env;
-	(void) av;
-	(void) ac;
-	tokens = NULL;
-	prompt = get_prompt(env);
-	line = readline(prompt);
-	printf("%s", line);
-	tokens = parse(line);
-	if (!tokens)
-	{
-		printf("\nParsing error\n");
-		free(line);
-		free(prompt);
-		return (1);
-	}
-	debug_display_token_args(tokens);
-	free(prompt);
-	free_tokens(tokens);
-	return (0);
+void	parse_heredoc(t_token *token)
+{
+	if (!token)
+		return ;
+	return ;
 }

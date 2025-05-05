@@ -32,15 +32,20 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_pwd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
-				parsing/backslash \
+				lexing/backslash \
+				lexing/lexer_utils \
+				lexing/lexer \
+				lexing/operator \
+				lexing/quote \
+				lexing/redirection \
+				lexing/token\
 				parsing/cmd \
-				parsing/lexer_utils \
-				parsing/lexer \
-				parsing/operator \
+				parsing/debug_display \
+				parsing/parse_cmd \
+				parsing/parse_heredoc \
+				parsing/parse_rd_file \
+				parsing/parse_utils \
 				parsing/parse \
-				parsing/quote \
-				parsing/redirection \
-				parsing/token\
 				prompt \
 				set_env
 
@@ -80,7 +85,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/builtin
-	@mkdir -p $(OBJ_DIR)/parsing
+	mkdir -p $(OBJ_DIR)/builtin
+	mkdir -p $(OBJ_DIR)/lexing
+	mkdir -p $(OBJ_DIR)/parsing
 
 debug : all
