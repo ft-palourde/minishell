@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 13:36:46 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:47:44 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ms_exec(t_ms *ms)
+{
+	int	pid;
+
+	exec_init(ms);
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork failed"), 1);
+	if (!pid)
+	{
+		ms->tree = build_tree(ms->token);
+		exec_tree(ms->tree, ms);
+		wait_pid(ms);
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {

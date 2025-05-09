@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/02 14:29:09 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:44:21 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
-
-typedef enum e_attribute
-{
-	A_CMD,
-	A_OPT,
-	A_ARG,
-	A_PIPE,
-	A_OUT_A,
-	A_OUT_T,
-	A_IN,
-	A_HD,
-	A_LIM
-}				t_attribute;
 
 /* 
 {
@@ -40,7 +27,7 @@ typedef enum e_attribute
 */
 typedef enum e_built_in
 {
-	B_NONE,
+	B_NONE = 0,
 	B_CD,
 	B_ECHO,
 	B_PWD,
@@ -49,16 +36,6 @@ typedef enum e_built_in
 	B_ENV,
 	B_EXIT
 }			t_built_in;
-
-typedef enum e_conf
-{
-	C_EMPTY,
-	C_SIMPLE,
-	C_PIPE,
-	C_REDIRECT,
-	C_HEREDOC,
-	C_EXIT
-}				t_conf;
 
 /*
 {
@@ -113,9 +90,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	char			*path;
-	bool			is_builtin;
-	int				in_fd;
-	int				out_fd;
+	t_built_in		is_builtin;
 }	t_cmd;
 
 typedef union u_rd
@@ -162,6 +137,8 @@ typedef struct s_token
 	char			*str;
 	union u_data	*data;
 	struct s_token	*next;
+	int				in_fd;
+	int				out_fd;
 }	t_token;
 /* 
 {
@@ -175,6 +152,27 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	t_token			*token;
-}			t_tree;
+}	t_tree;
+
+/* 
+typedef struct s_ms
+{
+	t_token	token;
+	t_tree	tree;
+	char	**env;
+	int		file_in;
+	int		file_out;
+}	t_ms;
+*/
+typedef struct s_ms
+{
+	t_token	*token;
+	t_tree	*tree;
+	char	**env;
+	int		*pid;
+	int		file_in;
+	int		file_out;
+	int		retval;
+}	t_ms;
 
 #endif
