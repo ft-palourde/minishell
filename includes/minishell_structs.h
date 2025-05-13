@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:44:21 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:02:43 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ typedef struct s_ms
 	t_tree	*tree;
 	char	**env;
 	int		*pid;
+	int		*pfd[2];
 	int		file_in;
 	int		file_out;
 	int		retval;
