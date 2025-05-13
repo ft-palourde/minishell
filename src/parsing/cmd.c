@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:30:46 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 14:30:48 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:13:48 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,5 @@ t_cmd	*new_cmd(void)
 	cmd->args = NULL;
 	cmd->path = NULL;
 	cmd->is_builtin = false;
-	cmd->in_fd = 0;
-	cmd->out_fd = 0;
 	return (cmd);
 }

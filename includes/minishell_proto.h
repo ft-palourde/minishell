@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:44:50 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:43:41 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,18 @@ t_tree			*build_tree(t_token	*list);
 
 //////// EXEC /////////
 
-int	exec_tree(t_tree *root, t_ms *ms)
+void			exec_cmd(t_tree *node, t_ms *ms);
+int				exec_tree(t_tree *root, t_ms *ms);
+int				exec_init(t_ms *ms);
+void			exec_pipe(t_tree *root, t_ms *ms);
+void			exec_heredoc(t_token *token, t_ms *ms);
 
+int				is_path(char *str);
+int				is_redir(t_token_type type);
+
+char			*str_expand(char *str, char **env);
+void			get_redirs(t_tree *node, t_ms *ms);
+void			close_fds(t_ms *ms);
+void			clear_all(t_ms *ms);
 
 #endif

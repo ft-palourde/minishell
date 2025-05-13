@@ -6,11 +6,20 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:38:21 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:41:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*str_expand(char *str, char **env)
+{
+	char	*new;
+
+	(void) env;
+	new = ft_strdup(str);
+	return (new);
+}
 
 int	is_redir(t_token_type type)
 {
@@ -19,18 +28,20 @@ int	is_redir(t_token_type type)
 	return (0);
 }
 
-int	exec_init(t_tree *root, t_ms *ms)
+int	exec_init(t_ms *ms)
 {
+	(void) ms;
 	//recupere le contenu de tous les heredoc dans des pipes et
 	//range leur pfd dans une list chainee
 	
 	//initialise le tableau de pid
+	return (0);
 }
 
 int	exec_tree(t_tree *root, t_ms *ms)
 {
 	if (!root)
-		return ;
+		return (1);
 	if (root->token->type == T_PIPE)
 		exec_pipe(root, ms);
 	exec_tree(root->left, ms);

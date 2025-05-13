@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:49:37 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:43:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,10 @@ void	get_redirs(t_tree *node, t_ms *ms)
 		exec_redir(node->right->token, ms);
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
+}
+
+void	exec_heredoc(t_token *token, t_ms *ms)
+{
+	(void) token;
+	(void) ms;
 }

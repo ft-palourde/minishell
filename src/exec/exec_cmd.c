@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:37:31 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:27:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 		return (perror("malloc"), 1);
 	while (cmd->args[i])
 	{
-		str_expand(cmd->args[i]);
+		str_expand(cmd->args[i], ms->env);
 		if (!cmd->args[i])
 			return (1);
 		i++;
@@ -135,7 +135,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_CD)
 		bi_cd(ms->env, token->data->cmd->args[1]);
 	if (builtin == B_ECHO)
-		bi_echo(token->data->cmd->args[1]);
+		bi_echo(token->data->cmd->args + 1);
 	if (builtin == B_ENV)
 		bi_env(ms->env);
 	if (builtin == B_EXIT)
@@ -147,8 +147,6 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_UNSET)
 		bi_unset(ms->env, token->data->cmd->args + 1);
 }
-
-
 
 int	exec_child(t_token *token, t_ms *ms)
 {
