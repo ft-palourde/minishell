@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 11:27:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:24:45 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	si node.left ou node.right == redir : chopper le path de la redir
 	creer les files si besoin. 
 	
-	expandre les arguments de la cmd
+	expand les arguments de la cmd
 	
 	creer le fork
 	
@@ -24,7 +24,7 @@
 		
 		close tous les pfd
 		
-		checker si builtin, si oui -> builtint si non -> execve
+		checker si builtin, si oui -> builtin si non -> execve
 
 	parent
 		penser a remettre les file_in et file_out a 0
@@ -139,7 +139,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_ENV)
 		bi_env(ms->env);
 	if (builtin == B_EXIT)
-		bi_exit(ms->env);
+		bi_exit(ms);
 	if (builtin == B_EXPORT)
 		bi_export(&ms->env, token->data->cmd->args + 1);
 	if (builtin == B_PWD)
@@ -155,10 +155,7 @@ int	exec_child(t_token *token, t_ms *ms)
 	cmd = token->data->cmd;
 	dup_handler(token, ms);
 	close_fds(ms);
-	if (is_builtin(token))
-		exec_builtin(token, ms);
-	else
-		execve(cmd->path, cmd->args, ms->env);
+	execve(cmd->path, cmd->args, ms->env);
 	ms->retval = 127;
 	return (127);
 }
@@ -201,21 +198,26 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 
 	if (init_cmd(node, ms))
 		return ;
-	pid = fork();
-	if (pid == -1)
-		perror("fork");
-	else if (!pid)
-	{
-		if (exec_child(node->token, ms))
-			return ;
-		command_failed(node->token, ms);
-	}
+	if (is_builtin(node->token))
+		exec_builtin(node->token, ms);
 	else
 	{
-		if (add_pid(pid, ms))
-			return ;
-		ms->file_in = 0;
-		ms->file_out = 0;
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		else if (!pid)
+		{
+			if (exec_child(node->token, ms))
+				return ;
+			command_failed(node->token, ms);
+		}
+		else
+		{
+			if (add_pid(pid, ms))
+				return ;
+			ms->file_in = 0;
+			ms->file_out = 0;
+		}
 	}
 }
 /* 
