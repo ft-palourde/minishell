@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 17:09:39 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:02:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ int	is_redir(t_token_type type)
 
 int	exec_init(t_ms *ms)
 {
-	(void) ms;
+	get_heredocs_pfd(ms.pfd);
 	//recupere le contenu de tous les heredoc dans des pipes et
 	//range leur pfd dans une list chainee
-	
-	//initialise le tableau de pid
+	ms->pid = 0;
 	return (0);
 }
 

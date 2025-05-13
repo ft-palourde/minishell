@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/15 12:27:40 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:02:23 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,32 @@ void	clear_all(t_ms *ms)
 
 void	wait_pid(t_ms *ms)
 {
-	(void) ms;
+	int	i;
+	int	ret;
+	int	stat;
+
+	ret = 0;
+	i = 0;
+	stat = 0;
+	while (ms->pid[i])
+	{
+		if (ms->pid[i])
+			waitpid(ms->pid[i], &stat, 0);
+		if (WIFEXITED(stat))
+			ret = WEXITSTATUS(stat);
+		if (WIFSIGNALED(stat))
+			ret = WTERMSIG(stat);
+		i++;
+	}
+	return (ret);
 }
 
 int	ms_exec(t_ms *ms)
 {
-	int	pid;
-
 	exec_init(ms);
-	pid = fork();
-	if (pid == -1)
-		return (perror("fork failed"), 1);
-	if (!pid)
-	{
-		ms->tree = build_tree(ms->token);
-		exec_tree(ms->tree, ms);
-		wait_pid(ms);
-	}
+	ms->tree = build_tree(ms->token);
+	exec_tree(ms->tree, ms);
+	wait_pid(ms);
 	return (0);
 }
 
