@@ -6,11 +6,33 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 10:27:05 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:33:20 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_builtin(t_token *token)
+{
+	const char	*cmd = token->data->cmd->args[0];
+
+	token->data->cmd->is_builtin = B_NONE;
+	if (!ft_strncmp(cmd, "exit", 5))
+		token->data->cmd->is_builtin = B_EXIT;
+	if (!ft_strncmp(cmd, "echo", 5))
+		token->data->cmd->is_builtin = B_ECHO;
+	if (!ft_strncmp(cmd, "pwd", 4))
+		token->data->cmd->is_builtin = B_PWD;
+	if (!ft_strncmp(cmd, "export", 7))
+		token->data->cmd->is_builtin = B_EXPORT;
+	if (!ft_strncmp(cmd, "cd", 3))
+		token->data->cmd->is_builtin = B_CD;
+	if (!ft_strncmp(cmd, "env", 4))
+		token->data->cmd->is_builtin = B_ENV;
+	if (!ft_strncmp(cmd, "unset", 6))
+		token->data->cmd->is_builtin = B_UNSET;
+	return (token->data->cmd->is_builtin);
+}
 
 char	*get_var_value(char *var)
 {

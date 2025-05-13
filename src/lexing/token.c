@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 11:17:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:20:51 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token->type = type;
 	new_token->str = str;
 	new_token->next = NULL;
+	new_token->in_fd = 0;
+	new_token->out_fd = 0;
 	return (new_token);
 }
 

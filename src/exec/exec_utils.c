@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 18:52:53 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 11:35:48 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
+/*   Updated: 2025/05/13 11:41:24 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_pipe(t_tree *root, t_ms *ms)
+void	close_fds(t_ms *ms)
 {
-	(void) root;
 	(void) ms;
-	//open un pfd, le ranger dans la liste de ms.pfd
-	//redefinir le outfd de root.left et le infd de root.right avec le pfd.
+}
+
+int	is_path(char *str)
+{
+	(void) str;
+	return (0);
 }

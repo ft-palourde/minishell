@@ -32,6 +32,11 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_pwd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
+				exec/exec_cmd\
+				exec/exec_pipe\
+				exec/exec_redir\
+				exec/exec_tree\
+				exec/exec_utils\
 				lexing/backslash \
 				lexing/lexer_utils \
 				lexing/lexer \
@@ -47,7 +52,8 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_utils \
 				parsing/parse \
 				prompt \
-				set_env
+				set_env \
+				tree_builder
 
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))
@@ -88,5 +94,6 @@ $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)/builtin
 	mkdir -p $(OBJ_DIR)/lexing
 	mkdir -p $(OBJ_DIR)/parsing
+	mkdir -p $(OBJ_DIR)/exec
 
 debug : all
