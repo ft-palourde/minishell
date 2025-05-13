@@ -6,12 +6,14 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/22 17:55:46 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:55:56 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	bi_exit(char **env)
+#include "minishell.h"
+
+int	bi_exit(t_ms *ms)
 {
-	(void) env;
+	exit(ms->retval);
 	return (0);
 }
