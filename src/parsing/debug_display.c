@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:11:50 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 14:18:43 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:27:30 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	debug_display_token_args(t_token *tokens)
 		if (cursor->type == T_CMD && cursor->data && cursor->data->cmd)
 			debug_display_token_cmd(cursor, type_str);
 		else if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
-			|| cursor->type == T_APPEND)
+			|| cursor->type == T_APPEND || cursor->type == T_HEREDOC)
 			debug_display_token_rd(cursor, type_str);
 		else
 			printf("Token: %s - Type : %s\n", cursor->str, type_str);
@@ -112,10 +112,18 @@ void	debug_display_token_rd(t_token *token, char *type_str)
 		|| token->type == T_APPEND)
 	{
 		printf("Token: %s - Type : %s\n", token->str, type_str);
-		if (token->data && token->data->rd)
+		if (token->data && token->data->rd->file)
 		{
 			printf("File: %s\n", token->data->rd->file->filename);
 			printf("FD: %d\n", token->data->rd->file->fd);
+		}
+	}
+	else if (token->type == T_HEREDOC)
+	{
+		printf("Token: %s - Type : %s\n", token->str, type_str);
+		if (token->data && token->data->rd->heredoc)
+		{
+			printf("Lim: %s\n", token->data->rd->heredoc->lim);
 		}
 	}
 	return ;

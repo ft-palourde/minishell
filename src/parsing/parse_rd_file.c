@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:29:44 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/02 14:03:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:22:21 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	set_rd(t_token *token);
 // token->data->rd->file = malloc(sizeof(t_rd_file));
 void	parse_rd_file(t_token *token)
 {
-	printf("\nparse_rd_file\n");
+	// printf("\nparse_rd_file\n");
 	if (!token || (token->type != T_REDIR_IN
 			&& token->type != T_REDIR_OUT && token->type != T_APPEND))
 		return ;
