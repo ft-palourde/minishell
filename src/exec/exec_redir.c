@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 11:43:06 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:07:40 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	exec_redir(t_token *token, t_ms *ms)
 
 void	get_redirs(t_tree *node, t_ms *ms)
 {
-	if (is_redir(node->left->token->type))
+	if (node->left && is_redir(node->left->token->type))
 		exec_redir(node->left->token, ms);
-	if (is_redir(node->right->token->type))
+	if (node->right && is_redir(node->right->token->type))
 		exec_redir(node->right->token, ms);
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
