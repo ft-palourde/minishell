@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 11:50:13 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:47:10 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,34 @@ void	free_tree(t_tree *tree)
 
 void	clean_fds(int	**pfd)
 {
-	while (pfd)
+	int	i;
+
+	i = 0;
+	if (!*pfd[i])
+		return ;
+	while (pfd[i])
 	{
-		free(*pfd);
-		pfd++;
+		if (*pfd[i])
+			close(*pfd[i]);
+		i++;
 	}
 }
 
 void	minishell_cleaner(t_ms *ms)
 {
-	if (ms->env)
-		reverse_cascade_free(ms->env, split_len(ms->env));
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
 		close(ms->file_out);
 	if (ms->pfd)
-		clean_fds(ms->pfd);
-	if (ms->pid)
-		free(ms->pid);
+	{
+		clean_fds(&ms->pfd);
+		free(ms->pfd);
+	}
+	/* if (ms->pid)
+		free(ms->pid); */
 	if (ms->token)
-		free_token(ms->token);
+		free_tokens(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
 	free(ms);

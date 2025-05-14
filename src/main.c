@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:08 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:40:36 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	main(int ac, char **av, char **env)
 		ms_exec(ms);
 		if (ms->exit)
 			break ;
+		write(1, "\n", 1);
 		minishell_cleaner(ms);
 	}
 	free(prompt);
