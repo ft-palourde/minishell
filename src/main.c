@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/13 11:32:22 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:50:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **env)
 		free(prompt);
 		return (1);
 	}
-	debug_display_token_args(tokens);
+	// debug_display_token_args(tokens);
 	free(prompt);
 	free_tokens(tokens);
 	return (0);

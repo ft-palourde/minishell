@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/13 12:20:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:23:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_token(t_token *token)
 			free(token->str);
 		if (token->data)
 		{
-			if (token->type == T_WORD)
+			if (token->type == T_WORD ||token->type == T_CMD)
 				free_cmd(token->data->cmd);
 			else if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND || token->type == T_HEREDOC)

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:01 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/01 13:39:46 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:55:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,16 @@ void	free_redir(t_rd *rd)
 {
 	if (!rd)
 		return ;
+	if (rd->file)
+	{
+		free(rd->file->filename);
+		rd->file->fd = 0;
+		free(rd->file);
+	}
+	else if (rd->heredoc)
+	{
+		free(rd->heredoc->lim);
+		free(rd->heredoc);
+	}
 	free(rd);
 }
