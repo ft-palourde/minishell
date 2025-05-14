@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:39:34 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:40:16 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*str_expand(char *str, char **env)
 {
-	char	*new;
+	//char	*new;
 
 	(void) env;
-	new = ft_strdup(str);
-	return (new);
+	//new = ft_strdup(str);
+	return (str);
 }
 
 int	is_redir(t_token_type type)

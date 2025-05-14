@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 18:45:08 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:50:13 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void	minishell_cleaner(t_ms *ms)
 		free_token(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
+	free(ms);
 }

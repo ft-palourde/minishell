@@ -52,6 +52,7 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_rd_file \
 				parsing/parse_utils \
 				parsing/parse \
+				minishell_cleaner \
 				prompt \
 				set_env \
 				tree_builder

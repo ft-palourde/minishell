@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:39:27 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:40:08 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ int	wait_all(t_ms *ms)
 int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
-	ms->tree = build_tree(ms->token);
+	build_tree(ms);
+	if (!ms->tree)
+		return (0);
 	exec_tree(ms->tree, ms);
 	ms->retval = wait_all(ms);
 	return (0);
@@ -80,19 +82,21 @@ int	main(int ac, char **av, char **env)
 		if (!ms)
 			break ;
 		ms->token = parse(readline(prompt));
+		if (!ms->token)
+			break ;
 		ms_exec(ms);
 		if (ms->exit)
 			break ;
-		free(ms);
+		minishell_cleaner(ms);
 	}
 	free(prompt);
 	free(ms);
 	return (0);
 }
 
-/* DEBUG TOKENS
+// DEBUG TOKENS
 
-int	main(int ac, char **av, char **env)
+/* int	main(int ac, char **av, char **env)
 {
 	char		*prompt;
 	char		*line;
@@ -111,12 +115,7 @@ int	main(int ac, char **av, char **env)
 	{
 		tokens = parse(line);
 		if (!tokens)
-		{
 			printf("\nParsing error\n");
-			free(line);
-			free(prompt);
-			return (1);
-		}
 		debug_display_token_args(tokens);
 		line = readline(prompt);
 		printf("%s", line);
@@ -124,5 +123,4 @@ int	main(int ac, char **av, char **env)
 	free_tokens(tokens);
 	free(prompt);
 	return (0);
-}
- */
+} */

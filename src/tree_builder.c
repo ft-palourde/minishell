@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 18:43:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:07:32 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,17 @@ int	check_outfile(t_token *list, t_tree *node)
 	return (0);
 }
 
-//verifier les malloc + le cas du node 1.
-t_tree	*build_tree(t_token	*list)
+int	fill_tree(t_tree *node, t_token *list)
 {
-	t_tree		*node;
 	t_tree		*prev_node;
 
 	while (list)
 	{
 		prev_node = node;
+		if (!node)
 		node = get_new_node(list);
+		if (!node)
+			return (1);
 		if (prev_node->token->type != T_PIPE)
 			node->left = prev_node;
 		else if (!prev_node->right)
@@ -62,5 +63,14 @@ t_tree	*build_tree(t_token	*list)
 		if (list)
 			list = list->next;
 	}
+	return (0);
+}
+
+//verifier les malloc + le cas du node 1.
+int	build_tree(t_ms *ms)
+{
+	ms->tree = get_new_node(ms->token);
+	if (fill_tree(ms->tree, ms->token->next))
+		free_tree(ms->tree);
 	return (0);
 }

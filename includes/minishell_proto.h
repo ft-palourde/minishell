@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:03:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:39:58 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char			**set_env(char **env, int has_env);
 
 //////// TREE BUILD /////////
 
-t_tree			*build_tree(t_token	*list);
+int				build_tree(t_ms *ms);
 
 //////// EXEC /////////
 
@@ -113,5 +113,10 @@ char			*str_expand(char *str, char **env);
 void			get_redirs(t_tree *node, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
+
+//////// CLEANER /////////
+
+void			free_tree(t_tree *tree);
+void			minishell_cleaner(t_ms *ms);
 
 #endif
