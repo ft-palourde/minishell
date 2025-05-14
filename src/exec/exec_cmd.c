@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 16:25:27 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:53:45 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,26 @@ int	cmd_exists(char *cmd, char *path)
 	return (0);
 }
 
+char	*add_paths(char *p1, char *p2)
+{
+	char	*new;
+	char	*tmp;
+
+	if (!p1 && !p2)
+		return (NULL);
+	if (!p1)
+		return (p2);
+	if (!p2)
+		return (p1);
+	new = ft_strjoin(p1, "/");
+	if (!new)
+		return (perror("malloc"), NULL);
+	tmp = new;
+	new = ft_strjoin(tmp, p2);
+	free(tmp);
+	return (new);
+}
+
 char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 {
 	int		i;
@@ -73,7 +93,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 
 	i = 0;
 	found = 0;
-	cmd->path = str_expand(cmd->path, ms->env);
+	cmd->path = str_expand(cmd->args[0], ms->env);
 	if (!cmd->path)
 		return (perror("malloc"), NULL);
 	while (paths[i])
@@ -82,7 +102,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 		if (found == -1)
 			return (0);
 		else if (found)
-			return (paths[i]);
+			return (add_paths(paths[i], cmd->path));
 		i++;
 	}
 	return (cmd->path);
