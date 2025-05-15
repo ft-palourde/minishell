@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/13 11:32:22 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:27:40 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	main(int ac, char **av, char **env)
 	tokens = NULL;
 	prompt = get_prompt(env);
 	line = readline(prompt);
+	if (*line == '\0')
+		free(line);
 	printf("%s", line);
 	tokens = parse(line);
 	if (!tokens)
