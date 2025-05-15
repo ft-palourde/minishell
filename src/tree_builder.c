@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 16:07:32 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:34:47 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,21 @@ int	check_outfile(t_token *list, t_tree *node)
 	return (0);
 }
 
-int	fill_tree(t_tree *node, t_token *list)
+int	fill_tree(t_tree **root, t_tree *node, t_token *list)
 {
 	t_tree		*prev_node;
 
+	(void) root;
 	while (list)
 	{
 		prev_node = node;
-		if (!node)
 		node = get_new_node(list);
-		if (!node)
-			return (1);
+		if (is_redir(node->token->type))
+		{
+			
+		}
+		else
+		{
 		if (prev_node->token->type != T_PIPE)
 			node->left = prev_node;
 		else if (!prev_node->right)
@@ -62,6 +66,7 @@ int	fill_tree(t_tree *node, t_token *list)
 			node->left = prev_node;
 		if (list)
 			list = list->next;
+		}
 	}
 	return (0);
 }
@@ -70,7 +75,9 @@ int	fill_tree(t_tree *node, t_token *list)
 int	build_tree(t_ms *ms)
 {
 	ms->tree = get_new_node(ms->token);
-	if (fill_tree(ms->tree, ms->token->next))
+	if (!ms->tree)
+		return (perror("malloc"), 1);
+	if (fill_tree(&ms->tree, ms->tree, ms->token->next))
 		free_tree(ms->tree);
 	return (0);
 }
