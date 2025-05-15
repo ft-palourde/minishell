@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/15 10:51:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:56:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	check_syntax_error(t_token *tokens)
 	t_token	*cursor;
 
 	cursor = tokens;
+	if (tokens->type == T_PIPE)
+		return (ft_putstr_fd("error : first token cannot be `|'\n", 2), 1);
 	while (cursor)
 	{
 		if (cursor->type == T_PIPE && (!cursor->next
