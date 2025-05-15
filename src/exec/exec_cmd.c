@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 17:53:45 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:22:25 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int	add_pid(int pid, t_ms *ms)
 	}
 	while (ms->pid[i])
 		i++;
-	ft_realloc(ms->pid, i + 1);
+	ms->pid = ft_realloc(ms->pid, i + 1);
 	if (!ms->pid)
 		return (1);
 	ms->pid[i] = pid;
@@ -204,7 +204,7 @@ void	command_failed(t_token *token, t_ms *ms)
 {
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(token->data->cmd->args[0], 2);
-	if (is_path(token->data->cmd->args[0]))
+	if (is_absolute(token->data->cmd->args[0]))
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else
 		ft_putstr_fd(": command not found\n", 2);
@@ -227,8 +227,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 			perror("fork");
 		else if (!pid)
 		{
-			if (exec_child(node->token, ms))
-				return ;
+			ms->retval = exec_child(node->token, ms);
 			command_failed(node->token, ms);
 		}
 		else

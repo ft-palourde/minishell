@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:39:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int				bi_export(char ***env, char **args);
 
 char			*ft_get_pwd(int prefix);
 
+int				unset(char **env, char *var);
+
 char			*get_var_value(char *var);
 
 int				split_len(char **split);
@@ -106,7 +108,7 @@ int				exec_init(t_ms *ms);
 void			exec_pipe(t_tree *root, t_ms *ms);
 void			exec_heredoc(t_token *token, t_ms *ms);
 
-int				is_path(char *str);
+int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
 char			*str_expand(char *str, char **env);
@@ -116,6 +118,7 @@ void			clear_all(t_ms *ms);
 
 //////// CLEANER /////////
 
+void			free_split(char **split);
 void			free_tree(t_tree *tree);
 void			minishell_cleaner(t_ms *ms);
 

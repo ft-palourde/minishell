@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:36 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:41:55 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	wait_all(t_ms *ms)
 	ret = 0;
 	i = 0;
 	stat = 0;
-	while (ms->pid[i])
+	while (ms->pid && ms->pid[i])
 	{
 		if (ms->pid[i])
 			waitpid(ms->pid[i], &stat, 0);
@@ -56,14 +56,27 @@ t_ms	*init_ms_struct(char **env)
 	t_ms	*new;
 
 	new = ft_calloc(1, sizeof(t_ms));
-	new->env = env;
-	new->pid = ft_calloc(1, 1);
-	if (!new->pid)
-		return (free(new), NULL);
-	new->pfd = ft_calloc(1, 1);
-	if (!new->pfd)
-		return (free(new->pid), free(new), NULL);
+	if (!new)
+		return (NULL);
+	new->env = set_env(env, 1);
 	return (new);
+}
+
+int	reset_ms_struct(t_ms *ms)
+{
+	ms->exit = 0;
+	ms->file_in = 0;
+	ms->file_out = 0;
+	ms->retval = 0;
+	ms->token = 0;
+	ms->tree = 0;
+	ms->pid = ft_calloc(1, sizeof(int));
+	if (!ms->pid)
+		return (perror("malloc"), 1);
+	ms->pfd = ft_calloc(1, sizeof(int));
+	if (!ms->pfd)
+		return (perror("malloc"), free(ms->pid), 1);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -74,21 +87,23 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	prompt = get_prompt(env);
+	ms = init_ms_struct(env);
+	if (!ms)
+		return (perror("malloc"), 1);
 	if (!prompt)
 		return (1);
 	while (1)
 	{
-		ms = init_ms_struct(env);
-		if (!ms)
+		if (reset_ms_struct(ms))
 			break ;
 		ms->token = parse(readline(prompt));
-		if (!ms->token)
-			break ;
-		ms_exec(ms);
-		if (ms->exit)
-			break ;
-		write(1, "\n", 1);
-		minishell_cleaner(ms);
+		if (ms->token)
+		{
+			ms_exec(ms);
+			if (ms->exit)
+				break ;
+			minishell_cleaner(ms);
+		}
 	}
 	free(prompt);
 	free(ms);

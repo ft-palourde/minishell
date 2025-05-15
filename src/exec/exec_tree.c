@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:16 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:18 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	is_redir(t_token_type type)
 
 int	exec_init(t_ms *ms)
 {
+	*ms->pid = 0;
 	// get_heredocs_pfd(ms->pfd);
 	//recupere le contenu de tous les heredoc dans des pipes et
 	//range leur pfd dans une list chainee
-	ms->pid = 0;
 	return (0);
 }
 
