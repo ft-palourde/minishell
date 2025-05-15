@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/15 10:56:59 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:16:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_token		*parse(char *input);
 static int	check_syntax_error(t_token *tokens);
-void		parse_rd_file(t_token *token);
-void		parse_heredoc(t_token *token);
+static	int	invalid_first_token(t_token *tokens);
+static	int	invalid_last_token(t_token *tokens);
 
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ t_token	*parse(char *input)
 	t_token	*tokens;
 
 	tokens = lexer(input);
+	if (check_syntax_error(tokens))
+		return (free_tokens(tokens), NULL);
 	cursor = tokens;
 	while (cursor)
 	{
-		if (check_syntax_error(cursor))
-			return (free_tokens(tokens), NULL);
 		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 			|| cursor->type == T_APPEND)
 			parse_rd_file(cursor);
@@ -55,27 +55,50 @@ int	check_syntax_error(t_token *tokens)
 {
 	t_token	*cursor;
 
+	if (!tokens)
+		return (0);
 	cursor = tokens;
-	if (tokens->type == T_PIPE)
-		return (ft_putstr_fd("error : first token cannot be `|'\n", 2), 1);
+	if (invalid_first_token(tokens) == 1)
+		return (ft_putstr_fd("error : invalid first token\n", 2), 1);
+	if (invalid_last_token(tokens) == 1)
+		return (ft_putstr_fd("error : invalid last token\n", 2), 1);
 	while (cursor)
 	{
 		if (cursor->type == T_PIPE && (!cursor->next
 				|| cursor->next->type == T_PIPE))
-		{
-			ft_putstr_fd("unexpected token `|'\n", 2);
-			return (1);
-		}
+			return (ft_putstr_fd("unexpected token `|'\n", 2), 1);
 		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 			|| cursor->type == T_APPEND || cursor->type == T_HEREDOC)
 		{
 			if (!cursor->next || cursor->next->type != T_WORD)
-			{
-				ft_putstr_fd("syntax error: missing file after rd\n", 2);
-				return (1);
-			}
+				return (ft_putstr_fd("error: missing file after rd\n", 2), 1);
 		}
 		cursor = cursor->next;
 	}
+	return (0);
+}
+
+static	int	invalid_first_token(t_token *tokens)
+{
+	if (!tokens)
+		return (0);
+	if (tokens->type == T_PIPE || tokens->type == T_AND_IF
+		|| tokens->type == T_OR_IF)
+		return (1);
+	return (0);
+}
+
+static	int	invalid_last_token(t_token *tokens)
+{
+	t_token	*cursor;
+
+	cursor = tokens;
+	while (cursor->next)
+		cursor = cursor->next;
+	if (cursor && (cursor->type == T_PIPE || cursor->type == T_AND_IF
+			|| cursor->type == T_OR_IF || cursor->type == T_REDIR_IN
+			|| cursor->type == T_REDIR_OUT || cursor->type == T_APPEND
+			|| cursor->type == T_HEREDOC) && cursor->next == NULL)
+		return (1);
 	return (0);
 }
