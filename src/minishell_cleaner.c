@@ -6,11 +6,24 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/14 18:47:10 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:55:33 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 void	free_tree(t_tree *tree)
 {
@@ -53,5 +66,4 @@ void	minishell_cleaner(t_ms *ms)
 		free_tokens(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
-	free(ms);
 }

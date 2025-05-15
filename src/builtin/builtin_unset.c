@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:16 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 10:22:26 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:13:53 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	unset(char **env, char *var)
 
 	i = 0;
 	len = ft_strlen(var);
-	while (env[i] && !ft_strncmp(env[i], var, len))
+	while (env[i] && ft_strncmp(env[i], var, len))
 		i++;
+	if (!env[i])
+		return (1);
 	delete_resort(env, i);
 	return (0);
 }
