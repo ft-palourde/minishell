@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/14 11:50:48 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:51:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ t_token	*parse(char *input)
 	while (cursor)
 	{
 		if (check_syntax_error(cursor))
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
+			return (free_tokens(tokens), NULL);
 		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 			|| cursor->type == T_APPEND)
 			parse_rd_file(cursor);
@@ -44,11 +41,6 @@ t_token	*parse(char *input)
 			cursor->data = NULL;
 		else if (cursor->type == T_WORD)
 			parse_cmd(cursor);
-		// if (!cursor->data)
-		// {
-		// 	free_tokens(tokens);
-		// 	return (NULL);
-		// }
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
@@ -85,6 +77,3 @@ int	check_syntax_error(t_token *tokens)
 	}
 	return (0);
 }
-
-
-
