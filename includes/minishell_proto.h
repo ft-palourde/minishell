@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 15:15:19 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:31:37 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int				is_word(t_token *token);
 ///////// BUILT-INS /////////
 
 int				bi_cd(char **env, char *path);
-void			bi_echo(char **arg);
+int			bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);

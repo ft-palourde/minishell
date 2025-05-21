@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:03 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/09 20:01:55 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:31:54 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_option(char *str)
 	return (0);
 }
 
-void	bi_echo(char **arg)
+int	bi_echo(char **arg)
 {
 	int		option;
 	int		i;
@@ -61,6 +61,7 @@ void	bi_echo(char **arg)
 	}
 	if (!option)
 		printf("\n");
+	return (0);
 }
 
 /* //test main
