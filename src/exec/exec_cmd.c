@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/21 12:21:31 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:02:11 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,22 +138,22 @@ int	init_cmd(t_tree *node, t_ms *ms)
 void	dup_handler(t_token *token, t_ms *ms)
 {
 	if (ms->file_in)
-	{	
+	{
 		dup2(ms->file_in, STDIN_FILENO);
 		close(ms->file_in);
 	}
 	else if (token->in_fd)
-	{	
+	{
 		dup2(token->in_fd, STDIN_FILENO);
 		close(token->in_fd);
 	}
 	if (ms->file_out)
-	{	
+	{
 		dup2(ms->file_out, STDOUT_FILENO);
 		close(ms->file_out);
 	}
 	else if (token->out_fd)
-	{		
+	{
 		dup2(token->out_fd, STDOUT_FILENO);
 		close(token->out_fd);
 	}
@@ -218,6 +218,8 @@ int	add_pid(int pid, t_ms *ms)
 		ms->pid = ft_calloc(1, sizeof(int));
 		if (!ms->pid)
 			return (1);
+		ms->pid[0] = pid;
+		return (0);
 	}
 	while (ms->pid[i])
 		i++;
@@ -264,6 +266,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 				return ;
 			ms->file_in = 0;
 			ms->file_out = 0;
+			//penser a close les fd
 		}
 	}
 }

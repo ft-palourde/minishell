@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 17:19:39 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:20:28 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int				build_tree(t_ms *ms);
 void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
-void			exec_pipe(t_tree *root, t_ms *ms);
+int			exec_pipe(t_tree *node, t_ms *ms);
 void			exec_heredoc(t_token *token, t_ms *ms);
 
 int				is_absolute(char *str);
