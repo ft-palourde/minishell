@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 11:43:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:26:52 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ t_token			*parse(char *input);
 void			parse_cmd(t_token *token);
 
 /* PARSE UTILS */
-
+void			parse_rd_file(t_token *token);
+void			parse_heredoc(t_token *token);
 int				is_word(t_token *token);
 
 ///////// BUILT-INS /////////

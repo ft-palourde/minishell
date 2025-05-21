@@ -9,3 +9,7 @@
 
 minishell
 *.d
+
+*.txt
+test*
+test.sh
