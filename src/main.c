@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:41:55 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:55 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_ms	*init_ms_struct(char **env)
 	if (!new)
 		return (NULL);
 	new->env = set_env(env, 1);
+	new->ms_stdin = dup(STDIN_FILENO);
+	new->ms_stdout = dup(STDOUT_FILENO);
 	return (new);
 }
 

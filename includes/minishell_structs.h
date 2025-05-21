@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:28 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:46 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct s_token
 */
 typedef struct s_tree
 {
+	struct s_tree	*parent;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	t_token			*token;
@@ -175,6 +176,8 @@ typedef struct s_ms
 	int		file_out;
 	int		retval;
 	int		exit;
+	int		ms_stdin;
+	int		ms_stdout;
 }	t_ms;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 15:22:25 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:21:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,13 +138,39 @@ int	init_cmd(t_tree *node, t_ms *ms)
 void	dup_handler(t_token *token, t_ms *ms)
 {
 	if (ms->file_in)
-		dup2(ms->file_in, 0);
+	{	
+		dup2(ms->file_in, STDIN_FILENO);
+		close(ms->file_in);
+	}
 	else if (token->in_fd)
-		dup2(token->in_fd, 0);
+	{	
+		dup2(token->in_fd, STDIN_FILENO);
+		close(token->in_fd);
+	}
 	if (ms->file_out)
-		dup2(ms->file_out, 1);
+	{	
+		dup2(ms->file_out, STDOUT_FILENO);
+		close(ms->file_out);
+	}
 	else if (token->out_fd)
-		dup2(token->out_fd, 1);
+	{		
+		dup2(token->out_fd, STDOUT_FILENO);
+		close(token->out_fd);
+	}
+}
+
+void	reset_dup(t_token *token, t_ms *ms)
+{
+	dup2(ms->ms_stdin, STDIN_FILENO);
+	dup2(ms->ms_stdout, STDOUT_FILENO);
+	if (ms->file_in && ms->file_in != STDIN_FILENO)
+		close (ms->file_in);
+	if (ms->file_out && ms->file_out != STDOUT_FILENO)
+		close (ms->file_out);
+	if (token->in_fd && token->in_fd != STDIN_FILENO)
+		close (token->in_fd);
+	if (token->out_fd && token->out_fd != STDOUT_FILENO)
+		close (token->out_fd);
 }
 
 void	exec_builtin(t_token *token, t_ms *ms)
@@ -152,6 +178,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	t_built_in	builtin;
 
 	builtin = token->data->cmd->is_builtin;
+	dup_handler(token, ms);
 	if (builtin == B_CD)
 		bi_cd(ms->env, token->data->cmd->args[1]);
 	if (builtin == B_ECHO)
@@ -166,6 +193,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 		bi_pwd();
 	if (builtin == B_UNSET)
 		bi_unset(ms->env, token->data->cmd->args + 1);
+	reset_dup(token, ms);
 }
 
 int	exec_child(t_token *token, t_ms *ms)
