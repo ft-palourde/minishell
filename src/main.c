@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:42:55 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:44:15 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->retval = 0;
 	ms->token = 0;
 	ms->tree = 0;
-	ms->pid = ft_calloc(1, sizeof(int));
-	if (!ms->pid)
-		return (perror("malloc"), 1);
+	ms->pid = 0;
 	ms->pfd = ft_calloc(1, sizeof(int));
 	if (!ms->pfd)
 		return (perror("malloc"), free(ms->pid), 1);
