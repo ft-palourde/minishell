@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 17:21:18 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:26:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,17 @@ int				is_word(t_token *token);
 
 int				bi_cd(char **env, char *path);
 int			bi_echo(char **arg);
+int			bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);
 int				bi_exit(t_ms *ms);
+int				bi_exit(t_ms *ms);
 int				bi_export(char ***env, char **args);
 
 char			*ft_get_pwd(int prefix);
+
+int				unset(char **env, char *var);
 
 int				unset(char **env, char *var);
 
@@ -95,6 +99,7 @@ char			**set_env(char **env, int has_env);
 //////// TREE BUILD /////////
 
 int				build_tree(t_ms *ms);
+int				build_tree(t_ms *ms);
 
 //////// EXEC /////////
 
@@ -102,18 +107,29 @@ void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
+int				exec_pipe(t_tree *node, t_ms *ms);
 void			exec_heredoc(t_token *token, t_ms *ms);
 
+void			reset_dup(t_token *token, t_ms *ms);
+
+int				is_absolute(char *str);
 void			reset_dup(t_token *token, t_ms *ms);
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
 int				*add_fd(int fd, int *ms_fd);
+int				*add_fd(int fd, int *ms_fd);
 char			*str_expand(char *str, char **env);
 void			get_redirs(t_tree *node, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
+
+//////// CLEANER /////////
+
+void			free_split(char **split);
+void			free_tree(t_tree *tree);
+void			minishell_cleaner(t_ms *ms);
 
 //////// CLEANER /////////
 
