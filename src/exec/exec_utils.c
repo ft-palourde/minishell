@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 07:51:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:12:07 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	*add_fd(int fd, int *ms_fd)
 	while (ms_fd[i])
 		i++;
 	i++;
-	ms_fd = ft_realloc(ms_fd, i * sizeof(int));
+	ms_fd = ft_realloc(ms_fd, (i + 1) * sizeof(int));
 	if (!ms_fd)
 		return (perror("malloc"), NULL);
 	ms_fd[i] = fd;
@@ -47,6 +47,8 @@ void	close_fds(t_ms *ms)
 		close(ms->file_in);
 	if (ms->file_out)
 		close(ms->file_out);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
 }
 
 int	is_absolute(char *str)

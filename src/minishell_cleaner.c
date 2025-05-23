@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 14:55:33 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:58:24 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	clean_fds(int	**pfd)
 	}
 }
 
-void	minishell_cleaner(t_ms *ms)
+void	ms_cleaner(t_ms *ms)
 {
+	free(ms->pid);
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
@@ -60,10 +61,18 @@ void	minishell_cleaner(t_ms *ms)
 		clean_fds(&ms->pfd);
 		free(ms->pfd);
 	}
-	/* if (ms->pid)
-		free(ms->pid); */
 	if (ms->token)
 		free_tokens(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
+}
+
+void	ms_full_clean(t_ms *ms, char *prompt)
+{
+	if (!ms->exit)
+		ms_cleaner(ms);
+	free(prompt);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
+	free(ms);
 }

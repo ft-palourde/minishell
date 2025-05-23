@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/23 17:27:34 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:57:58 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_ms	*init_ms_struct(char **env)
 
 int	reset_ms_struct(t_ms *ms)
 {
-
 	ms->exit = 0;
 	ms->file_in = 0;
 	ms->file_out = 0;
@@ -118,7 +117,7 @@ int	main(int ac, char **av, char **env)
 		return (perror("malloc"), 1);
 	if (!prompt)
 		return (1);
-	while (1)
+	while (!ms->exit)
 	{
 		if (reset_ms_struct(ms))
 			break ;
@@ -126,13 +125,10 @@ int	main(int ac, char **av, char **env)
 		if (ms->token)
 		{
 			ms_exec(ms);
-			if (ms->exit)
-				break ;
-			minishell_cleaner(ms);
+			ms_cleaner(ms);
 		}
 	}
-	free(prompt);
-	free(ms);
+	ms_full_clean(ms, prompt);
 	return (0);
 }
 

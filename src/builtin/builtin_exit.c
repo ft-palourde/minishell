@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 17:55:56 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:16:38 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	bi_exit(t_ms *ms)
 {
-	exit(ms->retval);
+	ms->exit = 1;
 	return (0);
 }
