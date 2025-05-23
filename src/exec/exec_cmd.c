@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/21 18:02:11 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:36:07 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,22 +140,22 @@ void	dup_handler(t_token *token, t_ms *ms)
 	if (ms->file_in)
 	{
 		dup2(ms->file_in, STDIN_FILENO);
-		close(ms->file_in);
+		//close(ms->file_in);
 	}
 	else if (token->in_fd)
 	{
 		dup2(token->in_fd, STDIN_FILENO);
-		close(token->in_fd);
+		//close(token->in_fd);
 	}
 	if (ms->file_out)
 	{
 		dup2(ms->file_out, STDOUT_FILENO);
-		close(ms->file_out);
+		//close(ms->file_out);
 	}
 	else if (token->out_fd)
 	{
 		dup2(token->out_fd, STDOUT_FILENO);
-		close(token->out_fd);
+		//close(token->out_fd);
 	}
 }
 
@@ -215,7 +215,7 @@ int	add_pid(int pid, t_ms *ms)
 	i = 0;
 	if (!ms->pid)
 	{
-		ms->pid = ft_calloc(1, sizeof(int));
+		ms->pid = ft_calloc(2, sizeof(int));
 		if (!ms->pid)
 			return (1);
 		ms->pid[0] = pid;
@@ -223,7 +223,8 @@ int	add_pid(int pid, t_ms *ms)
 	}
 	while (ms->pid[i])
 		i++;
-	ms->pid = ft_realloc(ms->pid, i + 1);
+	i++;
+	ms->pid = ft_realloc(ms->pid, i * sizeof(int));
 	if (!ms->pid)
 		return (1);
 	ms->pid[i] = pid;
@@ -240,6 +241,20 @@ void	command_failed(t_token *token, t_ms *ms)
 		ft_putstr_fd(": command not found\n", 2);
 	clear_all(ms);
 	exit(127);
+}
+
+void	reset_ms_files(t_ms *ms)
+{
+	if (ms->file_in)
+	{
+		close(ms->file_in);
+		ms->file_in = 0;
+	}
+	if (ms->file_out)
+	{
+		close(ms->file_out);
+		ms->file_out = 0;
+	}
 }
 
 void	exec_cmd(t_tree *node, t_ms *ms)
@@ -264,9 +279,8 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		{
 			if (add_pid(pid, ms))
 				return ;
-			ms->file_in = 0;
-			ms->file_out = 0;
-			//penser a close les fd
+			reset_ms_files(ms);
+			reset_dup(node->token, ms);
 		}
 	}
 }
