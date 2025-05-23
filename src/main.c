@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:44:15 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:44:48 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,39 @@ int	wait_all(t_ms *ms)
 	return (ret);
 }
 
+void	debug_print_tree(t_tree *root, int i)
+{
+	int	space;
+
+	space = 0;
+	if (!i)
+		dprintf(2, "\n______________\n\n DEBUG \n\n\n");
+	while (space < i * 2)
+	{
+		space++;
+		dprintf(2, "- ");
+	}
+	dprintf(2, "[%d]current node = %s\n", i, root->token->str);
+	if (root->left)
+	{
+		dprintf(2, "left = %s\n", root->left->token->str);
+		debug_print_tree(root->left, i + 1);
+	}
+	if (root->left)
+	{
+		dprintf(2, "right = %s\n", root->right->token->str);
+		debug_print_tree(root->right, i + 1);
+	}
+}
+
 int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
 	if (!ms->tree)
 		return (0);
+	// debug_print_tree(ms->tree, 0);
+	// dprintf(2, "\n\n_________________\n\n\n\n");
 	exec_tree(ms->tree, ms);
 	ms->retval = wait_all(ms);
 	return (0);
@@ -66,6 +93,7 @@ t_ms	*init_ms_struct(char **env)
 
 int	reset_ms_struct(t_ms *ms)
 {
+
 	ms->exit = 0;
 	ms->file_in = 0;
 	ms->file_out = 0;
@@ -73,9 +101,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->token = 0;
 	ms->tree = 0;
 	ms->pid = 0;
-	ms->pfd = ft_calloc(1, sizeof(int));
-	if (!ms->pfd)
-		return (perror("malloc"), free(ms->pid), 1);
+	ms->pfd = 0;
 	return (0);
 }
 
