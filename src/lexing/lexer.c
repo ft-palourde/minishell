@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 15:40:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:05:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 t_token	*lexer(char *input);
 int		handle_word(char *input, t_token **tokens);
 int		is_closed(char *input, char quote);
-
-// pour chaque token : str == contenu brut du token
-// data : initialement vide, sera peut être rempli plus tard lors du parsing
-// type
 
 /* 
 slice the char input and returns a t_token list where each node has a token type.
@@ -40,14 +36,15 @@ t_token	*lexer(char *input)
 			break ;
 		if (is_operator(input[i]))
 			i += handle_operator(input + i, &tokens);
-		else if (is_quote(input[i]))
-			i += handle_quote(input + i, &tokens);
 		else
 			i += handle_word(input + i, &tokens);
 	}
 	return (tokens);
 }
 
+/* 
+return the length of current word
+*/
 int	extract_word_len(const char *input)
 {
 	int	i;

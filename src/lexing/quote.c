@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 16:07:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:34:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	handle_quote(char *input, t_token **tokens)
 	}
 	if (input[len] == quote)
 		len++;
+	len += extract_word_len(input + len);
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (0);
