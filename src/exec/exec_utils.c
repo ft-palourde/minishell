@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:42:57 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:05:45 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	*add_fd(int fd, int *ms_fd)
 	}
 	while (ms_fd[i])
 		i++;
-	i++;
-	ms_fd = ft_realloc(ms_fd, i * sizeof(int));
+	ms_fd = ft_realloc(ms_fd, (i + 1) * sizeof(int));
 	if (!ms_fd)
 		return (perror("malloc"), NULL);
 	ms_fd[i] = fd;

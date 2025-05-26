@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 11:36:07 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:01:09 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,8 +223,7 @@ int	add_pid(int pid, t_ms *ms)
 	}
 	while (ms->pid[i])
 		i++;
-	i++;
-	ms->pid = ft_realloc(ms->pid, i * sizeof(int));
+	ms->pid = ft_realloc(ms->pid, (i + 1) * sizeof(int));
 	if (!ms->pid)
 		return (1);
 	ms->pid[i] = pid;

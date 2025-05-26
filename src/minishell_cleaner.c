@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:18:10 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:08:01 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,12 @@ void	ms_cleaner(t_ms *ms)
 		free_tokens(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
+}
+
+void	ms_full_clean(t_ms *ms, char *prompt)
+{
+	free(prompt);
+	free(ms->pfd);
+	free(ms->pid);
+	free(ms);
 }

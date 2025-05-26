@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 18:22:33 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:18:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int				is_closed(char *str, char c);
 ///////// BUILT-INS /////////
 
 int				bi_cd(char **env, char *path);
-int			bi_echo(char **arg);
+int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);
@@ -125,5 +125,6 @@ void			clear_all(t_ms *ms);
 void			free_split(char **split);
 void			free_tree(t_tree *tree);
 void			ms_cleaner(t_ms *ms);
+void			ms_full_clean(t_ms *ms, char *prompt);
 
 #endif
