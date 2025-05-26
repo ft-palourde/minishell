@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/15 10:49:45 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:08:03 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	free_token(t_token *token);
 void	free_tokens(t_token *tokens);
-// void	free_token_data(t_token *token);
 
-//new_token data = ??//TODO
 t_token	*constr_new_token(t_token_type type, char *str)
 {
 	t_token	*new_token;
@@ -79,15 +77,3 @@ void	free_tokens(t_token *head)
 		head = cursor;
 	}
 }
-
-// void	free_token_data(t_token *token)
-// {
-// 	if (!token)
-// 		return ;
-// 	if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
-// 		|| token->type == T_APPEND || token->type == T_HEREDOC)
-// 	{
-// 		free(token->data->rd->is_append);
-// 		free(token->data->rd->is_truncate);
-// 	}
-// }

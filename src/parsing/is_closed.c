@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 16:30:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:02:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_closed(char *str, char c);
 
 /*
 checks if the quote, double quote or parenthesis has a closing occurence
-returns adress if found, 0 otherwise
+returns the number of char read if found, 0 otherwise
 */
 int	is_closed(char *str, char c)
 {
@@ -34,42 +34,41 @@ int	is_closed(char *str, char c)
 	return (0);
 }
 
+/* 
+check for each node of type word if its str contains quote error
+*/
 int	unclosed_quote(t_token *token)
 {
 	t_token	*cursor;
-	int		i;
 
 	cursor = token;
 	while (cursor)
 	{
-		if (token->type == T_CMD)
+		if (token->type == T_WORD)
 		{
-			i = 0;
-			while (cursor->data->cmd->args[i])
-			{
-				if (check_quote_error(cursor->data->cmd->args[i], '\'')
-					|| check_quote_error(cursor->data->cmd->args[i], '\"'))
-					return (1);
-				i++;
-			}
+			if (check_quote_error(cursor->str, '\'') != 0
+				|| check_quote_error(cursor->str, '\"') != 0)
+				return (1);
 		}
 		cursor = cursor->next;
 	}
 	return (0);
 }
 
+/* 
+counts unescaped quotes of same type
+*/
 int	check_quote_error(char *str, char c)
 {
-	int	valid_quote;
 	int	i;
+	int	nb_quote;
 
 	i = 0;
-	valid_quote = 0;
+	nb_quote = 0;
 	while (str[i])
 	{
-		if (str[i] == c && !is_escaped(str, i))
-			valid_quote++;
+		nb_quote += (str[i] == c && !is_escaped(str, i));
 		i++;
 	}
-	return (valid_quote % 2);
+	return (nb_quote % 2);
 }

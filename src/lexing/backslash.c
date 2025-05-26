@@ -6,13 +6,12 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 12:43:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 11:00:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:05:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int		handle_backslash(char *input, t_token **tokens);
 int		is_backslash(char c);
 int		is_escaped(char *input, int index);
 
@@ -32,6 +31,5 @@ int	is_escaped(char *input, int index)
 		is_escaped++;
 		index--;
 	}
-	is_escaped = is_escaped % 2;
-	return (is_escaped);
+	return (is_escaped % 2);
 }

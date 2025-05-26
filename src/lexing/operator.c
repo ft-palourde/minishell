@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 10:39:46 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:07:35 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_token_type	get_operator_type(char *input);
 int				operator_len(t_token_type type);
 bool			is_operator(char c);
 
-// if (type == T_UNKNOWN)
-// 	return quelle value pour signifier error? -1 ?//TODO
 int	handle_operator(char *input, t_token **tokens)
 {
 	t_token_type	type;
@@ -70,24 +68,3 @@ int	operator_len(t_token_type type)
 		return (2);
 	return (1);
 }
-
-/* void	handle_operator(char *input, t_token **tokens)
-{
-	t_token_type	type;
-	int				len;
-	char			*op_str;
-	t_token			*new_token;
-
-	type = get_operator_type(input);
-	if (type == T_UNKNOWN)
-		return ;
-	len = operator_len(type);
-	op_str = ft_strndup((const char *)input, len);
-	if (!op_str)
-		return ;
-	new_token = constr_new_token(type, op_str);
-	if (!new_token)
-		return ;
-	add_to_tokens(new_token, tokens);
-	*input += len;
-} */
