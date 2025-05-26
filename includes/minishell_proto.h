@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 11:26:52 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:22:36 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int				operator_len(t_token_type type);
 bool			is_operator(char c);
 
 /* QUOTES */
+
 int				is_quote(char c);
 int				handle_quote(char *input, t_token **tokens);
 void			free_tokens(t_token *tokens);
@@ -49,6 +50,8 @@ int				is_backslash(char c);
 int				is_escaped(char *input, int index);
 void			free_cmd(t_cmd *cmd);
 void			free_redir(t_rd *rd);
+int				unclosed_quote(t_token *token);
+int				check_quote_error(char *str, char c);
 
 /* WORD */
 
@@ -67,6 +70,7 @@ void			parse_cmd(t_token *token);
 void			parse_rd_file(t_token *token);
 void			parse_heredoc(t_token *token);
 int				is_word(t_token *token);
+int				is_closed(char *str, char c);
 
 ///////// BUILT-INS /////////
 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/29 17:18:03 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:40:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_token	*lexer(char *input);
 int		handle_word(char *input, t_token **tokens);
-int		is_quote(char c);
 int		is_closed(char *input, char quote);
 
 // pour chaque token : str == contenu brut du token
@@ -22,20 +21,8 @@ int		is_closed(char *input, char quote);
 // type
 
 /* 
-while (*input)
-{
-	skip_spaces();
-
-	if (is_quote(*input))
-		handle_quoted_word(&input, &token_list);
-	else if (is_operator(input))
-		handle_operator(&input, &token_list);
-	else
-		handle_word(&input, &token_list);
-}
+slice the char input and returns a t_token list where each node has a token type.
 */
-
-// t_token	*lexer(void)
 t_token	*lexer(char *input)
 {
 	t_token			*tokens;
@@ -79,20 +66,6 @@ int	extract_word_len(const char *input)
 			i++;
 	}
 	return (i);
-}
-
-int	is_closed(char *input, char quote)
-{
-	int	i;
-
-	i = 1;
-	while (input[i])
-	{
-		if (input[i] == quote && input[i - 1] != 92)
-			return (i);
-		i++;
-	}
-	return (0);
 }
 
 int	handle_word(char *input, t_token **tokens)
