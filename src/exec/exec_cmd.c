@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 18:01:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:31:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 {
 	int		i;
 	int		found;
-
+	char	*not_found;
 	i = 0;
 	found = 0;
 	cmd->path = str_expand(cmd->args[0], ms->env);
@@ -105,7 +105,10 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 			return (add_paths(paths[i], cmd->path));
 		i++;
 	}
-	return (cmd->path);
+	not_found = ft_strdup(cmd->path);
+	if (!not_found)
+		perror("malloc");
+	return (not_found);
 }
 
 int	init_cmd(t_tree *node, t_ms *ms)

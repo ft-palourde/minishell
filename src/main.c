@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 19:15:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:30:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int	main(int ac, char **av, char **env)
 			ms_cleaner(ms);
 		}
 	}
-	ms_cleaner(ms);
 	ms_full_clean(ms, prompt);
 	return (0);
 }

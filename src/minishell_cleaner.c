@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 18:08:01 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:26:25 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	clean_fds(int	**pfd)
 
 void	ms_cleaner(t_ms *ms)
 {
+	free(ms->pid);
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
@@ -68,8 +69,10 @@ void	ms_cleaner(t_ms *ms)
 
 void	ms_full_clean(t_ms *ms, char *prompt)
 {
+	if (!ms->exit)
+		ms_cleaner(ms);
 	free(prompt);
-	free(ms->pfd);
-	free(ms->pid);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
 	free(ms);
 }
