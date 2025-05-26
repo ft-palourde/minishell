@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:44:48 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:47:17 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int	ms_exec(t_ms *ms)
 	build_tree(ms);
 	if (!ms->tree)
 		return (0);
-	// debug_print_tree(ms->tree, 0);
-	// dprintf(2, "\n\n_________________\n\n\n\n");
 	exec_tree(ms->tree, ms);
 	ms->retval = wait_all(ms);
 	return (0);
@@ -128,9 +126,10 @@ int	main(int ac, char **av, char **env)
 			ms_exec(ms);
 			if (ms->exit)
 				break ;
-			minishell_cleaner(ms);
+			ms_cleaner(ms);
 		}
 	}
+	ms_cleaner(ms);
 	free(prompt);
 	free(ms);
 	return (0);

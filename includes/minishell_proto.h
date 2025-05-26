@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 17:44:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:46:57 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ void			clear_all(t_ms *ms);
 
 void			free_split(char **split);
 void			free_tree(t_tree *tree);
-void			minishell_cleaner(t_ms *ms);
+void			ms_cleaner(t_ms *ms);
 
 #endif

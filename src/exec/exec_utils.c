@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 07:51:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:42:57 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	*add_fd(int fd, int *ms_fd)
 		ms_fd = ft_calloc(2, sizeof(int));
 		if (!ms_fd)
 			return (perror("malloc"), NULL);
+		ms_fd[0] = fd;
+		return (0);
 	}
 	while (ms_fd[i])
 		i++;
