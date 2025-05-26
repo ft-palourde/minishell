@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/13 11:27:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:36:07 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	si node.left ou node.right == redir : chopper le path de la redir
 	creer les files si besoin. 
 	
-	expandre les arguments de la cmd
+	expand les arguments de la cmd
 	
 	creer le fork
 	
@@ -24,7 +24,7 @@
 		
 		close tous les pfd
 		
-		checker si builtin, si oui -> builtint si non -> execve
+		checker si builtin, si oui -> builtin si non -> execve
 
 	parent
 		penser a remettre les file_in et file_out a 0
@@ -66,6 +66,26 @@ int	cmd_exists(char *cmd, char *path)
 	return (0);
 }
 
+char	*add_paths(char *p1, char *p2)
+{
+	char	*new;
+	char	*tmp;
+
+	if (!p1 && !p2)
+		return (NULL);
+	if (!p1)
+		return (p2);
+	if (!p2)
+		return (p1);
+	new = ft_strjoin(p1, "/");
+	if (!new)
+		return (perror("malloc"), NULL);
+	tmp = new;
+	new = ft_strjoin(tmp, p2);
+	free(tmp);
+	return (new);
+}
+
 char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 {
 	int		i;
@@ -73,7 +93,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 
 	i = 0;
 	found = 0;
-	cmd->path = str_expand(cmd->path, ms->env);
+	cmd->path = str_expand(cmd->args[0], ms->env);
 	if (!cmd->path)
 		return (perror("malloc"), NULL);
 	while (paths[i])
@@ -82,7 +102,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 		if (found == -1)
 			return (0);
 		else if (found)
-			return (paths[i]);
+			return (add_paths(paths[i], cmd->path));
 		i++;
 	}
 	return (cmd->path);
@@ -118,13 +138,39 @@ int	init_cmd(t_tree *node, t_ms *ms)
 void	dup_handler(t_token *token, t_ms *ms)
 {
 	if (ms->file_in)
-		dup2(ms->file_in, 0);
+	{
+		dup2(ms->file_in, STDIN_FILENO);
+		//close(ms->file_in);
+	}
 	else if (token->in_fd)
-		dup2(token->in_fd, 0);
+	{
+		dup2(token->in_fd, STDIN_FILENO);
+		//close(token->in_fd);
+	}
 	if (ms->file_out)
-		dup2(ms->file_out, 1);
+	{
+		dup2(ms->file_out, STDOUT_FILENO);
+		//close(ms->file_out);
+	}
 	else if (token->out_fd)
-		dup2(token->out_fd, 1);
+	{
+		dup2(token->out_fd, STDOUT_FILENO);
+		//close(token->out_fd);
+	}
+}
+
+void	reset_dup(t_token *token, t_ms *ms)
+{
+	dup2(ms->ms_stdin, STDIN_FILENO);
+	dup2(ms->ms_stdout, STDOUT_FILENO);
+	if (ms->file_in && ms->file_in != STDIN_FILENO)
+		close (ms->file_in);
+	if (ms->file_out && ms->file_out != STDOUT_FILENO)
+		close (ms->file_out);
+	if (token->in_fd && token->in_fd != STDIN_FILENO)
+		close (token->in_fd);
+	if (token->out_fd && token->out_fd != STDOUT_FILENO)
+		close (token->out_fd);
 }
 
 void	exec_builtin(t_token *token, t_ms *ms)
@@ -132,6 +178,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	t_built_in	builtin;
 
 	builtin = token->data->cmd->is_builtin;
+	dup_handler(token, ms);
 	if (builtin == B_CD)
 		bi_cd(ms->env, token->data->cmd->args[1]);
 	if (builtin == B_ECHO)
@@ -139,13 +186,14 @@ void	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_ENV)
 		bi_env(ms->env);
 	if (builtin == B_EXIT)
-		bi_exit(ms->env);
+		bi_exit(ms);
 	if (builtin == B_EXPORT)
 		bi_export(&ms->env, token->data->cmd->args + 1);
 	if (builtin == B_PWD)
 		bi_pwd();
 	if (builtin == B_UNSET)
 		bi_unset(ms->env, token->data->cmd->args + 1);
+	reset_dup(token, ms);
 }
 
 int	exec_child(t_token *token, t_ms *ms)
@@ -155,10 +203,7 @@ int	exec_child(t_token *token, t_ms *ms)
 	cmd = token->data->cmd;
 	dup_handler(token, ms);
 	close_fds(ms);
-	if (is_builtin(token))
-		exec_builtin(token, ms);
-	else
-		execve(cmd->path, cmd->args, ms->env);
+	execve(cmd->path, cmd->args, ms->env);
 	ms->retval = 127;
 	return (127);
 }
@@ -170,13 +215,16 @@ int	add_pid(int pid, t_ms *ms)
 	i = 0;
 	if (!ms->pid)
 	{
-		ms->pid = ft_calloc(1, sizeof(int));
+		ms->pid = ft_calloc(2, sizeof(int));
 		if (!ms->pid)
 			return (1);
+		ms->pid[0] = pid;
+		return (0);
 	}
 	while (ms->pid[i])
 		i++;
-	ft_realloc(ms->pid, i + 1);
+	i++;
+	ms->pid = ft_realloc(ms->pid, i * sizeof(int));
 	if (!ms->pid)
 		return (1);
 	ms->pid[i] = pid;
@@ -187,12 +235,26 @@ void	command_failed(t_token *token, t_ms *ms)
 {
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(token->data->cmd->args[0], 2);
-	if (is_path(token->data->cmd->args[0]))
+	if (is_absolute(token->data->cmd->args[0]))
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else
 		ft_putstr_fd(": command not found\n", 2);
 	clear_all(ms);
 	exit(127);
+}
+
+void	reset_ms_files(t_ms *ms)
+{
+	if (ms->file_in)
+	{
+		close(ms->file_in);
+		ms->file_in = 0;
+	}
+	if (ms->file_out)
+	{
+		close(ms->file_out);
+		ms->file_out = 0;
+	}
 }
 
 void	exec_cmd(t_tree *node, t_ms *ms)
@@ -201,21 +263,25 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 
 	if (init_cmd(node, ms))
 		return ;
-	pid = fork();
-	if (pid == -1)
-		perror("fork");
-	else if (!pid)
-	{
-		if (exec_child(node->token, ms))
-			return ;
-		command_failed(node->token, ms);
-	}
+	if (is_builtin(node->token))
+		exec_builtin(node->token, ms);
 	else
 	{
-		if (add_pid(pid, ms))
-			return ;
-		ms->file_in = 0;
-		ms->file_out = 0;
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		else if (!pid)
+		{
+			ms->retval = exec_child(node->token, ms);
+			command_failed(node->token, ms);
+		}
+		else
+		{
+			if (add_pid(pid, ms))
+				return ;
+			reset_ms_files(ms);
+			reset_dup(node->token, ms);
+		}
 	}
 }
 /* 

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/28 12:42:50 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:43:51 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	bi_export(char ***env, char **arg)
 	}
 	while (arg[i])
 	{
+		unset(*env, arg[i]);
 		*env = export(*env, arg[i]);
 		i++;
 	}

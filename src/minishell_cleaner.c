@@ -1,58 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   minishell_cleaner.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:42:57 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
+/*   Updated: 2025/05/23 12:18:10 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*add_fd(int fd, int *ms_fd)
+void	free_split(char **split)
 {
 	int	i;
 
 	i = 0;
-	if (!ms_fd)
+	while (split[i])
 	{
-		ms_fd = ft_calloc(2, sizeof(int));
-		if (!ms_fd)
-			return (perror("malloc"), NULL);
-		ms_fd[0] = fd;
-		return (0);
-	}
-	while (ms_fd[i])
+		free(split[i]);
 		i++;
-	i++;
-	ms_fd = ft_realloc(ms_fd, i * sizeof(int));
-	if (!ms_fd)
-		return (perror("malloc"), NULL);
-	ms_fd[i] = fd;
-	return (ms_fd);
+	}
+	free(split);
 }
 
-void	close_fds(t_ms *ms)
+void	free_tree(t_tree *tree)
+{
+	if (tree->left)
+		free_tree(tree->left);
+	if (tree->right)
+		free_tree(tree->right);
+	free(tree);
+}
+
+void	clean_fds(int	**pfd)
 {
 	int	i;
 
 	i = 0;
-	while (ms->pfd && ms->pfd[i])
+	if (!*pfd[i])
+		return ;
+	while (pfd[i])
 	{
-		close(ms->pfd[i]);
+		if (*pfd[i])
+			close(*pfd[i]);
 		i++;
 	}
+}
+
+void	ms_cleaner(t_ms *ms)
+{
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
 		close(ms->file_out);
-}
-
-int	is_absolute(char *str)
-{
-	(void) str;
-	return (0);
+	if (ms->pfd)
+	{
+		clean_fds(&ms->pfd);
+		free(ms->pfd);
+	}
+	if (ms->token)
+		free_tokens(ms->token);
+	if (ms->tree)
+		free_tree(ms->tree);
 }
