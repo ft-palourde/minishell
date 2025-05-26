@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/21 15:15:15 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:39:46 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ bool	is_operator(char c)
 
 t_token_type	get_operator_type(char *input)
 {
-	if (!strncmp(input, "&&", 2))
+	if (!ft_strncmp(input, "&&", 2))
 		return (T_AND_IF);
-	if (!strncmp(input, "||", 2))
+	if (!ft_strncmp(input, "||", 2))
 		return (T_OR_IF);
-	if (!strncmp(input, ">>", 2))
+	if (!ft_strncmp(input, ">>", 2))
 		return (T_APPEND);
-	if (!strncmp(input, "<<", 2))
+	if (!ft_strncmp(input, "<<", 2))
 		return (T_HEREDOC);
 	if (*input == '|')
 		return (T_PIPE);

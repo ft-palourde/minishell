@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/15 12:16:47 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:27:30 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	check_syntax_error(t_token *tokens)
 		return (ft_putstr_fd("error : invalid first token\n", 2), 1);
 	if (invalid_last_token(tokens) == 1)
 		return (ft_putstr_fd("error : invalid last token\n", 2), 1);
+	// if (unclosed_quote(tokens) == 1)
+		// return (ft_putstr_fd("error : unclosed quote\n", 2), 1);
 	while (cursor)
 	{
 		if (cursor->type == T_PIPE && (!cursor->next

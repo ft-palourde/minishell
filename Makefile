@@ -46,6 +46,7 @@ FILES		= 	builtin/builtin_cd\
 				lexing/token\
 				parsing/cmd \
 				parsing/debug_display \
+				parsing/is_closed \
 				parsing/parse_cmd \
 				parsing/parse_heredoc \
 				parsing/parse_rd_file \
