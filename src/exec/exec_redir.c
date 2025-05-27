@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/22 00:31:44 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:09:40 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exec_redir(t_token *token, t_ms *ms)
 	if (ms->file_in == -1 || ms->file_out == -1)
 		perror("open failed");
 	if (ms->file_in)
-		add_fd(ms->file_in, ms->pfd);
+		add_fd(ms->file_in, ms);
 	if (ms->file_out)
-		add_fd(ms->file_in, ms->pfd);
+		add_fd(ms->file_out, ms);
 }
 
 void	get_redirs(t_tree *node, t_ms *ms)

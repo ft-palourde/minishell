@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:18:10 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:12:43 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_tree(t_tree *tree)
 	free(tree);
 }
 
-void	clean_fds(int	**pfd)
+void	clean_fds(int **pfd)
 {
 	int	i;
 
@@ -51,6 +51,7 @@ void	clean_fds(int	**pfd)
 
 void	ms_cleaner(t_ms *ms)
 {
+	free(ms->pid);
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
@@ -64,4 +65,15 @@ void	ms_cleaner(t_ms *ms)
 		free_tokens(ms->token);
 	if (ms->tree)
 		free_tree(ms->tree);
+}
+
+void	ms_full_clean(t_ms *ms, char *prompt)
+{
+	if (!ms->exit)
+		ms_cleaner(ms);
+	free(prompt);
+	reverse_cascade_free(ms->env, split_len(ms->env));
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
+	free(ms);
 }

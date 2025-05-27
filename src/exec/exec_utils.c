@@ -6,33 +6,34 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:42:57 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:16:41 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*add_fd(int fd, int *ms_fd)
+int	*add_fd(int fd, t_ms *ms)
 {
 	int	i;
+	int	*pfd;
 
+	pfd = ms->pfd;
 	i = 0;
-	if (!ms_fd)
+	if (!pfd)
 	{
-		ms_fd = ft_calloc(2, sizeof(int));
-		if (!ms_fd)
+		pfd = ft_calloc(2, sizeof(int));
+		if (!pfd)
 			return (perror("malloc"), NULL);
-		ms_fd[0] = fd;
+		pfd[0] = fd;
 		return (0);
 	}
-	while (ms_fd[i])
+	while (pfd[i])
 		i++;
-	i++;
-	ms_fd = ft_realloc(ms_fd, i * sizeof(int));
-	if (!ms_fd)
+	pfd = ft_realloc(pfd, (i + 2) * sizeof(int));
+	if (!pfd)
 		return (perror("malloc"), NULL);
-	ms_fd[i] = fd;
-	return (ms_fd);
+	pfd[i] = fd;
+	return (pfd);
 }
 
 void	close_fds(t_ms *ms)
