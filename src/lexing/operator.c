@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 19:07:35 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:55:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ int	handle_operator(char *input, t_token **tokens)
 	t_token_type	type;
 	int				len;
 	t_token			*new;
+	char			*str;
 
 	type = get_operator_type(input);
 	len = operator_len(type);
-	new = malloc(sizeof(t_token));
+	str = ft_strndup(input, len);
+	new = constr_new_token(type, str);
 	if (!new)
 		return (0);
-	new->type = type;
-	new->str = ft_strndup(input, len);
-	new->next = NULL;
 	ft_memset(&new->data, 0, sizeof(new->data));
 	add_to_tokens(new, tokens);
 	return (len);

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 19:05:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:12:29 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ int	handle_word(char *input, t_token **tokens)
 {
 	t_token	*new;
 	int		len;
+	char	*str;
 
 	len = extract_word_len(input);
-	new = malloc(sizeof(t_token));
+	str = ft_strndup(input, len);
+	new = constr_new_token(T_WORD, str);
+	free(str);
 	if (!new)
 		return (0);
-	new->type = T_WORD;
-	new->str = ft_strndup(input, len);
-	new->next = NULL;
 	ft_memset(&new->data, 0, sizeof(new->data));
 	add_to_tokens(new, tokens);
 	return (len);
