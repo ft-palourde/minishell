@@ -52,10 +52,13 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_rd_file \
 				parsing/parse_utils \
 				parsing/parse \
+				clear \
+				init \
 				minishell_cleaner \
 				prompt \
 				set_env \
-				tree_builder
+				tree_builder \
+				tree_builder_utils
 
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))

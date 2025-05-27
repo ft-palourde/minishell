@@ -3,39 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/19 16:31:12 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:32:29 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tree	*get_root(t_tree *node)
-{
-	while (node && node->parent)
-		node = node->parent;
-	return (node);
-}
-
-t_tree	*get_new_node(t_token *token)
-{
-	t_tree	*new;
-
-	new = ft_calloc (1, sizeof(t_tree));
-	if (!new)
-		return (0);
-	new->parent = NULL;
-	new->token = token;
-	new->left = 0;
-	new->right = 0;
-	return (new);
-}
+int		check_outfile(t_token *list, t_tree *node);
+void	new_branch(int is_left, t_tree *parent, t_tree *child);
+int		fill_tree(t_tree *node, t_token *list);
+int		build_tree(t_ms *ms);
 
 int	check_outfile(t_token *list, t_tree *node)
 {
 	t_tree	*new;
+
 	if (!list || !list->next)
 		return (1);
 	if (list->next->type != T_REDIR_OUT && list->next->type != T_APPEND)

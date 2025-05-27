@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/27 12:33:33 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:43:05 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,6 @@ int	wait_all(t_ms *ms)
 	return (ret);
 }
 
-void	debug_print_tree(t_tree *root, int i)
-{
-	int	space;
-
-	space = 0;
-	if (!i)
-		dprintf(2, "\n______________\n\n DEBUG \n\n\n");
-	while (space < i * 2)
-	{
-		space++;
-		dprintf(2, "- ");
-	}
-	dprintf(2, "[%d]current node = %s\n", i, root->token->str);
-	if (root->left)
-	{
-		dprintf(2, "left = %s\n", root->left->token->str);
-		debug_print_tree(root->left, i + 1);
-	}
-	if (root->left)
-	{
-		dprintf(2, "right = %s\n", root->right->token->str);
-		debug_print_tree(root->right, i + 1);
-	}
-}
-
 int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
@@ -69,19 +44,6 @@ int	ms_exec(t_ms *ms)
 	exec_tree(ms->tree, ms);
 	ms->retval = wait_all(ms);
 	return (0);
-}
-
-t_ms	*init_ms_struct(char **env)
-{
-	t_ms	*new;
-
-	new = ft_calloc(1, sizeof(t_ms));
-	if (!new)
-		return (NULL);
-	new->env = set_env(env, 1);
-	new->ms_stdin = dup(STDIN_FILENO);
-	new->ms_stdout = dup(STDOUT_FILENO);
-	return (new);
 }
 
 int	reset_ms_struct(t_ms *ms)
@@ -123,7 +85,6 @@ int	main(int ac, char **av, char **env)
 	ms_full_clean(ms, prompt);
 	return (0);
 }
-
 // DEBUG TOKENS
 
 /* int	main(int ac, char **av, char **env)

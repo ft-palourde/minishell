@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 13:10:30 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:45:04 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,13 @@ char			**set_env(char **env, int has_env);
 
 //////// TREE BUILD /////////
 
+int				check_outfile(t_token *list, t_tree *node);
+void			new_branch(int is_left, t_tree *parent, t_tree *child);
+int				fill_tree(t_tree *node, t_token *list);
 int				build_tree(t_ms *ms);
+t_tree			*get_root(t_tree *node);
+t_tree			*get_new_node(t_token *token);
+void			debug_print_tree(t_tree *root, int i);
 
 //////// EXEC /////////
 
@@ -125,6 +131,13 @@ void			clear_all(t_ms *ms);
 void			free_split(char **split);
 void			free_tree(t_tree *tree);
 void			ms_cleaner(t_ms *ms);
-void			ms_full_clean(t_ms *ms, char *prompt);
+
+/* CLEAR */
+
+void			clear_all(t_ms *ms);
+
+/* INIT */
+
+t_ms			*init_ms_struct(char **env);
 
 #endif
