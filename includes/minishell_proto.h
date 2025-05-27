@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 19:18:05 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:10:30 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void			reset_dup(t_token *token, t_ms *ms);
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
-int				*add_fd(int fd, int *ms_fd);
+int				*add_fd(int fd, t_ms *ms);
 char			*str_expand(char *str, char **env);
 void			get_redirs(t_tree *node, t_ms *ms);
 void			close_fds(t_ms *ms);

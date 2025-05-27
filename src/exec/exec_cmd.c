@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/26 19:31:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:38:17 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 	parent
 		penser a remettre les file_in et file_out a 0
 	*/
+
+void	clear_cmd(t_token *token)
+{
+	free(token->data->cmd->path);
+}
 
 char	**get_paths(char **env)
 {
@@ -91,6 +96,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 	int		i;
 	int		found;
 	char	*not_found;
+
 	i = 0;
 	found = 0;
 	cmd->path = str_expand(cmd->args[0], ms->env);
@@ -123,6 +129,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 	if (!paths)
 		return (1);
 	cmd->path = get_cmd_path(node->token->data->cmd, ms, paths);
+	reverse_cascade_free(paths, split_len(paths));
 	if (!cmd->path)
 		return (perror("malloc"), 1);
 	while (cmd->args[i])
@@ -141,25 +148,13 @@ int	init_cmd(t_tree *node, t_ms *ms)
 void	dup_handler(t_token *token, t_ms *ms)
 {
 	if (ms->file_in)
-	{
 		dup2(ms->file_in, STDIN_FILENO);
-		//close(ms->file_in);
-	}
 	else if (token->in_fd)
-	{
 		dup2(token->in_fd, STDIN_FILENO);
-		//close(token->in_fd);
-	}
 	if (ms->file_out)
-	{
 		dup2(ms->file_out, STDOUT_FILENO);
-		//close(ms->file_out);
-	}
 	else if (token->out_fd)
-	{
 		dup2(token->out_fd, STDOUT_FILENO);
-		//close(token->out_fd);
-	}
 }
 
 void	reset_dup(t_token *token, t_ms *ms)
@@ -233,7 +228,7 @@ int	add_pid(int pid, t_ms *ms)
 	return (0);
 }
 
-void	command_failed(t_token *token, t_ms *ms)
+void	command_failed(t_token *token)
 {
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(token->data->cmd->args[0], 2);
@@ -241,7 +236,7 @@ void	command_failed(t_token *token, t_ms *ms)
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else
 		ft_putstr_fd(": command not found\n", 2);
-	clear_all(ms);
+	clear_cmd(token);
 	exit(127);
 }
 
@@ -275,7 +270,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		else if (!pid)
 		{
 			ms->retval = exec_child(node->token, ms);
-			command_failed(node->token, ms);
+			command_failed(node->token);
 		}
 		else
 		{

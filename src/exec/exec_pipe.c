@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:53 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/23 12:07:03 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:46:03 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	exec_pipe(t_tree *node, t_ms *ms)
 	}
 	node->left->token->out_fd = pfd[1];
 	node->right->token->in_fd = pfd[0];
-	add_fd(pfd[0], ms->pfd);
-	add_fd(pfd[1], ms->pfd);
+	add_fd(pfd[0], &ms->pfd);
+	add_fd(pfd[1], &ms->pfd);
 	return (0);
 }
