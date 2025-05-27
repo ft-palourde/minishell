@@ -28,6 +28,7 @@ int	handle_operator(char *input, t_token **tokens)
 	len = operator_len(type);
 	str = ft_strndup(input, len);
 	new = constr_new_token(type, str);
+	free(str);
 	if (!new)
 		return (0);
 	ft_memset(&new->data, 0, sizeof(new->data));
