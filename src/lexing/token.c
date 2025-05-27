@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 19:48:06 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:11:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	if (!new_token)
 		return (NULL);
 	new_token->type = type;
-	new_token->str = str;
+	new_token->str = ft_strdup(str);
 	new_token->next = NULL;
 	new_token->in_fd = 0;
 	new_token->out_fd = 0;
