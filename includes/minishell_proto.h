@@ -95,6 +95,7 @@ int				unset(char **env, char *var);
 
 char			*get_var_value(char *var);
 char			*get_var_name(char *var);
+char			*get_var_name(char *var);
 int				var_exists(char **env, char *var);
 int				var_is_empty(char *var);
 int 			is_var(char *var);
