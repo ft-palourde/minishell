@@ -34,6 +34,20 @@ int	is_builtin(t_token *token)
 	return (token->data->cmd->is_builtin);
 }
 
+char	*get_var_name(char *var)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (var[i] != '=')
+		i++;
+	name = ft_strndup(var, i);
+	if (!name)
+		return (perror("malloc"), NULL);
+	return (name);
+}
+
 char	*get_var_value(char *var)
 {
 	int		i;
@@ -42,7 +56,7 @@ char	*get_var_value(char *var)
 	i = 0;
 	while (var[i] != '=')
 		i++;
-	value = ft_strdup(var + i);
+	value = ft_strdup(var + i + 1);
 	if (!value)
 		return (perror("malloc"), NULL);
 	return (value);

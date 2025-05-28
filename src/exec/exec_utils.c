@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 13:16:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:27:09 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 int	*add_fd(int fd, t_ms *ms)
 {
 	int	i;
-	int	*pfd;
 
-	pfd = ms->pfd;
 	i = 0;
-	if (!pfd)
+	if (!ms->fd)
 	{
-		pfd = ft_calloc(2, sizeof(int));
-		if (!pfd)
+		ms->fd = ft_calloc(2, sizeof(int));
+		if (!ms->fd)
 			return (perror("malloc"), NULL);
-		pfd[0] = fd;
+		ms->fd[0] = fd;
 		return (0);
 	}
-	while (pfd[i])
+	while (ms->fd[i])
 		i++;
-	pfd = ft_realloc(pfd, (i + 2) * sizeof(int));
-	if (!pfd)
+	i++;
+	ms->fd = ft_realloc(ms->fd, (i + 1) * sizeof(int));
+	if (!ms->fd)
 		return (perror("malloc"), NULL);
-	pfd[i] = fd;
-	return (pfd);
+	ms->fd[i] = fd;
+	ms->fd[i + 1] = 0;
+	return (ms->fd);
 }
 
 void	close_fds(t_ms *ms)
@@ -41,9 +41,9 @@ void	close_fds(t_ms *ms)
 	int	i;
 
 	i = 0;
-	while (ms->pfd && ms->pfd[i])
+	while (ms->fd && ms->fd[i])
 	{
-		close(ms->pfd[i]);
+		close(ms->fd[i]);
 		i++;
 	}
 	if (ms->file_in)

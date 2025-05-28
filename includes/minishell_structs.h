@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 12:43:31 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:25:12 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ typedef struct s_ms
 	t_tree	*tree;
 	char	**env;
 	int		*pid;
-	int		*pfd;
+	int		*pfd[2];
+	int		*fd;
 	int		file_in;
 	int		file_out;
 	int		retval;
