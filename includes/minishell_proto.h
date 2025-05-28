@@ -88,6 +88,7 @@ char			*ft_get_pwd(int prefix);
 int				unset(char **env, char *var);
 
 char			*get_var_value(char *var);
+char			*get_var_name(char *var);
 
 int				split_len(char **split);
 
@@ -132,10 +133,6 @@ void			free_split(char **split);
 void			free_tree(t_tree *tree);
 void			ms_cleaner(t_ms *ms);
 void			ms_full_clean(t_ms *ms, char *prompt);
-
-/* CLEAR */
-
-void			clear_all(t_ms *ms);
 
 /* INIT */
 

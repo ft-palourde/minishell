@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+int	print_export(char **env)
+{
+	int		i;
+	char	*name;
+	char	*value;
+
+	i = 0;
+	while (env[i])
+	{
+		name = get_var_name(env[i]);
+		if (!name)
+			return (1);
+		value = get_var_value(env[i]);
+		if (!value)
+			return (free(name), 1);
+		printf("export %s=\"%s\"\n", name, value);
+		free(name);
+		free(value);
+		i++;
+	}
+	return (0);
+}
+
 int	display_sort(char **env)
 {
 	char	*tmp;
@@ -36,21 +59,34 @@ int	display_sort(char **env)
 		}
 		j--;
 	}
-	bi_env(env);
+	print_export(env);
 	reverse_cascade_free(env, split_len(env));
 	return (0);
 }
 
-int	is_var(char *var)
+char	*check_var(char *var)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
+	if (!var)
+		return (NULL);
+	tmp = 0;
 	i = 0;
 	while (var[i] && var[i] != '=')
 		i++;
-	if (!i || !var[i] || var[i] != '=' || !var[i + 1])
-		return (0);
-	return (1);
+	if (var[i] != '=')
+	{
+		tmp = var;
+		var = ft_strjoin(var, "=");
+		if (tmp)
+			free(tmp);
+		if (!var)
+			return (perror("malloc"), NULL);
+	}
+	if (!i || !var[i])
+		return (NULL);
+	return (var);
 }
 
 static char	**export(char **env, char *var)
@@ -59,7 +95,8 @@ static char	**export(char **env, char *var)
 	int		i;
 	char	**new_env;
 
-	if (!is_var(var))
+	var = check_var(var);
+	if (!var)
 		return (env);
 	env_len = split_len(env);
 	new_env = ft_calloc(env_len + 2, sizeof(char *));

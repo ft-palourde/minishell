@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/27 12:43:05 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:18:53 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->token = 0;
 	ms->tree = 0;
 	ms->pid = 0;
-	ms->pfd = 0;
+	ms->fd = 0;
 	return (0);
 }
 
