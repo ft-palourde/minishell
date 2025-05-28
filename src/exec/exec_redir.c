@@ -57,8 +57,3 @@ void	get_redirs(t_tree *node, t_ms *ms)
 		node->token->out_fd = ms->file_out;
 }
 
-void	exec_heredoc(t_token *token, t_ms *ms)
-{
-	(void) token;
-	(void) ms;
-}

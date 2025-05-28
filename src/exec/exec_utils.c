@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+int	is_redir(t_token_type type)
+{
+	if (type == T_REDIR_IN || type == T_REDIR_OUT || type == T_APPEND)
+		return (1);
+	return (0);
+}
+
 int	*add_fd(int fd, t_ms *ms)
 {
 	int	i;

@@ -111,8 +111,7 @@ static char	**export(char **env, char *var)
 	free(new_var);
 	if (!new_env[i])
 		return (reverse_cascade_free(new_env, i), perror("malloc"), env);
-	reverse_cascade_free(env, i - 1);
-	return (new_env);
+	return (reverse_cascade_free(env, i - 1), new_env);
 }
 
 int	bi_export(char ***env, char **arg)

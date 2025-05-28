@@ -100,7 +100,7 @@ typedef union u_rd
 
 typedef struct s_rd_heredoc
 {
-	int				fd[2];
+	int				*fd;
 	char			*lim;
 }	t_rd_heredoc;
 

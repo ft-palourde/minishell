@@ -14,26 +14,14 @@
 
 char	*str_expand(char *str, char **env)
 {
-	//char	*new;
-
 	(void) env;
-	//new = ft_strdup(str);
 	return (str);
-}
-
-int	is_redir(t_token_type type)
-{
-	if (type == T_REDIR_IN || type == T_REDIR_OUT || type == T_APPEND)
-		return (1);
-	return (0);
 }
 
 int	exec_init(t_ms *ms)
 {
-	(void) ms;
-	// get_heredocs_pfd(ms->pfd);
-	//recupere le contenu de tous les heredoc dans des pipes et
-	//range leur pfd dans une list chainee
+	if (get_heredocs_pfd(ms))
+		return (1);
 	return (0);
 }
 
@@ -48,6 +36,6 @@ int	exec_tree(t_tree *root, t_ms *ms)
 	if (root->token->type == T_CMD)
 		exec_cmd(root, ms);
 	if (root->token->type == T_HEREDOC)
-		exec_heredoc(root->token, ms);
+		exec_heredoc(root, ms);
 	return (0);
 }

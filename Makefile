@@ -33,6 +33,7 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
 				exec/exec_cmd\
+				exec/exec_heredoc\
 				exec/exec_pipe\
 				exec/exec_redir\
 				exec/exec_tree\

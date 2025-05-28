@@ -51,7 +51,7 @@ void	clean_fds(int *fd)
 
 void	ms_cleaner(t_ms *ms)
 {
-	free(ms->pid);
+	//free(ms->pid);
 	if (ms->file_in)
 		close(ms->file_in);
 	if (ms->file_out)
