@@ -67,26 +67,22 @@ int	display_sort(char **env)
 char	*check_var(char *var)
 {
 	int		i;
-	char	*tmp;
+	char	*new_var;
 
 	if (!var)
 		return (NULL);
-	tmp = 0;
 	i = 0;
 	while (var[i] && var[i] != '=')
 		i++;
 	if (var[i] != '=')
 	{
-		tmp = var;
-		var = ft_strjoin(var, "=");
-		if (tmp)
-			free(tmp);
-		if (!var)
+		new_var = ft_strjoin(var, "=");
+		if (!new_var)
 			return (perror("malloc"), NULL);
 	}
-	if (!i || !var[i])
+	if (!i || !new_var[i])
 		return (NULL);
-	return (var);
+	return (new_var);
 }
 
 static char	**export(char **env, char *var)
@@ -94,9 +90,10 @@ static char	**export(char **env, char *var)
 	int		env_len;
 	int		i;
 	char	**new_env;
+	char	*new_var;
 
-	var = check_var(var);
-	if (!var)
+	new_var = check_var(var);
+	if (!new_var)
 		return (env);
 	env_len = split_len(env);
 	new_env = ft_calloc(env_len + 2, sizeof(char *));
@@ -110,7 +107,8 @@ static char	**export(char **env, char *var)
 			return (perror ("malloc"), reverse_cascade_free(new_env, i), env);
 		i++;
 	}
-	new_env[i] = ft_strdup(var);
+	new_env[i] = ft_strdup(new_var);
+	free(new_var);
 	if (!new_env[i])
 		return (reverse_cascade_free(new_env, i), perror("malloc"), env);
 	reverse_cascade_free(env, i - 1);
