@@ -53,7 +53,8 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 	if (pipe(pfd) == -1)
 		return (1);
 	dup_handler(node->token, ms);
-	get_redirs(node, ms);
+	node->token->in_fd = ms->file_in;
+	node->token->out_fd = ms->file_out;
 	out = node->token->out_fd;
 	if (ms->file_out)
 		out = ms->file_out;
@@ -66,6 +67,6 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 		free(line);
 		line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	}
-	reset_dup(node->token, ms);
+	reset_dup(node->token->in_fd, node->token->out_fd, ms);
 	return (0);
 }

@@ -115,17 +115,17 @@ int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
 int				exec_heredoc(t_tree *node, t_ms *ms);
+void			exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 
-void			reset_dup(t_token *token, t_ms *ms);
+void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
 int				*add_fd(int fd, t_ms *ms);
-char			*str_expand(char *str, char **env);
-void			get_redirs(t_tree *node, t_ms *ms);
+int				**add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
 

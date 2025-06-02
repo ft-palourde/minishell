@@ -25,8 +25,8 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token->type = type;
 	new_token->str = ft_strdup(str);
 	new_token->next = NULL;
-	new_token->in_fd = 0;
-	new_token->out_fd = 0;
+	new_token->in_fd = STDIN_FILENO;
+	new_token->out_fd = STDOUT_FILENO;
 	return (new_token);
 }
 

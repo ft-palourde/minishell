@@ -17,43 +17,24 @@ void	exec_redir(t_token *token, t_ms *ms)
 {
 	char	*path;
 
-	path = str_expand(token->data->rd->file->filename, ms->env);
+	path = token->data->rd->file->filename;
 	if (!path)
 		return ;
 	if (token->type == T_REDIR_IN)
 		ms->file_in = open(path, O_RDONLY | O_CREAT, 0644);
 	else if (token->type == T_APPEND)
 		ms->file_out = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else
+	else if (token->type == T_REDIR_OUT)
 		ms->file_out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	// else
+	// 	printf("tree builder error, [%s] not a redirect", token->str);
 	if (ms->file_in == -1 || ms->file_out == -1)
+	{
 		perror("open failed");
+		return ;
+	}
 	if (ms->file_in)
 		add_fd(ms->file_in, ms);
 	if (ms->file_out)
 		add_fd(ms->file_out, ms);
 }
-
-void	get_redirs(t_tree *node, t_ms *ms)
-{
-	int	is_out;
-	int	is_in;
-
-	is_out = 0;
-	is_in = 0;
-	if (node->left && is_redir(node->left->token->type))
-	{
-		is_in++;
-		exec_redir(node->left->token, ms);
-	}
-	if (node->right && is_redir(node->right->token->type))
-	{
-		is_out++;
-		exec_redir(node->right->token, ms);
-	}
-	if (is_in)
-		node->token->in_fd = ms->file_in;
-	if (is_out)
-		node->token->out_fd = ms->file_out;
-}
-

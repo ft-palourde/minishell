@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-char	*str_expand(char *str, char **env)
-{
-	(void) env;
-	return (str);
-}
-
 int	exec_init(t_ms *ms)
 {
 	if (get_heredocs_pfd(ms))
@@ -31,6 +25,8 @@ int	exec_tree(t_tree *root, t_ms *ms)
 		return (1);
 	if (root->token->type == T_PIPE)
 		exec_pipe(root, ms);
+	if (is_redir(root->token->type))
+		exec_redir(root->token, ms);
 	exec_tree(root->left, ms);
 	exec_tree(root->right, ms);
 	if (root->token->type == T_CMD)

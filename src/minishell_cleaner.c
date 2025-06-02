@@ -51,10 +51,9 @@ void	clean_fds(int *fd)
 
 void	ms_cleaner(t_ms *ms)
 {
-	//free(ms->pid);
-	if (ms->file_in)
+	if (ms->file_in != STDIN_FILENO)
 		close(ms->file_in);
-	if (ms->file_out)
+	if (ms->file_out != STDOUT_FILENO)
 		close(ms->file_out);
 	if (ms->fd)
 	{

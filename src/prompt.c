@@ -47,7 +47,7 @@ char	*get_prompt(char **env)
 	free(tmp);
 	if (!prompt)
 		return (NULL);
-	tmp = ft_strjoin(prompt, " >\001\033[0m\002");
+	tmp = ft_strjoin(prompt, " > \001\033[0m\002");
 	free(prompt);
 	if (!tmp)
 		return (NULL);

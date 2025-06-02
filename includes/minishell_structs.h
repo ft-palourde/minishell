@@ -170,7 +170,7 @@ typedef struct s_ms
 	t_tree	*tree;
 	char	**env;
 	int		*pid;
-	int		*pfd[2];
+	int		**pfd;
 	int		*fd;
 	int		file_in;
 	int		file_out;

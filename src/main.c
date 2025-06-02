@@ -49,8 +49,8 @@ int	ms_exec(t_ms *ms)
 int	reset_ms_struct(t_ms *ms)
 {
 	ms->exit = 0;
-	ms->file_in = 0;
-	ms->file_out = 0;
+	ms->file_in = STDIN_FILENO;
+	ms->file_out = STDOUT_FILENO;
 	ms->retval = 0;
 	ms->token = 0;
 	ms->tree = 0;
