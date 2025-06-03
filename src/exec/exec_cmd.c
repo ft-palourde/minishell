@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 12:38:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:31:32 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 {
 	char	**paths;
 	t_cmd	*cmd;
-	int		i;
 
-	i = 0;
 	cmd = node->token->data->cmd;
 	if (!is_builtin(node->token))
 	{
@@ -156,7 +154,8 @@ void	dup_handler(t_token *token, t_ms *ms)
 
 void	reset_dup(int in_fd, int out_fd, t_ms *ms)
 {
-	if (ms->file_in == STDIN_FILENO && ms->file_out == STDOUT_FILENO)
+	if (ms->file_in == STDIN_FILENO && ms->file_out == STDOUT_FILENO \
+		&& in_fd == STDIN_FILENO && out_fd == STDOUT_FILENO)
 		return ;
 	dup2(ms->ms_stdin, STDIN_FILENO);
 	dup2(ms->ms_stdout, STDOUT_FILENO);
@@ -198,10 +197,8 @@ int	exec_child(t_token *token, t_ms *ms)
 	t_cmd	*cmd;
 
 	cmd = token->data->cmd;
-	printf("in [%s] before dup handler \n\n", token->str);
 	dup_handler(token, ms);
 	close_fds(ms);
-	printf("in [%s] before exec \n\n", token->str);
 	execve(cmd->path, cmd->args, ms->env);
 	ms->retval = 127;
 	return (127);
@@ -259,7 +256,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 {
 	int	pid;
 
-	if (init_cmd(node, ms))
+	if (init_cmd(node, ms) || ms->open_failed)
 		return ;
 	if (is_builtin(node->token))
 		exec_builtin(node->token, ms);

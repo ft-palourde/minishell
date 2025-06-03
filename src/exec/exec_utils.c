@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 14:27:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:10:58 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	close_fds(t_ms *ms)
 		close(ms->file_in);
 	if (ms->file_out != STDOUT_FILENO)
 		close(ms->file_out);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
 }
 
 int	is_absolute(char *str)

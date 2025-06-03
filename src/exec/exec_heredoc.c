@@ -58,6 +58,7 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 	out = node->token->out_fd;
 	if (ms->file_out)
 		out = ms->file_out;
+	(void) out;
 	line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	if (!line)
 		return (1);
