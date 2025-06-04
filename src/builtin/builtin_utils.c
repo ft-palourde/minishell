@@ -6,9 +6,10 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 11:53:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:46:27 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -48,6 +49,11 @@ char	*get_var_name(char *var)
 	return (name);
 }
 
+
+
+/* 
+return the var part after "=" sign
+*/
 char	*get_var_name(char *var)
 {
 	int		i;
