@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 11:53:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:37:57 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	is_builtin(t_token *token)
 	return (token->data->cmd->is_builtin);
 }
 
+/* 
+return the var part after "=" sign
+*/
 char	*get_var_value(char *var)
 {
 	int		i;
