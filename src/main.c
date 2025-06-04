@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/03 16:25:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/04 20:25:37 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
+	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
@@ -60,13 +61,36 @@ int	reset_ms_struct(t_ms *ms)
 	return (0);
 }
 
+void	display_art(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("./ms_ascii.txt", O_RDONLY);
+	if (fd == -1)
+		return ;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line)
+		{
+			printf("%s", line);
+			free(line);
+		}
+		else
+			break ;
+	}
+	close(fd);
+	return ;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*prompt;
 	t_ms	*ms;
 
-	(void)ac;
-	(void)av;
+	if (ac > 1 && !strncmp("-h", av[1], 2))
+		display_art();
 	prompt = get_prompt(env);
 	ms = init_ms_struct(env);
 	if (!ms)

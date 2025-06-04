@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/27 12:37:30 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:35:09 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	debug_print_tree(t_tree *root, int i)
 		dprintf(2, "left = %s\n", root->left->token->str);
 		debug_print_tree(root->left, i + 1);
 	}
-	if (root->left)
+	if (root->right)
 	{
 		dprintf(2, "right = %s\n", root->right->token->str);
 		debug_print_tree(root->right, i + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 12:32:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:55:30 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	fill_tree(t_tree *node, t_token *list)
 	t_tree		*prev_node;
 
 	if (!check_outfile(list, node))
-				list = list->next;
+		list = list->next;
 	if (list)
 		list = list->next;
 	while (list)
@@ -55,7 +55,7 @@ int	fill_tree(t_tree *node, t_token *list)
 		prev_node = node;
 		node = get_new_node(list);
 		if (!check_outfile(list, node))
-				list = list->next;
+			list = list->next;
 		if (prev_node->token->type != T_PIPE)
 			new_branch(1, node, prev_node);
 		else if (!prev_node->right)
