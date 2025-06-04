@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 19:08:03 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:53:04 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,23 @@ char	*get_var_name(char *var)
 	return (name);
 }
 
+char	*get_var_name(char *var)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (var[i] != '=')
+		i++;
+	name = ft_strndup(var, i);
+	if (!name)
+		return (perror("malloc"), NULL);
+	return (name);
+}
+
+/* 
+return the var part after "=" sign
+*/
 char	*get_var_value(char *var)
 {
 	int		i;

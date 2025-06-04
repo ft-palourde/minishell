@@ -1,27 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 17:03:24 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/27 19:24:59 by rcochran         ###   ########.fr       */
+/*   Created: 2025/06/02 09:49:16 by rcochran          #+#    #+#             */
+/*   Updated: 2025/06/04 10:22:45 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	expand_token(t_token *token);
+char	*expand_variable(char *str);
+char	*get_env_value(char var_name);
+char	*expand_path(char *arg);
+/* 
+#include "minishell.h"
+
 void	expand(t_token *token);
 void	expand_variable(char *str);
 char	*get_env_value(char var_name);
-char	*expand_globbing(char *arg);
+char	*expand_path(char *arg);
+ */
 
-void	expand(t_token *token)
+/*
+différents cas d'expand :  
+- path
+- variables
+*/
+
+
+// entre simple quotes trim quotes et c'est tout
+// entre double quotes trim quotes et expand
+
+void	expand_token(t_token *token)
 {
 	int		i;
 	char	**args;
 
+
+	//expand filename sur token rd
+	// ne pas expand * si c'est échappé par quotes
 	i = 0;
 	if (!token || (token->type != T_CMD && token->type != T_WORD))
 		return ;
@@ -30,12 +51,13 @@ void	expand(t_token *token)
 		args = token->data->cmd->args;
 		while (args[i])
 		{
-			expand_variable(args[i]);
 			if (args[i][0] == '\0')
 				i++;
-			if (ft_strchr(args[i], '*') || ft_strchr(args[i], '?')
-				|| ft_strchr(args[i], '['))
-				expand_globbing(args[i]);
+			expand_variable(args[i]);
+			// if (ft_strchr(args[i], '*') || ft_strchr(args[i], './'))
+			// expand_path(args[i]);
+			if (ft_strchr(args[i], '*'))
+				expand_globbing();
 			i++;
 		}
 	}
@@ -45,7 +67,7 @@ void	expand(t_token *token)
 epand_variable()
 expands environment variables in the given string.
 */
-void	expand_variable(char *str)
+char	*expand_variable(char *str)
 {
 	char	*expanded_str;
 	char	*var_value;
@@ -71,7 +93,7 @@ void	expand_variable(char *str)
 	return (expanded_str);
 }
 /* 
-expand_globbing()
+expand_path()
 expands globbing patterns in the given string.
 */
 

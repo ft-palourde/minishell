@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
 /*   Updated: 2025/06/09 18:08:29 by tcoeffet         ###   ########.fr       */
@@ -100,11 +100,13 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->token = parse(readline(prompt));
+		ms->token = expand(parse(readline(prompt)));
 		if (ms->token)
 		{
-			ms_exec(ms);
-			ms_cleaner(ms);
+			debug_display_token_args(ms->token);
+
+			// ms_exec(ms);
+			// ms_cleaner(ms);
 		}
 	}
 	ms_full_clean(ms, prompt);

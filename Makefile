@@ -38,6 +38,10 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_redir\
 				exec/exec_tree\
 				exec/exec_utils\
+				expand/expand_token \
+				expand/expand_utils \
+				expand/path \
+				expand/variable \
 				lexing/backslash \
 				lexing/lexer_utils \
 				lexing/lexer \
@@ -102,5 +106,7 @@ $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)/lexing
 	mkdir -p $(OBJ_DIR)/parsing
 	mkdir -p $(OBJ_DIR)/exec
+	mkdir -p $(OBJ_DIR)/expand
+
 
 debug : all
