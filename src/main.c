@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 20:25:37 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:31:35 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	display_art(void)
 	int		fd;
 	char	*line;
 
-	fd = open("./src/ms_ascii.txt", O_RDONLY);
+	fd = open("./src/ms_ascii", O_RDONLY);
 	if (fd == -1)
 		return ;
 	while (1)
@@ -110,6 +110,7 @@ int	main(int ac, char **av, char **env)
 	ms_full_clean(ms, prompt);
 	return (0);
 }
+
 // DEBUG TOKENS
 
 /* int	main(int ac, char **av, char **env)

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/04 11:56:11 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:38:15 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	sort_token(t_ms *ms)
 	t_token	*cursor;
 
 	cursor = ms->token;
-	while (cursor->next)
+	while (cursor && cursor->next)
 	{
 		if (cursor && needs_sort(cursor))
 		{
