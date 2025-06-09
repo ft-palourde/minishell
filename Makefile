@@ -58,6 +58,7 @@ FILES		= 	builtin/builtin_cd\
 				minishell_cleaner \
 				prompt \
 				set_env \
+				sort_tokens \
 				tree_builder \
 				tree_builder_utils
 

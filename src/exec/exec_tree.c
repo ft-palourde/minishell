@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*
 int	token_is_operator(t_token *token)
 {
 	t_token_type	type;
@@ -68,28 +69,23 @@ void	replace_redir(t_token *token)
 	cmd->next = found;
 }
 
-void	print_token_list(t_token *token)
-{
-	while (token)
-	{
-		printf("[%d]%s\n", token->type, token->str);
-		token = token->next;
-	}
-}
+
 
 void	sort_token(t_ms *ms)
 {
 	t_token	*cursor;
 
 	cursor = ms->token;
+	printf("///////////// BEFORE ////////////\n");
+	print_token_list(ms->token);
 	while (cursor && cursor->next)
 	{
 		if (cursor && needs_sort(cursor))
 		{
-			while (cursor->next && cursor->next->type != T_CMD)
-				if (is_redir(cursor->next->type))
+			if (cursor->next && cursor->next->type != T_CMD)
+				if (is_redir(cursor->type))
 					replace_redir(cursor);
-			if (cursor->next && token_is_operator(cursor))
+			if (token_is_operator(cursor))
 				break ;
 			cursor = cursor->next;
 		}
@@ -97,13 +93,21 @@ void	sort_token(t_ms *ms)
 			while (cursor->next && !token_is_operator(cursor))
 				cursor = cursor->next;
 		cursor = cursor->next;
+		if (cursor)
+		{
+		printf("//// {%s} ////\n", cursor->str);
+		print_token_list(ms->token);
+		}
 	}
+	printf("////////////// AFTER ////////////\n");
 	print_token_list(ms->token);
-}
+} */
+
+
 
 int	exec_init(t_ms *ms)
 {
-	sort_token(ms);
+	sort_tokens(ms);
 	if (!ms->token)
 		return (1);
 	if (get_heredocs_pfd(ms))

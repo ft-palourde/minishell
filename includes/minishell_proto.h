@@ -108,6 +108,10 @@ t_tree			*get_root(t_tree *node);
 t_tree			*get_new_node(t_token *token);
 void			debug_print_tree(t_tree *root, int i);
 
+//////// SORT TOKENS /////////
+
+void			sort_tokens(t_ms *ms);
+
 //////// EXEC /////////
 
 void			exec_cmd(t_tree *node, t_ms *ms);
