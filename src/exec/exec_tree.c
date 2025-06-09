@@ -6,104 +6,11 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/06 18:38:15 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:08:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-int	token_is_operator(t_token *token)
-{
-	t_token_type	type;
-
-	type = token->type;
-	if (type == T_OR_IF || type == T_AND_IF || type == T_PIPE)
-		return (1);
-	return (0);
-}
-
-int	needs_sort(t_token *token)
-{
-	t_token	*cursor;
-	int		cmd;
-	int		redir;
-
-	cmd = 0;
-	redir = 0;
-	cursor = token;
-	while (cursor && !token_is_operator(cursor))
-	{
-		if (cursor->type == T_CMD)
-			cmd ++;
-		if (is_redir(cursor->type) && !cmd)
-			redir++;
-		cursor = cursor->next;
-	}
-	if (redir && cmd)
-		return (1);
-	return (0);
-}
-
-t_token	*get_next_cmd(t_token *token)
-{
-	t_token	*cursor;
-
-	cursor = token;
-	while (cursor && cursor->type != T_CMD)
-		cursor = cursor->next;
-	return (cursor);
-}
-
-void	replace_redir(t_token *token)
-{
-	t_token	*found;
-	t_token	*cmd;
-	t_token	*cursor;
-
-	cursor = token;
-	found = cursor->next;
-	cursor->next = found->next;
-	cmd = get_next_cmd(found);
-	found->next = cmd->next;
-	cmd->next = found;
-}
-
-
-
-void	sort_token(t_ms *ms)
-{
-	t_token	*cursor;
-
-	cursor = ms->token;
-	printf("///////////// BEFORE ////////////\n");
-	print_token_list(ms->token);
-	while (cursor && cursor->next)
-	{
-		if (cursor && needs_sort(cursor))
-		{
-			if (cursor->next && cursor->next->type != T_CMD)
-				if (is_redir(cursor->type))
-					replace_redir(cursor);
-			if (token_is_operator(cursor))
-				break ;
-			cursor = cursor->next;
-		}
-		else
-			while (cursor->next && !token_is_operator(cursor))
-				cursor = cursor->next;
-		cursor = cursor->next;
-		if (cursor)
-		{
-		printf("//// {%s} ////\n", cursor->str);
-		print_token_list(ms->token);
-		}
-	}
-	printf("////////////// AFTER ////////////\n");
-	print_token_list(ms->token);
-} */
-
-
 
 int	exec_init(t_ms *ms)
 {

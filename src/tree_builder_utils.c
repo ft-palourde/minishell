@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 12:35:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:39:15 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	debug_print_tree(t_tree *root, int i)
 		space++;
 		dprintf(2, "- ");
 	}
-	dprintf(2, "[%d]current node = %s\n", i, root->token->str);
+	dprintf(2, "[%d]current node = %s", i, root->token->str);
+	if (is_redir(root->token->type))
+		dprintf(2, " %s", root->token->data->rd->file->filename);
+	dprintf(2, "\n");
 	if (root->left)
 	{
 		dprintf(2, "left = %s\n", root->left->token->str);
