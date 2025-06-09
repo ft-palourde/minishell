@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:52:33 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*check_var(char *var)
 	int		i;
 	char	*new_var;
 
+	new_var = 0;
 	if (!var)
 		return (NULL);
 	i = 0;
@@ -80,7 +81,9 @@ char	*check_var(char *var)
 		if (!new_var)
 			return (perror("malloc"), NULL);
 	}
-	if (!i || !new_var[i])
+	else
+		new_var = ft_strdup(var);
+	if (!i || (new_var && !new_var[i]))
 		return (NULL);
 	return (new_var);
 }
@@ -116,7 +119,9 @@ static char	**export(char **env, char *var)
 
 int	bi_export(char ***env, char **arg)
 {
-	int	i;
+	int		i;
+	int		is_var;
+	char	*to_unset;
 
 	i = 0;
 	if (!arg || !arg[0])
@@ -126,8 +131,16 @@ int	bi_export(char ***env, char **arg)
 	}
 	while (arg[i])
 	{
-		unset(*env, arg[i]);
-		*env = export(*env, arg[i]);
+		is_var = 0;
+		is_var = var_exists(*env, arg[i]);
+		if (is_var)
+		{
+			to_unset = get_var_name(arg[i]);
+			unset(*env, to_unset);
+			free(to_unset);
+		}
+		if (!is_var || (is_var && !var_is_empty(arg[i])))
+			*env = export(*env, arg[i]);
 		i++;
 	}
 	return (0);

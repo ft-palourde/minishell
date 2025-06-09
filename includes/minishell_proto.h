@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 13:31:49 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:51:33 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int				unset(char **env, char *var);
 
 char			*get_var_value(char *var);
 char			*get_var_name(char *var);
+int				var_exists(char **env, char *var);
+int				var_is_empty(char *var);
 
 int				split_len(char **split);
 

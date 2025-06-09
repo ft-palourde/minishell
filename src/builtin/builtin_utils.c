@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 11:53:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:51:41 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,52 @@ int	split_len(char **split)
 	while (split[i])
 		i++;
 	return (i);
+}
+
+int	var_exists(char **env, char *var)
+{
+	char	*name;
+	int		i;
+	int		len;
+
+	i = 0;
+	name = get_var_name(var);
+	if (!name)
+		return (-1);
+	len = ft_strlen(name);
+	while (env[i])
+	{
+		if (strncmp(env[i], name, len))
+			i++;
+		else
+			return (free(name), 1);
+	}
+	free(name);
+	return (0);
+}
+
+int	var_is_empty(char *var)
+{
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	j = 1;
+	while (var[i] != '=')
+		i++;
+	i++;
+	if (!var[i])
+		return (1);
+	if (var[i] == '\'' || var[i] == '\"')
+	{
+		quote = var[i];
+		while (var[i + j] && var[i + j] != quote)
+			j++;
+		if (!var[i + j])
+			return (0);
+		if (j == 1)
+			return (1);
+	}
+	return (0);
 }
