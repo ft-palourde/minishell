@@ -26,7 +26,7 @@ void	expand_cmd_args(char **args, char **env)
 
 	i = 0;
 	j = 0;
-	while (arg[i])
+	while (args[i])
 	{
 		while ()
 		i++;
