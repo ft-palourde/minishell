@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 18:51:33 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:01:57 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char			*get_var_value(char *var);
 char			*get_var_name(char *var);
 int				var_exists(char **env, char *var);
 int				var_is_empty(char *var);
+int 			is_var(char *var);
 
 int				split_len(char **split);
 
@@ -130,8 +131,8 @@ void			dup_handler(t_token *token, t_ms *ms);
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
-int				*add_fd(int fd, t_ms *ms);
-int				**add_pfd(int *pfd, t_ms *ms);
+int				add_fd(int fd, t_ms *ms);
+int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
 

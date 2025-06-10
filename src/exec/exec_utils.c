@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/03 12:10:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:03:18 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_redir(t_token_type type)
 	return (0);
 }
 
-int	**add_pfd(int *pfd, t_ms *ms)
+int	add_pfd(int *pfd, t_ms *ms)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int	**add_pfd(int *pfd, t_ms *ms)
 	{
 		ms->pfd = ft_calloc(2, sizeof(int *));
 		if (!ms->pfd)
-			return (perror("malloc"), NULL);
+			return (perror("malloc"), 0);
 		ms->pfd[0] = pfd;
 		return (0);
 	}
@@ -36,13 +36,13 @@ int	**add_pfd(int *pfd, t_ms *ms)
 		i++;
 	ms->pfd = ft_realloc(ms->pfd, (i + 1) * sizeof(int *));
 	if (!ms->pfd)
-		return (perror("malloc"), NULL);
+		return (perror("malloc"), 0);
 	ms->pfd[i] = pfd;
 	ms->pfd[i + 1] = 0;
-	return (ms->pfd);
+	return (0);
 }
 
-int	*add_fd(int fd, t_ms *ms)
+int	add_fd(int fd, t_ms *ms)
 {
 	int	i;
 
@@ -51,7 +51,7 @@ int	*add_fd(int fd, t_ms *ms)
 	{
 		ms->fd = ft_calloc(2, sizeof(int));
 		if (!ms->fd)
-			return (perror("malloc"), NULL);
+			return (perror("malloc"), 0);
 		ms->fd[0] = fd;
 		return (0);
 	}
@@ -59,10 +59,10 @@ int	*add_fd(int fd, t_ms *ms)
 		i++;
 	ms->fd = ft_realloc(ms->fd, (i + 1) * sizeof(int));
 	if (!ms->fd)
-		return (perror("malloc"), NULL);
+		return (perror("malloc"), 0);
 	ms->fd[i] = fd;
 	ms->fd[i + 1] = 0;
-	return (ms->fd);
+	return (0);
 }
 
 void	close_fds(t_ms *ms)

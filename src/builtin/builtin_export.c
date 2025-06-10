@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 18:52:33 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:19:11 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ static char	**export(char **env, char *var)
 int	bi_export(char ***env, char **arg)
 {
 	int		i;
-	int		is_var;
 	char	*to_unset;
 
 	i = 0;
@@ -131,16 +130,15 @@ int	bi_export(char ***env, char **arg)
 	}
 	while (arg[i])
 	{
-		is_var = 0;
-		is_var = var_exists(*env, arg[i]);
-		if (is_var)
+		if (is_var(arg[i]))
 		{
 			to_unset = get_var_name(arg[i]);
 			unset(*env, to_unset);
 			free(to_unset);
 		}
-		if (!is_var || (is_var && !var_is_empty(arg[i])))
-			*env = export(*env, arg[i]);
+		else
+			unset(*env, arg[i]);
+		*env = export(*env, arg[i]);
 		i++;
 	}
 	return (0);

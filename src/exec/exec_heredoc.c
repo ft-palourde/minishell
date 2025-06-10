@@ -64,7 +64,7 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
-	if (node->parent->token->type == T_CMD)
+	if (node->parent && node->parent->token->type == T_CMD)
 		if (pipe_heredoc(node, ms))
 			return (1);
 	dup_handler(node->token, ms);

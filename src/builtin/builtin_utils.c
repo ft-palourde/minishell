@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 18:51:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:08:03 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,31 @@ int	var_is_empty(char *var)
 		if (j == 1)
 			return (1);
 	}
+	return (0);
+}
+
+int is_var(char *var)
+{
+	int	has_name;
+	int	has_sign;
+	int	i;
+
+	i = 1;
+	has_sign = 0;
+	has_name = 0;
+	if (!var[0])
+		return (0);
+	while (var[i] && is_space(var[i]))
+		i++;
+	while (var[i])
+	{
+		if (var[i] == '=')
+			has_sign = 1;
+		else
+			has_name = 1;
+		i++;
+	}
+	if (has_name && has_sign)
+		return (1);
 	return (0);
 }

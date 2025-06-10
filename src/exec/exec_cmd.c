@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/03 16:31:32 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:45:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 	parent
 		penser a remettre les file_in et file_out a 0
-	*/
+*/
 
 void	clear_cmd(t_token *token)
 {
