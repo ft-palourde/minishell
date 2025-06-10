@@ -75,9 +75,10 @@ int				is_closed(char *str, char c);
 
 /* EXPAND */
 
-void	expand_token_list(t_token *tokens, t_ms *ms);
-void			expand_token(t_token *token);
-// int				expand_globbing(void);
+void			expand_token(t_token *token, t_ms *ms);
+int				expand_wildcard(void);
+char			*str_expand(char *str, char **env);
+
 // void			expand_variable(char *str);
 
 ///////// BUILT-INS /////////

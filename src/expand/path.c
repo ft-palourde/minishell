@@ -13,14 +13,14 @@
 #include "minishell.h"
 
 /* 
-expand_globbing()
+expand_wildcard()
 expands globbing patterns in the given string.
 seul la wildcard * est à gérer
 les chemins relatifs ne sont pas à convertir en absolu
 */
-int	expand_globbing(void);
+int	expand_wildcard(void);
 
-int	expand_globbing(void)
+int	expand_wildcard(void)
 {
 	return (1);
 }

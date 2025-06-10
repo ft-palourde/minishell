@@ -35,24 +35,8 @@ int	is_builtin(t_token *token)
 	return (token->data->cmd->is_builtin);
 }
 
-char	*get_var_name(char *var)
-{
-	int		i;
-	char	*name;
-
-	i = 0;
-	while (var[i] != '=')
-		i++;
-	name = ft_strndup(var, i);
-	if (!name)
-		return (perror("malloc"), NULL);
-	return (name);
-}
-
-
-
 /* 
-return the var part after "=" sign
+return the var part before "=" sign
 */
 char	*get_var_name(char *var)
 {
@@ -71,7 +55,7 @@ char	*get_var_name(char *var)
 /* 
 return the var part after "=" sign
 */
-char	*get_var_value(char *var)//TODO : check pourquoi on met pas l'env dans les args
+char	*get_var_value(char *var)
 {
 	int		i;
 	char	*value;

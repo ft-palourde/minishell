@@ -12,10 +12,28 @@
 
 #include "minishell.h"
 
-void	expand_token(t_token *token);
-char	*expand_variable(char *str);
-char	*get_env_value(char var_name);
-char	*expand_path(char *arg);
+void	expand_token(t_token *token, t_ms *ms);
+// char	*expand_variable(char *str);
+// char	*get_env_value(char var_name);
+// char	*expand_path(char *arg);
+
+void	expand_cmd_args(t_token *token, t_ms *ms);
+
+void	expand_cmd_args(char **args, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (arg[i])
+	{
+		while ()
+		i++;
+	}
+}
+
+
 /* 
 
 void	expand(t_token *token);
@@ -31,26 +49,16 @@ différents cas d'expand :
 */
 
 
-void	expand_token_list(t_token *tokens, t_ms *ms)
-{
-	t_token	*current;
-
-	current = tokens;
-	while (current)
-	{
-		expand_token(current, ms->env);
-		current = current->next;
-	}
-}
 // entre simple quotes trim quotes et c'est tout
 // entre double quotes trim quotes et expand
 
-void	expand_token(t_token *token, char **env)
+void	expand_token(t_token *token, t_ms *ms)
 {
 	int		i;
 	char	**args;
+	char	**env;
 
-
+	env = ms->env;
 	//expand filename sur token rd
 	// ne pas expand * si c'est échappé par quotes
 	i = 0;
@@ -144,20 +152,4 @@ différents cas d'expand :
 } */
 
 // faire une fonction char	*get_var() qui reprend la logique gethome pour toute variable
-
-
-
-/* while (env[i])
-	{
-		name = get_var_name(env[i]);
-		if (!name)
-			return (1);
-		value = get_var_value(env[i]);
-		if (!value)
-			return (free(name), 1);
-		printf("export %s=\"%s\"\n", name, value);
-		free(name);
-		free(value);
-		i++;
-	} */
 
