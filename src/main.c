@@ -99,7 +99,8 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->token = expand(parse(readline(prompt)));
+		ms->token = parse(readline(prompt));
+		expand_token_list(ms->token, ms);
 		if (ms->token)
 		{
 			debug_display_token_args(ms->token);

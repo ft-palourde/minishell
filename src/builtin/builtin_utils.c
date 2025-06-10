@@ -71,7 +71,7 @@ char	*get_var_name(char *var)
 /* 
 return the var part after "=" sign
 */
-char	*get_var_value(char *var)
+char	*get_var_value(char *var)//TODO : check pourquoi on met pas l'env dans les args
 {
 	int		i;
 	char	*value;

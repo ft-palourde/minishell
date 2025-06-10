@@ -6,9 +6,11 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:14:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 10:14:57 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:09:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 /* char	*get_home(char **env)
 {

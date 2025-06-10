@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 13:31:49 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:21:51 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ int				is_closed(char *str, char c);
 
 /* EXPAND */
 
+void	expand_token_list(t_token *tokens, t_ms *ms);
 void			expand_token(t_token *token);
-int				expand_globbing(void);
-void			expand_variable(char *str);
+// int				expand_globbing(void);
+// void			expand_variable(char *str);
 
 ///////// BUILT-INS /////////
 
