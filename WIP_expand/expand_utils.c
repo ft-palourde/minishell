@@ -12,7 +12,7 @@
 
 #include "expand_test.h"
 
-char	*get_next_chunk();
+char	*get_next_chunk(char *str);
 char	*trim_quotes(char *str);
 int	check_quote_type(char c);
 /* char	*get_home(char **env)
@@ -176,7 +176,7 @@ char	*str_expand(char *str, char **env)
 
 	new = ft_strdup("");
 	//while str[i]
-		chunk = get_next_chunk(str, i, env); //recupere le prochain chunk quote ou pas
+		chunk = get_next_chunk(str + i); //recupere le prochain chunk quote ou pas
 		i += ft_strlen(chunk);
 		chunk = expand_chunk(chunk, env); //ressort le chunk trimed de ses quotes et avec ses variables remplacees par leur valeur
 		tmp = new;
@@ -188,14 +188,30 @@ char	*str_expand(char *str, char **env)
 		return (new);
 }
 
-char	*get_next_chunk(char *str, int len)
+char	*get_next_chunk(char *str)
 {
 	//si quote : return toute 
 	int 	i;
 	char	*chunk;
+	int	isquote;
 
-	
-	return (NULL);
+	isquote == (str[0] == '\'' || str[0] == '\"');
+	if (isquote)
+		i = is_closed(str, str[0]);
+	else
+	{
+		while (str[i])
+		{
+			if (str[i] == '\'' || str[0] == '\"' && !is_escaped(str, i))
+			{
+				i--;
+				break ;
+			}
+			i++;
+		}
+		chunk = ft_strndup(str, i);
+	}
+	return (chunk);
 }
 
 /* 
