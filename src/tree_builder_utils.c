@@ -37,30 +37,47 @@ t_tree	*get_new_node(t_token *token)
 	return (new);
 }
 
+void	print_spaces(int i)
+{
+	int	j;
+
+	j = 0;
+	while (j < i * 2)
+	{
+		dprintf(2, " |");
+		j++;
+	}
+}
+
 void	debug_print_tree(t_tree *root, int i)
 {
-	int	space;
-
-	space = 0;
 	if (!i)
 		dprintf(2, "\n______________\n\n DEBUG \n\n\n");
-	while (space < i * 2)
-	{
-		space++;
-		dprintf(2, "- ");
-	}
+	print_spaces(i);
 	dprintf(2, "[%d]current node = %s", i, root->token->str);
 	if (is_redir(root->token->type))
 		dprintf(2, " %s", root->token->data->rd->file->filename);
 	dprintf(2, "\n");
 	if (root->left)
 	{
+		print_spaces(i);
 		dprintf(2, "left = %s\n", root->left->token->str);
 		debug_print_tree(root->left, i + 1);
 	}
+	else
+	{
+		print_spaces(i);
+		dprintf(2, "left = [X]\n");
+	}
 	if (root->right)
 	{
+		print_spaces(i);
 		dprintf(2, "right = %s\n", root->right->token->str);
 		debug_print_tree(root->right, i + 1);
+	}
+	else
+	{
+		print_spaces(i);
+		dprintf(2, "right = [X]\n");
 	}
 }
