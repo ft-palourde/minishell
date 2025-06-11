@@ -2,12 +2,13 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *str;
 	char	*exp;
+	char	*str = "abc\"$TOTO\"'$TOTO'$TOTO\"$TOTO\"";
 
-	str = "toto$TOTO$TOTO";
+	(void) argv;
 	(void) argc;
-	exp = expand_chunk(argv[1], envp);
+	exp = str_expand(str, envp);
 	printf("%s\n", exp);
+	free(exp);
 	return (0);
 }

@@ -17,9 +17,9 @@ char	*var_expand(char *str, char **env);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(const char *s, int n);
 char	*str_expand(char *str, char **env);
-void	add_var_to_new(char *var, char **new, char *str, char **env);
+void	add_var_to_new(char **new, char *str, char **env);
 char	*expand_chunk(char *str, char **env);
-int	is_closed(char *str, char c);
+int	expand_is_closed(char *str, char c);
 int	is_escaped(char *input, int index);
 int	is_backslash(char c);
 

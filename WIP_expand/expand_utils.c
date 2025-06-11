@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:14:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 12:09:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:02:57 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*var_name_to_value(char *name, char **env)
 
 char	*var_expand(char *str, char **env)
 {
-	char	*expanded_str;
+	//char	*expanded_str;
 	char	*var_value;
 	char	*var_name;
 	int		i;
@@ -105,51 +105,44 @@ char	*var_expand(char *str, char **env)
 		return (NULL);
 	var_value = var_name_to_value(var_name, env);
 	free(var_name);
-	if (!var_value)
-		return (ft_strdup(""));
-	expanded_str = ft_strjoin(var_value, str + i);
-	free(var_value);
-	return (expanded_str);
+	return (var_value);
 }
-
-
-
-
 
 char	*expand_chunk(char *str, char **env)
 {
 	char	*new;
-	char	*var;
-	char	*tmp;
 	int		quote_type;
 	int		i;
 
+	i = 0;
 	quote_type = check_quote_type(str[0]);
 	if (quote_type == 1)
-		return (ft_strndup(str + 1, ft_strlen(str - 2)));
+		return (ft_strndup(str + 1, ft_strlen(str) - 2));
 	new = ft_strdup("");
+	while (str[i] && str[i] != '$')
+		i++;
+	if (i - quote_type / 2)
+	{
+		free(new);
+		new = ft_strndup(str + quote_type / 2, i - quote_type / 2);
+	}
 	while (str[i])
 	{
-		while (str[i] && str[i] != '$')
-			i++;
-		if (i - quote_type / 2)
-		{
-			new = ft_strndup(str + quote_type / 2, i - quote_type / 2);
-			i++;
-		}
 		if (str[i] == '$')
 		{
-			add_var_to_new(var, &new, str + i, env);
+			add_var_to_new(&new, str + i, env);
+			i++;
 		}
 		while (str[i] && str[i] != '$')
-				i++;
+			i++;
 	}
 	return (new);
 }
 
-void	add_var_to_new(char *var, char **new, char *str, char **env)
+void	add_var_to_new(char **new, char *str, char **env)
 {
 	char	*tmp;
+	char	*var;
 
 	var = var_expand(str, env);
 	tmp = *new;
@@ -160,6 +153,8 @@ void	add_var_to_new(char *var, char **new, char *str, char **env)
 
 int	check_quote_type(char c)
 {
+	if (!c)
+		return (0);
 	if (c == '\'')
 		return (1);
 	if (c == '\"')
@@ -170,78 +165,78 @@ int	check_quote_type(char c)
 char	*str_expand(char *str, char **env)
 {
 	char	*new;
-	char 	*tmp;
+	char	*tmp;
 	char	*chunk;
 	int		i;
 
+	i = 0;
 	new = ft_strdup("");
-	//while str[i]
+	while (str && str[i])
+	{
 		chunk = get_next_chunk(str + i); //recupere le prochain chunk quote ou pas
 		i += ft_strlen(chunk);
+		tmp = chunk;
 		chunk = expand_chunk(chunk, env); //ressort le chunk trimed de ses quotes et avec ses variables remplacees par leur valeur
+		free(tmp);
 		tmp = new;
 		new = ft_strjoin(new, chunk);
 		free(tmp);
 		free(chunk);
 		if (!new)
 			return (NULL);
-		return (new);
+	}
+	return (new);
 }
 
 char	*get_next_chunk(char *str)
 {
-	//si quote : return toute 
-	int 	i;
+	int		i;
 	char	*chunk;
-	int	isquote;
 
-	isquote == (str[0] == '\'' || str[0] == '\"');
-	if (isquote)
-		i = is_closed(str, str[0]);
+	i = 0;
+	if (str[0] == '\'' || str[0] == '\"')
+		i = expand_is_closed(str, str[0]) + 1;
 	else
 	{
 		while (str[i])
 		{
-			if (str[i] == '\'' || str[0] == '\"' && !is_escaped(str, i))
-			{
-				i--;
+			if ((str[i] == '\'' || str[i] == '\"') && !is_escaped(str, i))
 				break ;
-			}
 			i++;
 		}
-		chunk = ft_strndup(str, i);
 	}
+	chunk = ft_strndup(str, i);
 	return (chunk);
 }
 
 /* 
 return the length of current word
 */
-int	extract_word_len(const char *input)
-{
-	int	i;
-	int	quote_len;
+// int	extract_word_len(const char *input)
+// {
+// 	int	i;
+// 	int	quote_len;
 
-	i = 0;
-	quote_len = 0;
-	while (input[i] && !is_space(input[i]) && !is_operator(*(input + i)))
-	{
-		quote_len = is_closed((char *)input + i, input[i]);
-		if ((input[i] == '"' || input[i] == '\'') && quote_len)
-		{
-			i += quote_len + 1;
-		}
-		else
-			i++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	quote_len = 0;
+// 	while (input[i] && !is_space(input[i]) && !is_operator(*(input + i)))
+// 	{
+// 		quote_len = is_closed((char *)input + i, input[i]);
+// 		if ((input[i] == '"' || input[i] == '\'') && quote_len)
+// 		{
+// 			i += quote_len + 1;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (i);
+// }
 
 /*
 checks if the quote, double quote or parenthesis has a closing occurence
 returns the number of char read if found, 0 otherwise
 */
-int	is_closed(char *str, char c)
+int	expand_is_closed(char *str, char c)
 {
 	int		i;
 
@@ -250,7 +245,7 @@ int	is_closed(char *str, char c)
 		c = ')';
 	while (str[i] != c && str[i])
 		i++;
-	if (str[i] && is_escaped(str, i))
+	if (str[i] && !is_escaped(str, i))
 		return (i);
 	return (0);
 }
