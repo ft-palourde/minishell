@@ -66,3 +66,21 @@ char	*str_expand(char *str, char **env)
 	free(var_value);
 	return (expanded_str);
 }
+
+/*
+checks if the quote, double quote or parenthesis has a closing occurence
+returns the number of char read if found, 0 otherwise
+*/
+int	is_closed(char *str, char c)
+{
+	int		i;
+
+	i = 1;
+	if (c == '(')
+		c = ')';
+	while (str[i] != c && str[i])
+		i++;
+	if (str[i] && is_escaped(str, i))
+		return (i);
+	return (0);
+}

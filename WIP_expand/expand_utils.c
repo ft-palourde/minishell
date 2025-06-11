@@ -12,6 +12,9 @@
 
 #include "expand_test.h"
 
+char	*get_next_chunk();
+char	*trim_quotes(char *str);
+int	check_quote_type(char c);
 /* char	*get_home(char **env)
 {
 	char	*home;
@@ -27,6 +30,11 @@
 		return (perror("malloc"), NULL);
 	return (home);
 } */
+
+
+
+// abcdef$TOTO$TOTO
+
 
 // faire une fonction char	*get_var() qui reprend la logique gethome pour toute variable
 
@@ -104,33 +112,59 @@ char	*var_expand(char *str, char **env)
 	return (expanded_str);
 }
 
+
+
+
+
 char	*expand_chunk(char *str, char **env)
 {
 	char	*new;
 	char	*var;
 	char	*tmp;
-	int 	quote_type; //0(none) 1(simple) ou 2(double)
+	int		quote_type;
 	int		i;
 
-	check_quote_type(); "dkjdaksd$TOTO"
-	new = trim_quotes(); dkjdaksd
+	quote_type = check_quote_type(str[0]);
 	if (quote_type == 1)
-		return (trim_quotes(str));
-	//if (on commence pas par un dollar)
-	//	sortir une string de tout le debug jusqu'au dollar ou end
+		return (ft_strndup(str + 1, ft_strlen(str - 2)));
+	new = ft_strdup("");
 	while (str[i])
 	{
+		while (str[i] && str[i] != '$')
+			i++;
+		if (i - quote_type / 2)
+		{
+			new = ft_strndup(str + quote_type / 2, i - quote_type / 2);
+			i++;
+		}
 		if (str[i] == '$')
 		{
-			var = var_expand(str + i, env);
-			tmp = new;
-			new = ft_strjoin(new, var);
-			free(tmp);
+			add_var_to_new(var, &new, str + i, env);
 		}
 		while (str[i] && str[i] != '$')
 				i++;
-		i++;
 	}
+	return (new);
+}
+
+void	add_var_to_new(char *var, char **new, char *str, char **env)
+{
+	char	*tmp;
+
+	var = var_expand(str, env);
+	tmp = *new;
+	*new = ft_strjoin(*new, var);
+	free(tmp);
+	free(var);
+}
+
+int	check_quote_type(char c)
+{
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	return (0);
 }
 //prend une string a expand et la return en ayant remplace les var d'env
 char	*str_expand(char *str, char **env)
@@ -144,11 +178,82 @@ char	*str_expand(char *str, char **env)
 	//while str[i]
 		chunk = get_next_chunk(str, i, env); //recupere le prochain chunk quote ou pas
 		i += ft_strlen(chunk);
-		chunk = expand_chunk(chunk); //ressort le chunk trimed de ses quotes et avec ses variables remplacees par leur valeur
+		chunk = expand_chunk(chunk, env); //ressort le chunk trimed de ses quotes et avec ses variables remplacees par leur valeur
 		tmp = new;
 		new = ft_strjoin(new, chunk);
 		free(tmp);
 		free(chunk);
 		if (!new)
 			return (NULL);
+		return (new);
+}
+
+char	*get_next_chunk(char *str, int len)
+{
+	//si quote : return toute 
+	int 	i;
+	char	*chunk;
+
+	
+	return (NULL);
+}
+
+/* 
+return the length of current word
+*/
+int	extract_word_len(const char *input)
+{
+	int	i;
+	int	quote_len;
+
+	i = 0;
+	quote_len = 0;
+	while (input[i] && !is_space(input[i]) && !is_operator(*(input + i)))
+	{
+		quote_len = is_closed((char *)input + i, input[i]);
+		if ((input[i] == '"' || input[i] == '\'') && quote_len)
+		{
+			i += quote_len + 1;
+		}
+		else
+			i++;
+	}
+	return (i);
+}
+
+/*
+checks if the quote, double quote or parenthesis has a closing occurence
+returns the number of char read if found, 0 otherwise
+*/
+int	is_closed(char *str, char c)
+{
+	int		i;
+
+	i = 1;
+	if (c == '(')
+		c = ')';
+	while (str[i] != c && str[i])
+		i++;
+	if (str[i] && is_escaped(str, i))
+		return (i);
+	return (0);
+}
+
+int	is_backslash(char c)
+{
+	return (c == '\\');
+}
+
+int	is_escaped(char *input, int index)
+{
+	int	is_escaped;
+
+	is_escaped = 0;
+	index--;
+	while (index >= 0 && is_backslash(input[index]))
+	{
+		is_escaped++;
+		index--;
+	}
+	return (is_escaped % 2);
 }

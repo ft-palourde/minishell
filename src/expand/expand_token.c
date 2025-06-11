@@ -17,7 +17,7 @@ void	expand_token(t_token *token, t_ms *ms);
 // char	*get_env_value(char var_name);
 // char	*expand_path(char *arg);
 
-void	expand_cmd_args(t_token *token, t_ms *ms);
+void	expand_cmd_args(char **args, char **env);
 
 void	expand_cmd_args(char **args, char **env)
 {
@@ -28,7 +28,7 @@ void	expand_cmd_args(char **args, char **env)
 	j = 0;
 	while (args[i])
 	{
-		while ()
+		
 		i++;
 	}
 }
@@ -123,7 +123,7 @@ expands globbing patterns in the given string.
 */
 
 /* 
-expand_path
+//TODO expand_path
 */
 
 // entre simple quotes trim quotes et c'est tout
