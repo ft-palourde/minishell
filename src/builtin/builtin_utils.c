@@ -48,20 +48,6 @@ char	*get_var_name(char *var)
 	return (name);
 }
 
-char	*get_var_value(char *var)
-{
-	int		i;
-	char	*value;
-
-	i = 0;
-	while (var[i] != '=')
-		i++;
-	value = ft_strdup(var + i + 1);
-	if (!value)
-		return (perror("malloc"), NULL);
-	return (value);
-}
-
 int	split_len(char **split)
 {
 	int	i;
