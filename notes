@@ -1,0 +1,5 @@
+3 pipes crash :
+
+le crash a lieu dans exec cmd / init cmd / premier get_paths
+
+pourquoi le crash a lieu au moment ou j'appelle split ? fonction que j'appelle aussi sans probleme quand j'ai 2 pipes ?

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 14:25:12 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:25:26 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef union u_rd
 
 typedef struct s_rd_heredoc
 {
-	int				fd[2];
+	int				*fd;
 	char			*lim;
 }	t_rd_heredoc;
 
@@ -170,8 +170,9 @@ typedef struct s_ms
 	t_tree	*tree;
 	char	**env;
 	int		*pid;
-	int		*pfd[2];
+	int		**pfd;
 	int		*fd;
+	int		open_failed;
 	int		file_in;
 	int		file_out;
 	int		retval;

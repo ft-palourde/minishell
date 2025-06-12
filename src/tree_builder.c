@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 12:32:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:45:35 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,49 @@ void	new_branch(int is_left, t_tree *parent, t_tree *child)
 		parent->right = child;
 	child->parent = parent;
 }
+/* 
+si le node est une redir : tant que j'ai des redirs je les add a droite
+*/
+
+int	redir_branch(t_tree *node, t_token *list)
+{
+	t_tree	*new;
+	t_tree	*cursor;
+
+	cursor = node;
+	new = 0;
+	if (!list)
+		return (0);
+	while (cursor && cursor->right && is_redir(cursor->right->token->type))
+		cursor = cursor->right;
+	if (is_redir(list->type))
+	{
+		new = get_new_node(list);
+		if (!new)
+			return (perror("malloc"), 0);
+		cursor->right = new;
+		new->parent = cursor;
+		return (1);
+	}
+	return (0);
+}
 
 int	fill_tree(t_tree *node, t_token *list)
 {
 	t_tree		*prev_node;
 
-	if (!check_outfile(list, node))
-				list = list->next;
 	if (list)
+		list = list->next;
+	while (redir_branch(node, list))
 		list = list->next;
 	while (list)
 	{
 		prev_node = node;
 		node = get_new_node(list);
-		if (!check_outfile(list, node))
-				list = list->next;
+		if (!node)
+			return (perror("malloc"), 1);
+		while (redir_branch(node, list))
+			list = list->next;
 		if (prev_node->token->type != T_PIPE)
 			new_branch(1, node, prev_node);
 		else if (!prev_node->right)

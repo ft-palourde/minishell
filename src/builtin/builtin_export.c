@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:19:11 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,25 @@ int	display_sort(char **env)
 char	*check_var(char *var)
 {
 	int		i;
-	char	*tmp;
+	char	*new_var;
 
+	new_var = 0;
 	if (!var)
 		return (NULL);
-	tmp = 0;
 	i = 0;
 	while (var[i] && var[i] != '=')
 		i++;
 	if (var[i] != '=')
 	{
-		tmp = var;
-		var = ft_strjoin(var, "=");
-		if (tmp)
-			free(tmp);
-		if (!var)
+		new_var = ft_strjoin(var, "=");
+		if (!new_var)
 			return (perror("malloc"), NULL);
 	}
-	if (!i || !var[i])
+	else
+		new_var = ft_strdup(var);
+	if (!i || (new_var && !new_var[i]))
 		return (NULL);
-	return (var);
+	return (new_var);
 }
 
 static char	**export(char **env, char *var)
@@ -94,9 +93,10 @@ static char	**export(char **env, char *var)
 	int		env_len;
 	int		i;
 	char	**new_env;
+	char	*new_var;
 
-	var = check_var(var);
-	if (!var)
+	new_var = check_var(var);
+	if (!new_var)
 		return (env);
 	env_len = split_len(env);
 	new_env = ft_calloc(env_len + 2, sizeof(char *));
@@ -110,16 +110,17 @@ static char	**export(char **env, char *var)
 			return (perror ("malloc"), reverse_cascade_free(new_env, i), env);
 		i++;
 	}
-	new_env[i] = ft_strdup(var);
+	new_env[i] = ft_strdup(new_var);
+	free(new_var);
 	if (!new_env[i])
 		return (reverse_cascade_free(new_env, i), perror("malloc"), env);
-	reverse_cascade_free(env, i - 1);
-	return (new_env);
+	return (reverse_cascade_free(env, i - 1), new_env);
 }
 
 int	bi_export(char ***env, char **arg)
 {
-	int	i;
+	int		i;
+	char	*to_unset;
 
 	i = 0;
 	if (!arg || !arg[0])
@@ -129,7 +130,14 @@ int	bi_export(char ***env, char **arg)
 	}
 	while (arg[i])
 	{
-		unset(*env, arg[i]);
+		if (is_var(arg[i]))
+		{
+			to_unset = get_var_name(arg[i]);
+			unset(*env, to_unset);
+			free(to_unset);
+		}
+		else
+			unset(*env, arg[i]);
 		*env = export(*env, arg[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 12:38:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:45:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 	parent
 		penser a remettre les file_in et file_out a 0
-	*/
+*/
 
 void	clear_cmd(t_token *token)
 {
@@ -91,7 +91,7 @@ char	*add_paths(char *p1, char *p2)
 	return (new);
 }
 
-char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
+char	*get_cmd_path(t_cmd *cmd, char **paths)
 {
 	int		i;
 	int		found;
@@ -99,7 +99,7 @@ char	*get_cmd_path(t_cmd *cmd, t_ms *ms, char **paths)
 
 	i = 0;
 	found = 0;
-	cmd->path = str_expand(cmd->args[0], ms->env);
+	cmd->path = cmd->args[0];
 	if (!cmd->path)
 		return (perror("malloc"), NULL);
 	while (paths[i])
@@ -121,54 +121,52 @@ int	init_cmd(t_tree *node, t_ms *ms)
 {
 	char	**paths;
 	t_cmd	*cmd;
-	int		i;
 
-	i = 0;
 	cmd = node->token->data->cmd;
-	paths = get_paths(ms->env);
-	if (!paths)
-		return (1);
-	cmd->path = get_cmd_path(node->token->data->cmd, ms, paths);
-	reverse_cascade_free(paths, split_len(paths));
-	if (!cmd->path)
-		return (perror("malloc"), 1);
-	while (cmd->args[i])
+	if (!is_builtin(node->token))
 	{
-		str_expand(cmd->args[i], ms->env);
-		if (!cmd->args[i])
+		paths = get_paths(ms->env);
+		if (!paths)
 			return (1);
-		i++;
+		cmd->path = get_cmd_path(node->token->data->cmd, paths);
+		reverse_cascade_free(paths, split_len(paths));
+		if (!cmd->path)
+			return (perror("malloc"), 1);
 	}
-	get_redirs(node, ms);
-	if (ms->file_in == -1 || ms->file_out == -1)
-		return (1);
+	if (ms->file_in != STDIN_FILENO)
+		node->token->in_fd = ms->file_in;
+	if (ms->file_out != STDOUT_FILENO)
+		node->token->out_fd = ms->file_out;
 	return (0);
 }
 
 void	dup_handler(t_token *token, t_ms *ms)
 {
-	if (ms->file_in)
+	if (ms->file_in != STDIN_FILENO)
 		dup2(ms->file_in, STDIN_FILENO);
-	else if (token->in_fd)
+	else if (token->in_fd != STDIN_FILENO)
 		dup2(token->in_fd, STDIN_FILENO);
-	if (ms->file_out)
+	if (ms->file_out != STDOUT_FILENO)
 		dup2(ms->file_out, STDOUT_FILENO);
-	else if (token->out_fd)
+	else if (token->out_fd != STDOUT_FILENO)
 		dup2(token->out_fd, STDOUT_FILENO);
 }
 
-void	reset_dup(t_token *token, t_ms *ms)
+void	reset_dup(int in_fd, int out_fd, t_ms *ms)
 {
+	if (ms->file_in == STDIN_FILENO && ms->file_out == STDOUT_FILENO \
+		&& in_fd == STDIN_FILENO && out_fd == STDOUT_FILENO)
+		return ;
 	dup2(ms->ms_stdin, STDIN_FILENO);
 	dup2(ms->ms_stdout, STDOUT_FILENO);
-	if (ms->file_in && ms->file_in != STDIN_FILENO)
+	if (ms->file_in != STDIN_FILENO)
 		close (ms->file_in);
-	if (ms->file_out && ms->file_out != STDOUT_FILENO)
+	if (ms->file_out != STDOUT_FILENO)
 		close (ms->file_out);
-	if (token->in_fd && token->in_fd != STDIN_FILENO)
-		close (token->in_fd);
-	if (token->out_fd && token->out_fd != STDOUT_FILENO)
-		close (token->out_fd);
+	if (in_fd != STDIN_FILENO)
+		close (in_fd);
+	if (out_fd != STDOUT_FILENO)
+		close (out_fd);
 }
 
 void	exec_builtin(t_token *token, t_ms *ms)
@@ -191,7 +189,7 @@ void	exec_builtin(t_token *token, t_ms *ms)
 		bi_pwd();
 	if (builtin == B_UNSET)
 		bi_unset(ms->env, token->data->cmd->args + 1);
-	reset_dup(token, ms);
+	reset_dup(token->in_fd, token->out_fd, ms);
 }
 
 int	exec_child(t_token *token, t_ms *ms)
@@ -242,15 +240,15 @@ void	command_failed(t_token *token)
 
 void	reset_ms_files(t_ms *ms)
 {
-	if (ms->file_in)
+	if (ms->file_in != STDIN_FILENO)
 	{
 		close(ms->file_in);
-		ms->file_in = 0;
+		ms->file_in = STDIN_FILENO;
 	}
-	if (ms->file_out)
+	if (ms->file_out != STDOUT_FILENO)
 	{
 		close(ms->file_out);
-		ms->file_out = 0;
+		ms->file_out = STDOUT_FILENO;
 	}
 }
 
@@ -258,7 +256,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 {
 	int	pid;
 
-	if (init_cmd(node, ms))
+	if (init_cmd(node, ms) || ms->open_failed)
 		return ;
 	if (is_builtin(node->token))
 		exec_builtin(node->token, ms);
@@ -277,15 +275,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 			if (add_pid(pid, ms))
 				return ;
 			reset_ms_files(ms);
-			reset_dup(node->token, ms);
+			reset_dup(node->token->in_fd, node->token->out_fd, ms);
 		}
 	}
 }
-/* 
-to do vddi : verifier si le display des variables de data.cmd sont ok !
-gerer pipe
-function to code : 
-clear all (free ce qui doit etre free et close les fds a close)
-
-str_expand
- */

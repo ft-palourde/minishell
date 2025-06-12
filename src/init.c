@@ -19,6 +19,8 @@ t_ms	*init_ms_struct(char **env)
 	new = ft_calloc(1, sizeof(t_ms));
 	if (!new)
 		return (NULL);
+	new->file_in = STDIN_FILENO;
+	new->file_out = STDOUT_FILENO;
 	new->env = set_env(env, 1);
 	new->ms_stdin = dup(STDIN_FILENO);
 	new->ms_stdout = dup(STDOUT_FILENO);

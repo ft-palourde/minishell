@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 13:31:49 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:01:57 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ int				unset(char **env, char *var);
 
 char			*get_var_value(char *var);
 char			*get_var_name(char *var);
+int				var_exists(char **env, char *var);
+int				var_is_empty(char *var);
+int 			is_var(char *var);
 
 int				split_len(char **split);
 
@@ -108,24 +111,31 @@ t_tree			*get_root(t_tree *node);
 t_tree			*get_new_node(t_token *token);
 void			debug_print_tree(t_tree *root, int i);
 
+//////// SORT TOKENS /////////
+
+void			sort_tokens(t_ms *ms);
+
 //////// EXEC /////////
 
 void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
-void			exec_heredoc(t_token *token, t_ms *ms);
+int				exec_heredoc(t_tree *node, t_ms *ms);
+void			exec_redir(t_token *token, t_ms *ms);
+int				get_heredocs_pfd(t_ms *ms);
 
-void			reset_dup(t_token *token, t_ms *ms);
+void			reset_dup(int in_fd, int out_fd, t_ms *ms);
+void			dup_handler(t_token *token, t_ms *ms);
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
-int				*add_fd(int fd, t_ms *ms);
-char			*str_expand(char *str, char **env);
-void			get_redirs(t_tree *node, t_ms *ms);
+int				add_fd(int fd, t_ms *ms);
+int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
+
 
 //////// CLEANER /////////
 
