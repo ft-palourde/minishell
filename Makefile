@@ -38,7 +38,6 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_redir\
 				exec/exec_tree\
 				exec/exec_utils\
-				expand/expand_token \
 				expand/expand_utils \
 				expand/path \
 				expand/variable \

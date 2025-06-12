@@ -75,9 +75,11 @@ int				is_closed(char *str, char c);
 
 /* EXPAND */
 
-void			expand_token(t_token *token, t_ms *ms);
 int				expand_wildcard(void);
 char			*str_expand(char *str, char **env);
+char			*get_next_chunk(char *str);
+int				check_quote_type(char c);
+char			*var_expand(char *str, char **env);
 
 // void			expand_variable(char *str);
 

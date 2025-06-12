@@ -12,66 +12,133 @@
 
 #include "minishell.h"
 
-/* char	*get_home(char **env)
+char	*get_next_chunk(char *str);
+int		check_quote_type(char c);
+void	add_var_to_new(char **new, char *str, char **env);
+int		expand_is_closed(char *str, char c);
+
+char	*get_var_value(char *var)
 {
-	char	*home;
+	int		i;
+	char	*value;
+
+	i = 0;
+	while (var[i] != '=')
+		i++;
+	value = ft_strdup(var + i + 1);
+	if (!value)
+		return (perror("malloc"), NULL);
+	return (value);
+}
+
+
+
+char	*expand_chunk(char *str, char **env)
+{
+	char	*new;
+	int		quote_type;
 	int		i;
 
 	i = 0;
-	while (env[i] && strncmp(env[i], "HOME=", 5))
+	quote_type = check_quote_type(str[0]);
+	if (quote_type == 1)
+		return (ft_strndup(str + 1, ft_strlen(str) - 2));
+	new = ft_strdup("");
+	while (str[i] && str[i] != '$')
 		i++;
-	if (!env[i])
-		return (ft_putstr_fd("cd : HOME not set\n", 2), NULL);
-	home = get_var_value(env[i]);
-	if (!home)
-		return (perror("malloc"), NULL);
-	return (home);
-} */
+	if (i - quote_type / 2)
+	{
+		free(new);
+		new = ft_strndup(str + quote_type / 2, i - quote_type / 2);
+	}
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			add_var_to_new(&new, str + i, env);
+			i++;
+		}
+		while (str[i] && str[i] != '$')
+			i++;
+	}
+	return (new);
+}
 
-// faire une fonction char	*get_var() qui reprend la logique gethome pour toute variable
+void	add_var_to_new(char **new, char *str, char **env)
+{
+	char	*tmp;
+	char	*var;
 
+	var = var_expand(str, env);
+	tmp = *new;
+	*new = ft_strjoin(*new, var);
+	free(tmp);
+	free(var);
+}
 
-
-/** str_expand - Expands a variable in the given string.
- * @str: The string containing the variable to expand.
- * @env: The grid of environment variables.
- * 
- * This function checks if the string starts with a '$' character,
- * extracts the variable name, retrieves its value, and constructs
- * a new string with the expanded value.
- *
- * Returns: A newly allocated string with the expanded variable,
- * or NULL on failure.
- */
+int	check_quote_type(char c)
+{
+	if (!c)
+		return (0);
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	return (0);
+}
+//prend une string a expand et la return en ayant remplace les var d'env
 char	*str_expand(char *str, char **env)
 {
-	char	*expanded_str;
-	char	*var_value;
-	char	*var_name;
+	char	*new;
+	char	*tmp;
+	char	*chunk;
 	int		i;
 
-	if (!str || str[0] != '$')
-		return (ft_strdup(str));
-	i = 1;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-		i++;
-	var_name = ft_substr(str, 1, i - 1);
-	if (!var_name)
-		return (NULL);
-	var_value = get_var_value(var_name);
-	free(var_name);
-	if (!var_value)
-		return (ft_strdup(""));
-	expanded_str = ft_strjoin(var_value, str + i);
-	free(var_value);
-	return (expanded_str);
+	i = 0;
+	new = ft_strdup("");
+	while (str && str[i])
+	{
+		chunk = get_next_chunk(str + i); //recupere le prochain chunk quote ou pas
+		i += ft_strlen(chunk);
+		tmp = chunk;
+		chunk = expand_chunk(chunk, env); //ressort le chunk trimed de ses quotes et avec ses variables remplacees par leur valeur
+		free(tmp);
+		tmp = new;
+		new = ft_strjoin(new, chunk);
+		free(tmp);
+		free(chunk);
+		if (!new)
+			return (NULL);
+	}
+	return (new);
+}
+
+char	*get_next_chunk(char *str)
+{
+	int		i;
+	char	*chunk;
+
+	i = 0;
+	if (str[0] == '\'' || str[0] == '\"')
+		i = expand_is_closed(str, str[0]) + 1;
+	else
+	{
+		while (str[i])
+		{
+			if ((str[i] == '\'' || str[i] == '\"') && !is_escaped(str, i))
+				break ;
+			i++;
+		}
+	}
+	chunk = ft_strndup(str, i);
+	return (chunk);
 }
 
 /*
 checks if the quote, double quote or parenthesis has a closing occurence
 returns the number of char read if found, 0 otherwise
 */
-int	is_closed(char *str, char c)
+int	expand_is_closed(char *str, char c)
 {
 	int		i;
 
@@ -80,7 +147,7 @@ int	is_closed(char *str, char c)
 		c = ')';
 	while (str[i] != c && str[i])
 		i++;
-	if (str[i] && is_escaped(str, i))
+	if (str[i] && !is_escaped(str, i))
 		return (i);
 	return (0);
 }

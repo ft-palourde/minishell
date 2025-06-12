@@ -13,30 +13,7 @@
 #include "expand_test.h"
 
 char	*get_next_chunk(char *str);
-char	*trim_quotes(char *str);
 int	check_quote_type(char c);
-/* char	*get_home(char **env)
-{
-	char	*home;
-	int		i;
-
-	i = 0;
-	while (env[i] && strncmp(env[i], "HOME=", 5))
-		i++;
-	if (!env[i])
-		return (ft_putstr_fd("cd : HOME not set\n", 2), NULL);
-	home = get_var_value(env[i]);
-	if (!home)
-		return (perror("malloc"), NULL);
-	return (home);
-} */
-
-
-
-// abcdef$TOTO$TOTO
-
-
-// faire une fonction char	*get_var() qui reprend la logique gethome pour toute variable
 
 char	*get_var_value(char *var)
 {
@@ -208,29 +185,6 @@ char	*get_next_chunk(char *str)
 	chunk = ft_strndup(str, i);
 	return (chunk);
 }
-
-/* 
-return the length of current word
-*/
-// int	extract_word_len(const char *input)
-// {
-// 	int	i;
-// 	int	quote_len;
-
-// 	i = 0;
-// 	quote_len = 0;
-// 	while (input[i] && !is_space(input[i]) && !is_operator(*(input + i)))
-// 	{
-// 		quote_len = is_closed((char *)input + i, input[i]);
-// 		if ((input[i] == '"' || input[i] == '\'') && quote_len)
-// 		{
-// 			i += quote_len + 1;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (i);
-// }
 
 /*
 checks if the quote, double quote or parenthesis has a closing occurence
