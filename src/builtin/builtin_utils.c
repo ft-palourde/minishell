@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 int	is_builtin(t_token *token)
@@ -50,23 +49,6 @@ char	*get_var_name(char *var)
 	if (!name)
 		return (perror("malloc"), NULL);
 	return (name);
-}
-
-/* 
-return the var part after "=" sign
-*/
-char	*get_var_value(char *var)
-{
-	int		i;
-	char	*value;
-
-	i = 0;
-	while (var[i] != '=')
-		i++;
-	value = ft_strdup(var + i + 1);
-	if (!value)
-		return (perror("malloc"), NULL);
-	return (value);
 }
 
 int	split_len(char **split)

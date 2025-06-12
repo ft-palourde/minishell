@@ -60,9 +60,13 @@ t_cmd			*new_cmd(void);
 
 /* DEBUG DISPLAY */
 
-void			display_tokens(t_token *tokens);
-void			debug_display_token_args(t_token *tokens);
-
+void			display_tokens(t_token *tokens, char **env);
+void			debug_display_token_args(t_token *tokens,
+					char **env, int expanded);
+void			debug_display_token_cmd(t_token *token,
+					char *type_str, char **env, int expanded);
+void			debug_display_token_rd(t_token *token, char *type_str,
+					char **env, int expanded);
 /* PARSE */
 t_token			*parse(char *input);
 void			parse_cmd(t_token *token);

@@ -59,6 +59,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->fd = 0;
 	return (0);
 }
+/* 
 
 void	display_art(void)
 {
@@ -100,17 +101,40 @@ int	main(int ac, char **av, char **env)
 	{
 		reset_ms_struct(ms);
 		ms->token = parse(readline(prompt));
-		expand_token_list(ms->token, ms);
+		if (ms->token)
+			debug_display_token_args(ms->token, env, 0);
+	}
+	ms_full_clean(ms, prompt);
+	return (0);
+} */
+/* 
+int	main(int ac, char **av, char **env)
+{
+	char	*prompt;
+	t_ms	*ms;
+
+	(void)av;
+	(void)ac;
+	prompt = get_prompt(env);
+	ms = init_ms_struct(env);
+	if (!ms)
+		return (perror("malloc"), 1);
+	if (!prompt)
+		return (1);
+	while (!ms->exit)
+	{
+		reset_ms_struct(ms);
+		ms->token = parse(readline(prompt));
 		if (ms->token)
 		{
-			debug_display_token_args(ms->token);
-
-			// ms_exec(ms);
-			// ms_cleaner(ms);
+			ms_exec(ms);
+			ms_cleaner(ms);
 		}
 	}
 	ms_full_clean(ms, prompt);
 	return (0);
+} */
+
 }
 
 // DEBUG TOKENS

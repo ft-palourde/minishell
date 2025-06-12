@@ -101,11 +101,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/builtin
-	mkdir -p $(OBJ_DIR)/lexing
-	mkdir -p $(OBJ_DIR)/parsing
-	mkdir -p $(OBJ_DIR)/exec
-	mkdir -p $(OBJ_DIR)/expand
+	mkdir -p $(OBJ_DIR)builtin
+	mkdir -p $(OBJ_DIR)lexing
+	mkdir -p $(OBJ_DIR)parsing
+	mkdir -p $(OBJ_DIR)exec
+	mkdir -p $(OBJ_DIR)expand
 
 
 debug : all

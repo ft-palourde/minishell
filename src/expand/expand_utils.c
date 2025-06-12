@@ -17,6 +17,9 @@ int		check_quote_type(char c);
 void	add_var_to_new(char **new, char *str, char **env);
 int		expand_is_closed(char *str, char c);
 
+/* 
+return the var part after "=" sign
+*/
 char	*get_var_value(char *var)
 {
 	int		i;
@@ -86,6 +89,7 @@ int	check_quote_type(char c)
 		return (2);
 	return (0);
 }
+
 //prend une string a expand et la return en ayant remplace les var d'env
 char	*str_expand(char *str, char **env)
 {

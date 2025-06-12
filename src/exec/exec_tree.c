@@ -12,12 +12,18 @@
 
 #include "minishell.h"
 
-int	exec_init(t_ms *ms)
+char	*str_expand(char *str, char **env)
 {
-	sort_tokens(ms);
-	if (!ms->token)
-		return (1);
-	if (get_heredocs_pfd(ms))
+	//char	*new;
+
+	(void) env;
+	//new = ft_strdup(str);
+	return (str);
+}
+
+int	is_redir(t_token_type type)
+{
+	if (type == T_REDIR_IN || type == T_REDIR_OUT || type == T_APPEND)
 		return (1);
 	return (0);
 }

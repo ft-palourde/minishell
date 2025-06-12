@@ -12,17 +12,20 @@
 
 #include "minishell.h"
 
-void		display_tokens(t_token *tokens);
+void		display_tokens(t_token *tokens, char **env);
 static char	*get_token_type_str(t_token *token);
-void		debug_display_token_args(t_token *tokens);
-void		debug_display_token_cmd(t_token *token, char *type_str);
-void		debug_display_token_rd(t_token *token, char *type_str);
+void		debug_display_token_args(t_token *tokens, char **env, int expanded);
+void		debug_display_token_cmd(t_token *token,
+				char *type_str, char **env, int expanded);
+void		debug_display_token_rd(t_token *token, char *type_str,
+				char **env, int expanded);
 
-void	display_tokens(t_token *tokens)
+void	display_tokens(t_token *tokens, char **env)
 {
 	t_token	*cursor;
 	char	*type_str;
 
+	(void)env;
 	if (!tokens)
 	{
 		printf("No tokens\n");
@@ -61,7 +64,7 @@ static char	*get_token_type_str(t_token *token)
 		return ("UNKNOWN");
 }
 
-void	debug_display_token_args(t_token *tokens)
+void	debug_display_token_args(t_token *tokens, char **env, int expanded)
 {
 	t_token	*cursor;
 	char	*type_str;
@@ -78,10 +81,10 @@ void	debug_display_token_args(t_token *tokens)
 		printf("\n[\n");
 		type_str = get_token_type_str(cursor);
 		if (cursor->type == T_CMD && cursor->data && cursor->data->cmd)
-			debug_display_token_cmd(cursor, type_str);
+			debug_display_token_cmd(cursor, type_str, env, expanded);
 		else if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 			|| cursor->type == T_APPEND || cursor->type == T_HEREDOC)
-			debug_display_token_rd(cursor, type_str);
+			debug_display_token_rd(cursor, type_str, env, expanded);
 		else
 			printf("Token: %s - Type : %s\n", cursor->str, type_str);
 		cursor = cursor->next;
@@ -89,7 +92,8 @@ void	debug_display_token_args(t_token *tokens)
 	}
 }
 
-void	debug_display_token_cmd(t_token *token, char *type_str)
+void	debug_display_token_cmd(t_token *token,
+			char *type_str, char **env, int expanded)
 {
 	int	i;
 
@@ -99,14 +103,19 @@ void	debug_display_token_cmd(t_token *token, char *type_str)
 		printf("Token: %s - Type : %s\n", token->str, type_str);
 		while (token->data->cmd->args[i])
 		{
-			printf("Arg [%d]: %s\n", i, token->data->cmd->args[i]);
+			if (expanded == 1)
+				printf("Expanded arg [%d]: %s\n", i,
+					str_expand(token->data->cmd->args[i], env));
+			else
+				printf("Arg [%d]: %s\n", i, token->data->cmd->args[i]);
 			i++;
 		}
 	}
 	return ;
 }
 
-void	debug_display_token_rd(t_token *token, char *type_str)
+void	debug_display_token_rd(t_token *token, char *type_str,
+			char **env, int expanded)
 {
 	if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 		|| token->type == T_APPEND)
@@ -114,7 +123,11 @@ void	debug_display_token_rd(t_token *token, char *type_str)
 		printf("Token: %s - Type : %s\n", token->str, type_str);
 		if (token->data && token->data->rd->file)
 		{
-			printf("File: %s\n", token->data->rd->file->filename);
+			if (expanded == 1)
+				printf("Expanded File: %s\n",
+					str_expand(token->data->rd->file->filename, env));
+			else
+				printf("File: %s\n", token->data->rd->file->filename);
 			printf("FD: %d\n", token->data->rd->file->fd);
 		}
 	}
@@ -127,4 +140,13 @@ void	debug_display_token_rd(t_token *token, char *type_str)
 		}
 	}
 	return ;
+}
+
+void	debug_display_expand(char *str, char **env)
+{
+	char	*exp;
+
+	exp = str_expand(str, env);
+	printf("%s\n", exp);
+	free(exp);
 }

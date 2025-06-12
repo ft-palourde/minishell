@@ -15,30 +15,6 @@
 char	*var_name_to_value(char *name, char **env);
 char	*var_expand(char *str, char **env);
 
-/* 
-void	expand_variable(t_token *token, char **env)
-{
-	char	**args;
-	int		i;
-
-	args = token->data->cmd->args;
-	i = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '\0')
-		{
-			i++;
-			continue ;
-		}
-		args[i] = str_expand(args[i], env);
-		if (ft_strchr(args[i], '*'))
-			expand_globbing(args[i]);
-		i++;
-	}
-} */
-
-
-
 /** var_expand - Expands a variable in the given string.
  * @str: The string containing the variable to expand.
  * @env: The grid of environment variables.
@@ -50,10 +26,8 @@ void	expand_variable(t_token *token, char **env)
  * Returns: A newly allocated string with the expanded variable,
  * or NULL on failure.
  */
-
 char	*var_expand(char *str, char **env)
 {
-	//char	*expanded_str;
 	char	*var_value;
 	char	*var_name;
 	int		i;
@@ -71,7 +45,17 @@ char	*var_expand(char *str, char **env)
 	return (var_value);
 }
 
-
+/** var_name_to_value - Expands a variable in the given string.
+ * @name: The string containing the variable to expand.
+ * @env: The grid of environment variables.
+ * 
+ * This function browse the environment variable list,
+ * finds the variable by name, retrieves its value, and constructs
+ * a new string with the variable value.
+ *
+ * Returns: A newly allocated string with the value of the variable,
+ * or NULL if the name doesn't match any.
+ */
 char	*var_name_to_value(char *name, char **env)
 {
 	int		i;
@@ -95,5 +79,3 @@ char	*var_name_to_value(char *name, char **env)
 	}
 	return (value);
 }
-
-
