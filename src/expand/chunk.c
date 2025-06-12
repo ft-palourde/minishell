@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-char	*get_next_chunk(char *str);
-char	*expand_chunk(char *str, char **env);
+char		*get_next_chunk(char *str);
+char		*expand_chunk(char *str, char **env);
+static void	skip_until_dollar(char *str, int *i);
 
 //recupere le prochain chunk quote ou pas
 char	*get_next_chunk(char *str)
@@ -50,8 +51,7 @@ char	*expand_chunk(char *str, char **env)
 	if (quote_type == 1)
 		return (ft_strndup(str + 1, ft_strlen(str) - 2));
 	new = ft_strdup("");
-	while (str[i] && str[i] != '$')
-		i++;
+	skip_until_dollar(str, &i);
 	if (i - quote_type / 2)
 	{
 		free(new);
@@ -64,8 +64,13 @@ char	*expand_chunk(char *str, char **env)
 			add_var_to_new(&new, str + i, env);
 			i++;
 		}
-		while (str[i] && str[i] != '$')
-			i++;
+		skip_until_dollar(str, &i);
 	}
 	return (new);
+}
+
+static void	skip_until_dollar(char *str, int *i)
+{
+	while (str[*i] && str[*i] != '$')
+		(*i)++;
 }
