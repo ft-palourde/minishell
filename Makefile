@@ -38,6 +38,11 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_redir\
 				exec/exec_tree\
 				exec/exec_utils\
+				expand/chunk \
+				expand/expand_str \
+				expand/expand_utils \
+				expand/expand_wildcard \
+				expand/variable \
 				lexing/backslash \
 				lexing/lexer_utils \
 				lexing/lexer \
@@ -98,9 +103,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 $(OBJ_DIR) : 
 	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/builtin
-	mkdir -p $(OBJ_DIR)/lexing
-	mkdir -p $(OBJ_DIR)/parsing
-	mkdir -p $(OBJ_DIR)/exec
+	mkdir -p $(OBJ_DIR)builtin
+	mkdir -p $(OBJ_DIR)lexing
+	mkdir -p $(OBJ_DIR)parsing
+	mkdir -p $(OBJ_DIR)exec
+	mkdir -p $(OBJ_DIR)expand
 
 debug : all

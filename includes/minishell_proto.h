@@ -73,6 +73,20 @@ void			parse_heredoc(t_token *token);
 int				is_word(t_token *token);
 int				is_closed(char *str, char c);
 
+/* EXPAND */
+
+char			*get_next_chunk(char *str);
+char			*expand_chunk(char *str, char **env);
+char			*str_expand(char *str, char **env);
+char			*get_next_chunk(char *str);
+int				check_quote_type(char c);
+void			add_var_to_new(char **new, char *str, char **env);
+int				expand_is_closed(char *str, char c);
+int				expand_wildcard(void);
+char			*var_name_to_value(char *name, char **env);
+char			*var_expand(char *str, char **env);
+void			add_var_to_new(char **new, char *str, char **env);
+
 ///////// BUILT-INS /////////
 
 int				bi_cd(char **env, char *path);

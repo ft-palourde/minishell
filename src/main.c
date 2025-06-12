@@ -39,7 +39,7 @@ int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
-	debug_print_tree(ms->tree, 0);
+	// debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
@@ -66,7 +66,7 @@ void	display_art(void)
 	int		fd;
 	char	*line;
 
-	fd = open("./src/ms_ascii", O_RDONLY);
+	fd = open("./assets/ms_ascii", O_RDONLY);
 	if (fd == -1)
 		return ;
 	while (1)
