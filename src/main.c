@@ -66,7 +66,7 @@ void	display_art(void)
 	int		fd;
 	char	*line;
 
-	fd = open("./src/ms_ascii", O_RDONLY);
+	fd = open("./assets/ms_ascii", O_RDONLY);
 	if (fd == -1)
 		return ;
 	while (1)
