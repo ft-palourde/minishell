@@ -12,12 +12,15 @@
 
 #include "minishell.h"
 
+char	*expand_path(char *str, t_ms *ms);
+
 char	*expand_path(char *str, t_ms *ms)
 {
 	char	*expanded_path;
 
 	expanded_path = NULL;
-	(void)str;
-	(void)ms;
+	if (*str != '~')
+		return (free(expanded_path), NULL);
+	expanded_path = var_name_to_value("HOME", ms);
 	return (expanded_path);
 }

@@ -87,6 +87,7 @@ char			*var_name_to_value(char *name, t_ms *ms);
 char			*var_expand(char *str, t_ms *ms);
 void			add_var_to_new(char **new, char *str, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
+char			*expand_path(char *str, t_ms *ms);
 
 ///////// BUILT-INS /////////
 
