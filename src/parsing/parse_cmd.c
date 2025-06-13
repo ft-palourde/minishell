@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void		parse_cmd(t_token *token);
+void		parse_cmd(t_token *token, char **env);
 static bool	is_builtin_cmd(const char *cmd);
-void		merge_word_tokens(t_token *token);
-static void	set_cmd_args(t_token *token);
+void		merge_word_tokens(t_token *token, char **env);
+static void	set_cmd_args(t_token *token, char **env);
 
 /* 
 allocate a new t_cmd struct and fill it with the command and its arguments
@@ -24,7 +24,7 @@ the arguments are the words that follow the command
 the command is stored in token->data->cmd->args[0]
 if the command is a builtin, is_builtin is set to true
 */
-void	parse_cmd(t_token *token)
+void	parse_cmd(t_token *token, char **env)
 {
 	if (!token || token->type != T_WORD)
 		return ;
@@ -35,7 +35,7 @@ void	parse_cmd(t_token *token)
 	if (!token->data->cmd)
 		return ;
 	token->data->cmd->is_builtin = is_builtin_cmd(token->str);
-	set_cmd_args(token);
+	set_cmd_args(token, env);
 	if (!token->data->cmd)
 	{
 		free(token->data);
@@ -71,7 +71,7 @@ int	get_arg_count(t_token *token)
 	return (count);
 }
 
-static void	set_cmd_args(t_token *token)
+static void	set_cmd_args(t_token *token, char **env)
 {
 	int		arg_count;
 
@@ -86,10 +86,10 @@ static void	set_cmd_args(t_token *token)
 	token->data->cmd->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!token->data->cmd->args)
 		return ;
-	merge_word_tokens(token);
+	merge_word_tokens(token, env);
 }
 
-void	merge_word_tokens(t_token *token)
+void	merge_word_tokens(t_token *token, char **env)
 {
 	t_token	*cursor;
 	t_token	*to_free;
@@ -101,7 +101,7 @@ void	merge_word_tokens(t_token *token)
 	i = 0;
 	while (cursor && cursor->type == T_WORD)
 	{
-		token->data->cmd->args[i] = ft_strdup(cursor->str);
+		token->data->cmd->args[i] = str_expand(ft_strdup(cursor->str), env);
 		if (!(token->data->cmd->args[i]))
 			free_tokens(token);
 		to_free = cursor;

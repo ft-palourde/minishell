@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->token = parse(readline(prompt));
+		ms->token = parse(readline(prompt), env);
 		if (ms->token)
 		{
 			ms_exec(ms);

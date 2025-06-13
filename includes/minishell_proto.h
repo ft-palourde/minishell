@@ -64,8 +64,8 @@ void			display_tokens(t_token *tokens);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
-t_token			*parse(char *input);
-void			parse_cmd(t_token *token);
+t_token			*parse(char *input, char **env);
+void			parse_cmd(t_token *token, char **env);
 
 /* PARSE UTILS */
 void			parse_rd_file(t_token *token);
