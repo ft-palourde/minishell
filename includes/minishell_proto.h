@@ -64,8 +64,8 @@ void			display_tokens(t_token *tokens);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
-t_token			*parse(char *input, char **env);
-void			parse_cmd(t_token *token, char **env);
+t_token			*parse(char *input, t_ms *ms);
+void			parse_cmd(t_token *token, t_ms *ms);
 
 /* PARSE UTILS */
 void			parse_rd_file(t_token *token);
@@ -76,16 +76,16 @@ int				is_closed(char *str, char c);
 /* EXPAND */
 
 char			*get_next_chunk(char *str);
-char			*expand_chunk(char *str, char **env);
-char			*str_expand(char *str, char **env);
+char			*expand_chunk(char *str, t_ms *ms);
+char			*str_expand(char *str, t_ms *ms);
 char			*get_next_chunk(char *str);
 int				check_quote_type(char c);
-void			add_var_to_new(char **new, char *str, char **env);
+void			add_var_to_new(char **new, char *str, t_ms *ms);
 int				expand_is_closed(char *str, char c);
 int				expand_wildcard(void);
-char			*var_name_to_value(char *name, char **env);
-char			*var_expand(char *str, char **env);
-void			add_var_to_new(char **new, char *str, char **env);
+char			*var_name_to_value(char *name, t_ms *ms);
+char			*var_expand(char *str, t_ms *ms);
+void			add_var_to_new(char **new, char *str, t_ms *ms);
 
 ///////// BUILT-INS /////////
 
