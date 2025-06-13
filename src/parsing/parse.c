@@ -12,14 +12,15 @@
 
 #include "minishell.h"
 
-t_token		*parse(char *input);
+t_token		*parse(char *input, char **env);
 static int	check_syntax_error(t_token *tokens);
 static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
+static	void	handle_cursor(t_token *cursor, char **env);
 
 /* ************************************************************************** */
 
-t_token	*parse(char *input)
+t_token	*parse(char *input, char **env)
 {
 	t_token	*cursor;
 	t_token	*tokens;
@@ -30,22 +31,29 @@ t_token	*parse(char *input)
 	cursor = tokens;
 	while (cursor)
 	{
-		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
-			|| cursor->type == T_APPEND)
-			parse_rd_file(cursor);
-		else if (cursor->type == T_HEREDOC)
-			parse_heredoc(cursor);
-		else if (cursor->type == T_PIPE)
-			cursor->data = NULL;
-		else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
-			cursor->data = NULL;
-		else if (cursor->type == T_WORD)
-			parse_cmd(cursor);
+		handle_cursor(cursor, env);
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
 	}
 	return (tokens);
+}
+
+static	void	handle_cursor(t_token *cursor, char **env)
+{
+	if (!cursor)
+		return ;
+	if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
+		|| cursor->type == T_APPEND)
+		parse_rd_file(cursor);
+	else if (cursor->type == T_HEREDOC)
+		parse_heredoc(cursor);
+	else if (cursor->type == T_PIPE)
+		cursor->data = NULL;
+	else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
+		cursor->data = NULL;
+	else if (cursor->type == T_WORD)
+		parse_cmd(cursor, env);
 }
 
 /* 
