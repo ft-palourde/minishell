@@ -35,7 +35,7 @@ void	exec_redir(t_token *token, t_ms *ms)
 	out = STDOUT_FILENO;
 	if (ms->open_failed)
 		return ;
-	path = token->data->rd->file->filename;
+	path = str_expand(token->data->rd->file->filename, ms);
 	if (!path)
 		return ;
 	if (token->type == T_REDIR_IN)
