@@ -123,6 +123,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 	t_cmd	*cmd;
 
 	cmd = node->token->data->cmd;
+	expand_cmd_args(&cmd, ms);
 	if (!is_builtin(node->token))
 	{
 		paths = get_paths(ms->env);
