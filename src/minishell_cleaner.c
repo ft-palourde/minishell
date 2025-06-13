@@ -76,5 +76,6 @@ void	ms_full_clean(t_ms *ms, char *prompt)
 	reverse_cascade_free(ms->env, split_len(ms->env));
 	close(ms->ms_stdin);
 	close(ms->ms_stdout);
+	clear_history();
 	free(ms);
 }
