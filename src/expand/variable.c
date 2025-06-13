@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-char	*var_name_to_value(char *name, char **env);
-char	*var_expand(char *str, char **env);
-void	add_var_to_new(char **new, char *str, char **env);
+char	*var_name_to_value(char *name, t_ms *ms);
+char	*var_expand(char *str, t_ms *ms);
+void	add_var_to_new(char **new, char *str, t_ms *ms);
 
 /** var_expand - Expands a variable in the given string.
  * @str: The string containing the variable to expand.
@@ -27,7 +27,7 @@ void	add_var_to_new(char **new, char *str, char **env);
  * Returns: A newly allocated string with the expanded variable,
  * or NULL on failure.
  */
-char	*var_expand(char *str, char **env)
+char	*var_expand(char *str, t_ms *ms)
 {
 	char	*var_value;
 	char	*var_name;
@@ -41,7 +41,7 @@ char	*var_expand(char *str, char **env)
 	var_name = ft_substr(str, 1, i - 1);
 	if (!var_name)
 		return (NULL);
-	var_value = var_name_to_value(var_name, env);
+	var_value = var_name_to_value(var_name, ms);
 	free(var_name);
 	return (var_value);
 }
@@ -57,7 +57,7 @@ char	*var_expand(char *str, char **env)
  * Returns: A newly allocated string with the value of the variable,
  * or NULL if the name doesn't match any.
  */
-char	*var_name_to_value(char *name, char **env)
+char	*var_name_to_value(char *name, t_ms *ms)
 {
 	int		i;
 	int		len;
@@ -66,27 +66,27 @@ char	*var_name_to_value(char *name, char **env)
 	len = ft_strlen(name);
 	i = 0;
 	value = NULL;
-	while (env[i])
+	while (ms->env[i])
 	{
-		if (!ft_strncmp(name, env[i], len) && env[i][len] == '=')
+		if (!ft_strncmp(name, ms->env[i], len) && ms->env[i][len] == '=')
 			break ;
 		i++;
 	}
-	if (env[i])
+	if (ms->env[i])
 	{
-		value = get_var_value(env[i]);
+		value = get_var_value(ms->env[i]);
 		if (!value)
 			return (perror("malloc"), NULL);
 	}
 	return (value);
 }
 
-void	add_var_to_new(char **new, char *str, char **env)
+void	add_var_to_new(char **new, char *str, t_ms *ms)
 {
 	char	*tmp;
 	char	*var;
 
-	var = var_expand(str, env);
+	var = var_expand(str, ms);
 	tmp = *new;
 	*new = ft_strjoin(*new, var);
 	free(tmp);

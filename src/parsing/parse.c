@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-t_token		*parse(char *input, char **env);
+t_token		*parse(char *input, t_ms *ms);
 static int	check_syntax_error(t_token *tokens);
 static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
-static	void	handle_cursor(t_token *cursor, char **env);
+static	void	handle_cursor(t_token *cursor, t_ms *ms);
 
 /* ************************************************************************** */
 
-t_token	*parse(char *input, char **env)
+t_token	*parse(char *input, t_ms *ms)
 {
 	t_token	*cursor;
 	t_token	*tokens;
@@ -31,7 +31,7 @@ t_token	*parse(char *input, char **env)
 	cursor = tokens;
 	while (cursor)
 	{
-		handle_cursor(cursor, env);
+		handle_cursor(cursor, ms);
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
@@ -39,7 +39,7 @@ t_token	*parse(char *input, char **env)
 	return (tokens);
 }
 
-static	void	handle_cursor(t_token *cursor, char **env)
+static	void	handle_cursor(t_token *cursor, t_ms *ms)
 {
 	if (!cursor)
 		return ;
@@ -53,7 +53,7 @@ static	void	handle_cursor(t_token *cursor, char **env)
 	else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
 		cursor->data = NULL;
 	else if (cursor->type == T_WORD)
-		parse_cmd(cursor, env);
+		parse_cmd(cursor, ms);
 }
 
 /* 

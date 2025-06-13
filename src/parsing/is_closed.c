@@ -29,7 +29,7 @@ int	is_closed(char *str, char c)
 		c = ')';
 	while (str[i] != c && str[i])
 		i++;
-	if (str[i] && is_escaped(str, i))
+	if (str[i] && !is_escaped(str, i))
 		return (i);
 	return (0);
 }

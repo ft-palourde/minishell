@@ -14,7 +14,7 @@
 
 char	*get_next_chunk(char *str);
 int		check_quote_type(char c);
-void	add_var_to_new(char **new, char *str, char **env);
+void	add_var_to_new(char **new, char *str, t_ms *ms);
 int		expand_is_closed(char *str, char c);
 
 /* 
