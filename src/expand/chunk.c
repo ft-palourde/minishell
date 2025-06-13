@@ -14,7 +14,7 @@
 
 char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
-static void	skip_until_next_dollar(char *str, int *i);
+static void	skip_until_next_trigger(char *str, int *i);
 
 //recupere le prochain chunk quote ou pas
 char	*get_next_chunk(char *str)
@@ -51,7 +51,7 @@ char	*expand_chunk(char *str, t_ms *ms)
 	if (quote_type == 1)
 		return (ft_strndup(str + 1, ft_strlen(str) - 2));
 	new = ft_strdup("");
-	skip_until_next_dollar(str, &i);
+	skip_until_next_trigger(str, &i);
 	if (i - quote_type / 2)
 	{
 		free(new);
@@ -59,21 +59,18 @@ char	*expand_chunk(char *str, t_ms *ms)
 	}
 	while (str[i])
 	{
-		if (str[i] == '$')//handle_dollar(param i)
+		if (str[i] == '$' || str[i] == '~')
 		{
 			add_var_to_new(&new, str + i, ms);
 			i++;
 		}
-		//handle path
-		skip_until_next_dollar(str, &i);
+		skip_until_next_trigger(str, &i);
 	}
 	return (new);
 }
 
-static void	skip_until_next_dollar(char *str, int *i)
+static void	skip_until_next_trigger(char *str, int *i)
 {
-	// if ((*i) == 0)
-	// 	return ;
 	(*i) += (str[*i] == '$' && (*i) != 0);
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
