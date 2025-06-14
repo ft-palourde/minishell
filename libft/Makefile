@@ -3,16 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
+#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 17:15:49 by rcochran          #+#    #+#              #
-#    Updated: 2025/04/29 18:00:19 by rcochran         ###   ########.fr        #
+#    Updated: 2025/06/13 07:54:44 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY : all clean fclean re
 
-CC= cc
+# Comment next line to show directories
+MAKEFLAGS += --no-print-directory
+# QUIET = @ -> mutes make cmd in terminal, remove @ to show again
+QUIET = @
+CC= $(QUIET) cc
 CFLAGS= -Wall -Wextra -Werror
 SRC_DIR = src/
 SRC_FILES = $(addsuffix .c, $(FILES))
@@ -81,22 +85,22 @@ OBJ_DIR = obj/
 all : $(NAME)
 
 clean :
-	rm -rf $(OBJ_DIR)
+	$(QUIET) rm -rf $(OBJ_DIR)
 
 fclean : clean
-	rm -f $(NAME)
+	$(QUIET) rm -f $(NAME)
 
 re : fclean all
 
 $(NAME): $(OBJ_DIR) $(OBJ)
-	ar -rcs $(NAME) $(OBJ)
+	$(QUIET) ar -rcs $(NAME) $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) -I$(HEADER) -o $@ -c $<
 
 
 $(OBJ_DIR) :
-	mkdir -p $(OBJ_DIR)
+	$(QUIET) mkdir -p $(OBJ_DIR)
 
 #unit : all
 #make my own libft tester

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:29:27 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/10 17:03:18 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:33:39 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	is_redir(t_token_type type)
 int	add_pfd(int *pfd, t_ms *ms)
 {
 	int	i;
+	int	**new_pfd;
 
 	i = 0;
 	if (!ms->pfd)
@@ -34,15 +35,45 @@ int	add_pfd(int *pfd, t_ms *ms)
 	}
 	while (ms->pfd[i])
 		i++;
-	ms->pfd = ft_realloc(ms->pfd, (i + 1) * sizeof(int *));
-	if (!ms->pfd)
+	new_pfd = ft_calloc(i + 2, sizeof(int *));
+	if (!new_pfd)
 		return (perror("malloc"), 0);
-	ms->pfd[i] = pfd;
-	ms->pfd[i + 1] = 0;
+	new_pfd[i] = pfd;
+	while (--i >= 0)
+		new_pfd[i] = ms->pfd[i];
+	free(ms->pfd);
+	ms->pfd = new_pfd;
 	return (0);
 }
 
 int	add_fd(int fd, t_ms *ms)
+{
+	int	i;
+	int	*new_fd;
+
+	i = 0;
+	if (!ms->fd)
+	{
+		ms->fd = ft_calloc(2, sizeof(int));
+		if (!ms->fd)
+			return (perror("malloc"), 0);
+		ms->fd[0] = fd;
+		return (0);
+	}
+	while (ms->fd[i])
+		i++;
+	new_fd = ft_calloc(i + 2, sizeof(int));
+	if (!new_fd)
+		return (perror("malloc"), 0);
+	new_fd[i] = fd;
+	while (--i >= 0)
+		new_fd[i] = ms->fd[i];
+	free(ms->fd);
+	ms->fd = new_fd;
+	return (0);
+}
+
+/* int	add_fd(int fd, t_ms *ms)
 {
 	int	i;
 
@@ -57,13 +88,13 @@ int	add_fd(int fd, t_ms *ms)
 	}
 	while (ms->fd[i])
 		i++;
-	ms->fd = ft_realloc(ms->fd, (i + 1) * sizeof(int));
+	ms->fd = ft_realloc(ms->fd, (i + 2) * sizeof(int));
 	if (!ms->fd)
 		return (perror("malloc"), 0);
 	ms->fd[i] = fd;
 	ms->fd[i + 1] = 0;
 	return (0);
-}
+} */
 
 void	close_fds(t_ms *ms)
 {
