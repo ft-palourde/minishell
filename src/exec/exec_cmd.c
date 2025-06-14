@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/10 15:45:52 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:29:31 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ int	exec_child(t_token *token, t_ms *ms)
 int	add_pid(int pid, t_ms *ms)
 {
 	int	i;
+	int	*new_pid;
 
 	i = 0;
 	if (!ms->pid)
@@ -220,10 +221,14 @@ int	add_pid(int pid, t_ms *ms)
 	}
 	while (ms->pid[i])
 		i++;
-	ms->pid = ft_realloc(ms->pid, (i + 1) * sizeof(int));
-	if (!ms->pid)
-		return (1);
-	ms->pid[i] = pid;
+	new_pid = ft_calloc(i + 2, sizeof(int));
+	if (!new_pid)
+		return (perror("malloc"), 1);
+	new_pid[i] = pid;
+	while (--i >= 0)
+		new_pid[i] = ms->pid[i];
+	free(ms->pid);
+	ms->pid = new_pid;
 	return (0);
 }
 

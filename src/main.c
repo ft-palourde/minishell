@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/09 18:08:29 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:56:25 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
-	// debug_print_tree(ms->tree, 0);
+	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);

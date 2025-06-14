@@ -11,7 +11,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY : all clean fclean re debug
+.PHONY : all clean fclean re debug quiet
+
+# Comment next line to show directories
+MAKEFLAGS += --no-print-directory
+# QUIET = @ -> mutes make cmd in terminal, remove @ to show again
+QUIET		=	@
 
 CC			= 	cc
 CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
@@ -79,10 +84,12 @@ OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 OBJ_MAIN	=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_DIR)$(MAIN))
 
 ifneq ($(filter debug, $(MAKECMDGOALS)),)
-CFLAGS += -g -v
+CFLAGS += -g
 endif
 
 all : $(NAME)
+	@ echo "ft_palourde minishell is ready !"
+	@ cat src/ms_ascii
 
 clean :
 	rm -rf $(OBJ_DIR)
@@ -95,20 +102,20 @@ fclean : clean
 re : fclean all
 
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
+	$(QUIET) $(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	$(QUIET) make all -C $(LIBFT_PATH) 
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(QUIET) $(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_DIR) : 
-	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)builtin
-	mkdir -p $(OBJ_DIR)lexing
-	mkdir -p $(OBJ_DIR)parsing
-	mkdir -p $(OBJ_DIR)exec
-	mkdir -p $(OBJ_DIR)expand
+	$(QUIET) mkdir -p $(OBJ_DIR)
+	$(QUIET) mkdir -p $(OBJ_DIR)/builtin
+	$(QUIET) mkdir -p $(OBJ_DIR)/lexing
+	$(QUIET) mkdir -p $(OBJ_DIR)/parsing
+	$(QUIET) mkdir -p $(OBJ_DIR)/exec
+	$(QUIET) mkdir -p $(OBJ_DIR)/expand
 
 debug : all
