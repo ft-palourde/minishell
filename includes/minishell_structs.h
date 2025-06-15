@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:36 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/03 16:25:26 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:44:39 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_ms
 {
 	t_token	*token;
 	t_tree	*tree;
+	char	*prompt;
 	char	**env;
 	int		*pid;
 	int		**pfd;

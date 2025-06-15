@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/14 10:56:25 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:46:10 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,28 +86,27 @@ void	display_art(void)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*prompt;
 	t_ms	*ms;
 
 	if (ac > 1 && !strncmp("-h", av[1], 2))
 		display_art();
-	prompt = get_prompt(env);
 	ms = init_ms_struct(env);
 	if (!ms)
 		return (perror("malloc"), 1);
-	if (!prompt)
+	ms->prompt = get_prompt(env);
+	if (!ms->prompt)
 		return (1);
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->token = parse(readline(prompt));
+		ms->token = parse(readline(ms->prompt));
 		if (ms->token)
 		{
 			ms_exec(ms);
 			ms_cleaner(ms);
 		}
 	}
-	ms_full_clean(ms, prompt);
+	ms_full_clean(ms);
 	return (0);
 }
 
