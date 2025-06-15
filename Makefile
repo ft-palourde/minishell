@@ -16,7 +16,7 @@
 # Comment next line to show directories
 MAKEFLAGS += --no-print-directory
 # QUIET = @ -> mutes make cmd in terminal, remove @ to show again
-QUIET		=	@
+QUIET		=	
 
 CC			= 	cc
 CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
@@ -89,7 +89,7 @@ endif
 
 all : $(NAME)
 	@ echo "ft_palourde minishell is ready !"
-	@ cat src/ms_ascii
+	@ cat assets/ms_ascii
 
 clean :
 	rm -rf $(OBJ_DIR)

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/13 09:29:31 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/15 21:00:38 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int	add_pid(int pid, t_ms *ms)
 	return (0);
 }
 
-void	command_failed(t_token *token)
+void	command_failed(t_token *token, t_ms *ms)
 {
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(token->data->cmd->args[0], 2);
@@ -240,7 +240,11 @@ void	command_failed(t_token *token)
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else
 		ft_putstr_fd(": command not found\n", 2);
-	clear_cmd(token);
+	//clear_cmd(token);
+	ms_cleaner(ms);
+	reverse_cascade_free(ms->env, split_len(ms->env));
+	free(ms->prompt);
+	free(ms);
 	exit(127);
 }
 
@@ -274,7 +278,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		else if (!pid)
 		{
 			ms->retval = exec_child(node->token, ms);
-			command_failed(node->token);
+			command_failed(node->token, ms);
 		}
 		else
 		{

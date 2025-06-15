@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/10 17:01:57 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:45:16 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void			clear_all(t_ms *ms);
 void			free_split(char **split);
 void			free_tree(t_tree *tree);
 void			ms_cleaner(t_ms *ms);
-void			ms_full_clean(t_ms *ms, char *prompt);
+void			ms_full_clean(t_ms *ms);
 
 /* INIT */
 
