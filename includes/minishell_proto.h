@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/15 20:45:16 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:27:17 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int				is_builtin(t_token *token);
 
 //////// SET_ENV /////////
 
-char			**set_env(char **env, int has_env);
+char			**set_env(char **env);
 
 //////// TREE BUILD /////////
 

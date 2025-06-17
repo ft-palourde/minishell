@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:46:02 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/22 18:02:09 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:30:04 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ int	change_shlvl(char **env)
 	return (i);
 }
 
-char	**set_env(char **env, int has_env)
+char	**set_env(char **env)
 {
 	int		i;
 	int		lvl;
 	char	**new;
 
 	i = -1;
-	if (!has_env)
+	if (!env || !env[0])
 		return (set_default_env());
 	new = ft_calloc(get_shlvl_pos(env) + 1, sizeof(char *));
 	if (!new)

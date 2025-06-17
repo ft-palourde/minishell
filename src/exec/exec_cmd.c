@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/15 21:00:38 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:23:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ char	**get_paths(char **env)
 
 	i = 0;
 	j = 0;
-	while (ft_strncmp("PATH=", env[i], 5) && env[i])
+	while (env[i] && ft_strncmp("PATH=", env[i], 5))
 		i++;
-	while (env[i][j] != '=' && env[i][j])
+	while (env[i] && env[i][j] && env[i][j] != '=')
 		j++;
-	if (env[i][j] != '=')
+	if (!env[i] || !env[i][j] || env[i][j] != '=')
 		return (ft_split("", '\0'));
 	j++;
 	return (ft_split(env[i] + j, ':'));
