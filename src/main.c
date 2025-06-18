@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/18 14:49:42 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:48:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int	ms_exec(t_ms *ms)
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
-	ms->retval = wait_all(ms);
-	return (0);
+	return (wait_all(ms));
 }
 
 int	reset_ms_struct(t_ms *ms)
@@ -90,6 +89,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_ms	*ms;
 	char	*input;
+	int		retval;
 
 	if (ac > 1 && !strncmp("-h", av[1], 2))
 		display_art();
@@ -99,16 +99,18 @@ int	main(int ac, char **av, char **env)
 	ms->prompt = get_prompt(env);
 	if (!ms->prompt)
 		return (1);
+	retval = 0;
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
+		ms->retval = retval;
 		input = readline(ms->prompt);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
 		if (ms->token)
 		{
-			ms_exec(ms);
+			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
 	}

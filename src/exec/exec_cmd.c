@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 16:23:05 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:02:23 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,39 +170,75 @@ void	reset_dup(int in_fd, int out_fd, t_ms *ms)
 		close (out_fd);
 }
 
-void	exec_builtin(t_token *token, t_ms *ms)
+int	exec_builtin(t_token *token, t_ms *ms)
 {
 	t_built_in	builtin;
+	int			retval;
 
+	retval = -1;
 	builtin = token->data->cmd->is_builtin;
 	dup_handler(token, ms);
 	if (builtin == B_CD)
-		bi_cd(ms->env, token->data->cmd->args[1]);
+		retval = bi_cd(ms->env, token->data->cmd->args[1]);
 	if (builtin == B_ECHO)
-		bi_echo(token->data->cmd->args + 1);
+		retval = bi_echo(token->data->cmd->args + 1);
 	if (builtin == B_ENV)
-		bi_env(ms->env);
+		retval = bi_env(ms->env);
 	if (builtin == B_EXIT)
-		bi_exit(ms);
+		retval = bi_exit(ms);
 	if (builtin == B_EXPORT)
-		bi_export(&ms->env, token->data->cmd->args + 1);
+		retval = bi_export(&ms->env, token->data->cmd->args + 1);
 	if (builtin == B_PWD)
-		bi_pwd();
+		retval = bi_pwd();
 	if (builtin == B_UNSET)
-		bi_unset(ms->env, token->data->cmd->args + 1);
+		retval = bi_unset(ms->env, token->data->cmd->args + 1);
 	reset_dup(token->in_fd, token->out_fd, ms);
+	return (retval);
+}
+
+void	command_failed(t_token *token, t_ms *ms)
+{
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(token->data->cmd->args[0], 2);
+	if (is_absolute(token->data->cmd->args[0]))
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else
+		ft_putstr_fd(": command not found\n", 2);
+	//clear_cmd(token);
+	ms_cleaner(ms);
+	reverse_cascade_free(ms->env, split_len(ms->env));
+	free(ms->prompt);
+	free(ms);
+	exit(127);
 }
 
 int	exec_child(t_token *token, t_ms *ms)
 {
 	t_cmd	*cmd;
+	int		is_bi;
+	int		retval;
 
+	is_bi = is_builtin(token);
 	cmd = token->data->cmd;
 	dup_handler(token, ms);
 	close_fds(ms);
-	execve(cmd->path, cmd->args, ms->env);
-	ms->retval = 127;
-	return (127);
+	if (is_bi)
+	{
+		retval = exec_builtin(token, ms);
+		ms_cleaner(ms);
+		reverse_cascade_free(ms->env, split_len(ms->env));
+		free(ms->prompt);
+		free(ms->term);
+		free(ms);
+		exit(retval);
+	}
+	else
+	{
+		execve(cmd->path, cmd->args, ms->env);
+		ms->retval = 127;
+		command_failed(token, ms);
+	}
+	return (ms->retval);
 }
 
 int	add_pid(int pid, t_ms *ms)
@@ -232,22 +268,6 @@ int	add_pid(int pid, t_ms *ms)
 	return (0);
 }
 
-void	command_failed(t_token *token, t_ms *ms)
-{
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(token->data->cmd->args[0], 2);
-	if (is_absolute(token->data->cmd->args[0]))
-		ft_putstr_fd(": No such file or directory\n", 2);
-	else
-		ft_putstr_fd(": command not found\n", 2);
-	//clear_cmd(token);
-	ms_cleaner(ms);
-	reverse_cascade_free(ms->env, split_len(ms->env));
-	free(ms->prompt);
-	free(ms);
-	exit(127);
-}
-
 void	reset_ms_files(t_ms *ms)
 {
 	if (ms->file_in != STDIN_FILENO)
@@ -268,7 +288,8 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 
 	if (init_cmd(node, ms) || ms->open_failed)
 		return ;
-	if (is_builtin(node->token))
+	if (is_builtin(node->token) && \
+		(!node->parent || node->parent->token->type != T_PIPE))
 		exec_builtin(node->token, ms);
 	else
 	{
@@ -276,10 +297,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		if (pid == -1)
 			perror("fork");
 		else if (!pid)
-		{
 			ms->retval = exec_child(node->token, ms);
-			command_failed(node->token, ms);
-		}
 		else
 		{
 			if (add_pid(pid, ms))
