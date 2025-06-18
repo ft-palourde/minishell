@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/17 16:23:38 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:49:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	wait_all(t_ms *ms)
 			ret = WTERMSIG(stat);
 		i++;
 	}
+	tcsetattr(ms->ms_stdin, TCSADRAIN, ms->term);
 	return (ret);
 }
 
@@ -58,6 +59,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->pid = 0;
 	ms->fd = 0;
 	ms->pfd = 0;
+	tcgetattr(STDIN_FILENO, ms->term);
 	return (0);
 }
 

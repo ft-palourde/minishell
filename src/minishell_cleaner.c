@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/15 20:45:39 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:51:41 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	ms_full_clean(t_ms *ms)
 	if (!ms->exit)
 		ms_cleaner(ms);
 	free(ms->prompt);
+	free(ms->term);
 	reverse_cascade_free(ms->env, split_len(ms->env));
 	close(ms->ms_stdin);
 	close(ms->ms_stdout);
