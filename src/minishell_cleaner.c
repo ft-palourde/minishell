@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/27 14:26:07 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:51:41 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ void	clean_fds(int *fd)
 	}
 }
 
+void	clean_pfds(int	**pfd)
+{
+	int i;
+
+	i = 0;
+	if (!pfd[i])
+		return ;
+	while (pfd[i])
+	{
+		if (pfd[i])
+			free(pfd[i]);
+		i++;
+	}
+	free(pfd);
+}
+
 void	ms_cleaner(t_ms *ms)
 {
 	if (ms->file_in != STDIN_FILENO)
@@ -60,6 +76,8 @@ void	ms_cleaner(t_ms *ms)
 		clean_fds(ms->fd);
 		free(ms->fd);
 	}
+	if (ms->pfd)
+		clean_pfds(ms->pfd);
 	if (ms->pid)
 		free(ms->pid);
 	if (ms->token)
@@ -68,11 +86,12 @@ void	ms_cleaner(t_ms *ms)
 		free_tree(ms->tree);
 }
 
-void	ms_full_clean(t_ms *ms, char *prompt)
+void	ms_full_clean(t_ms *ms)
 {
 	if (!ms->exit)
 		ms_cleaner(ms);
-	free(prompt);
+	free(ms->prompt);
+	free(ms->term);
 	reverse_cascade_free(ms->env, split_len(ms->env));
 	close(ms->ms_stdin);
 	close(ms->ms_stdout);

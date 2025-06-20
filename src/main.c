@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/09 18:08:29 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:48:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	wait_all(t_ms *ms)
 			ret = WTERMSIG(stat);
 		i++;
 	}
+	tcsetattr(ms->ms_stdin, TCSADRAIN, ms->term);
 	return (ret);
 }
 
@@ -39,12 +40,11 @@ int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
-	// debug_print_tree(ms->tree, 0);
+	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
-	ms->retval = wait_all(ms);
-	return (0);
+	return (wait_all(ms));
 }
 
 int	reset_ms_struct(t_ms *ms)
@@ -58,6 +58,7 @@ int	reset_ms_struct(t_ms *ms)
 	ms->pid = 0;
 	ms->fd = 0;
 	ms->pfd = 0;
+	tcgetattr(STDIN_FILENO, ms->term);
 	return (0);
 }
 
@@ -86,32 +87,34 @@ void	display_art(void)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*prompt;
 	t_ms	*ms;
 	char	*input;
+	int		retval;
 
 	if (ac > 1 && !strncmp("-h", av[1], 2))
 		display_art();
-	prompt = get_prompt(env);
 	ms = init_ms_struct(env);
 	if (!ms)
 		return (perror("malloc"), 1);
-	if (!prompt)
+	ms->prompt = get_prompt(env);
+	if (!ms->prompt)
 		return (1);
+	retval = 0;
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		input = readline(prompt);
+		ms->retval = retval;
+		input = readline(ms->prompt);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
 		if (ms->token)
 		{
-			ms_exec(ms);
+			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
 	}
-	ms_full_clean(ms, prompt);
+	ms_full_clean(ms);
 	return (0);
 }
 

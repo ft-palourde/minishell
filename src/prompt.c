@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:28:30 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/18 11:46:43 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:53:14 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_pwd(char **env)
 	i = 0;
 	while (env[i] && ft_strncmp(env[i], "PWD=", 4))
 		i++;
-	while (env[i][j])
+	while (env[i] && env[i][j])
 		j++;
 	if (!i || !j)
 		return (ft_strdup(""));

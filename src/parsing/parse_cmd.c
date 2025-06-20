@@ -101,7 +101,8 @@ void	merge_word_tokens(t_token *token, t_ms *ms)
 	i = 0;
 	while (cursor && cursor->type == T_WORD)
 	{
-		token->data->cmd->args[i] = str_expand(ft_strdup(cursor->str), ms);
+		(void) ms;
+		token->data->cmd->args[i] = ft_strdup(cursor->str);
 		if (!(token->data->cmd->args[i]))
 			free_tokens(token);
 		to_free = cursor;
