@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-char	*str_expand(char *str, char **env);
+char	*str_expand(char *str, t_ms *ms);
 
 //prend une string a expand et la return en ayant remplace les var d'env
-char	*str_expand(char *str, char **env)
+char	*str_expand(char *str, t_ms *ms)
 {
 	char	*new;
 	char	*tmp;
@@ -29,7 +29,7 @@ char	*str_expand(char *str, char **env)
 		chunk = get_next_chunk(str + i);
 		i += ft_strlen(chunk);
 		tmp = chunk;
-		chunk = expand_chunk(chunk, env);
+		chunk = expand_chunk(chunk, ms);
 		free(tmp);
 		tmp = new;
 		new = ft_strjoin(new, chunk);

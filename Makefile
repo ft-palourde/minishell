@@ -39,6 +39,8 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_tree\
 				exec/exec_utils\
 				expand/chunk \
+				expand/exp_cmd_args \
+				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
 				expand/expand_wildcard \

@@ -88,6 +88,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	*prompt;
 	t_ms	*ms;
+	char	*input;
 
 	if (ac > 1 && !strncmp("-h", av[1], 2))
 		display_art();
@@ -100,7 +101,10 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->token = parse(readline(prompt));
+		input = readline(prompt);
+		if (input && *input)
+			add_history(input);
+		ms->token = parse(input, ms);
 		if (ms->token)
 		{
 			ms_exec(ms);

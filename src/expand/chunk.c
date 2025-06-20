@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 char		*get_next_chunk(char *str);
-char		*expand_chunk(char *str, char **env);
-static void	skip_until_dollar(char *str, int *i);
+char		*expand_chunk(char *str, t_ms *ms);
+static void	skip_until_next_trigger(char *str, int *i);
 
 //recupere le prochain chunk quote ou pas
 char	*get_next_chunk(char *str)
@@ -40,7 +40,7 @@ char	*get_next_chunk(char *str)
 
 /* ressort le chunk trimed de ses quotes
 avec ses variables remplacees par leur valeur */
-char	*expand_chunk(char *str, char **env)
+char	*expand_chunk(char *str, t_ms *ms)
 {
 	char	*new;
 	int		quote_type;
@@ -51,26 +51,27 @@ char	*expand_chunk(char *str, char **env)
 	if (quote_type == 1)
 		return (ft_strndup(str + 1, ft_strlen(str) - 2));
 	new = ft_strdup("");
-	skip_until_dollar(str, &i);
+	skip_until_next_trigger(str, &i);
 	if (i - quote_type / 2)
 	{
 		free(new);
-		new = ft_strndup(str + quote_type / 2, i - quote_type / 2);
+		new = ft_strndup(str + quote_type / 2, i - quote_type);
 	}
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' || str[i] == '~')
 		{
-			add_var_to_new(&new, str + i, env);
+			add_var_to_new(&new, str + i, ms);
 			i++;
 		}
-		skip_until_dollar(str, &i);
+		skip_until_next_trigger(str, &i);
 	}
 	return (new);
 }
 
-static void	skip_until_dollar(char *str, int *i)
+static void	skip_until_next_trigger(char *str, int *i)
 {
+	(*i) += (str[*i] == '$' && (*i) != 0);
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
 }
