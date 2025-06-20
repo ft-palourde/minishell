@@ -33,7 +33,7 @@ char	*var_expand(char *str, t_ms *ms)
 	char	*var_name;
 	int		i;
 
-	if (!str || str[0] != '$' || str[0] != '~')
+	if (!str || (str[0] != '$' && str[0] != '~'))
 		return (ft_strdup(str));
 	i = 1;
 	if (str[0] == '~')
