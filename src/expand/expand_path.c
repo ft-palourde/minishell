@@ -21,11 +21,9 @@ char	*expand_path(char *str, t_ms *ms)
 
 	if (!str || str[0] != '~')
 		return (NULL);
-
 	home = var_name_to_value("HOME", ms);
 	if (!home)
 		return (NULL);
-
 	if (str[1] == '\0')
 		expanded_path = ft_strdup(home);
 	else if (str[1] == '/')
@@ -35,7 +33,6 @@ char	*expand_path(char *str, t_ms *ms)
 		free(home);
 		return (NULL);
 	}
-
 	free(home);
 	return (expanded_path);
 }

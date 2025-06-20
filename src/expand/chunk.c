@@ -69,9 +69,18 @@ char	*expand_chunk(char *str, t_ms *ms)
 	return (new);
 }
 
+/** skip_until_next_trigger - Move forward in a string until precised character.
+ * @str: The string to be read.
+ * @i: The current index read.
+ * 
+ * This function browse the given string,
+ * if it finds a $
+ *
+ * Returns: 
+ */
 static void	skip_until_next_trigger(char *str, int *i)
 {
 	(*i) += (str[*i] == '$' && (*i) != 0);
-	while (str[*i] && str[*i] != '$')
+	while (str[*i] && str[*i] != '$' && str[*i] != '~')
 		(*i)++;
 }

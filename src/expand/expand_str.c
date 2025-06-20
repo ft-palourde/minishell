@@ -22,6 +22,7 @@ char	*str_expand(char *str, t_ms *ms)
 	char	*chunk;
 	int		i;
 
+	// printf("debug");
 	i = 0;
 	new = ft_strdup("");
 	while (str && str[i])
@@ -38,5 +39,6 @@ char	*str_expand(char *str, t_ms *ms)
 		if (!new)
 			return (NULL);
 	}
+	printf("chunk : %s\n", new);
 	return (new);
 }
