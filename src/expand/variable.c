@@ -80,6 +80,8 @@ char	*var_name_to_value(char *name, t_ms *ms)
 		if (!value)
 			return (perror("malloc"), NULL);
 	}
+	else
+		return (ft_strdup(""));
 	return (value);
 }
 
