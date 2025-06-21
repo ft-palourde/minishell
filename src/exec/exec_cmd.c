@@ -124,15 +124,20 @@ int	init_cmd(t_tree *node, t_ms *ms)
 
 	cmd = node->token->data->cmd;
 	expand_cmd_args(&cmd, ms);
-	if (!is_builtin(node->token) && !is_absolute(cmd->path))
+	if (!is_builtin(node->token))
 	{
-		paths = get_paths(ms->env);
-		if (!paths)
-			return (1);
-		cmd->path = get_cmd_path(node->token->data->cmd, paths);
-		reverse_cascade_free(paths, split_len(paths));
+		if (is_absolute(cmd->args[0]))
+			cmd->path = ft_strdup(cmd->args[0]);
+		else
+		{
+			paths = get_paths(ms->env);
+			if (!paths)
+				return (1);
+			cmd->path = get_cmd_path(node->token->data->cmd, paths);
+			reverse_cascade_free(paths, split_len(paths));
+		}
 		if (!cmd->path)
-			return (perror("malloc"), 1);
+				return (perror("malloc"), 1);
 	}
 	if (ms->file_in != STDIN_FILENO)
 		node->token->in_fd = ms->file_in;
@@ -198,18 +203,25 @@ int	exec_builtin(t_token *token, t_ms *ms)
 
 void	command_failed(t_token *token, t_ms *ms)
 {
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(token->data->cmd->args[0], 2);
-	if (is_absolute(token->data->cmd->args[0]))
-		ft_putstr_fd(": No such file or directory\n", 2);
+	int	retval;
+	if (access(token->data->cmd->path, X_OK))
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(token->data->cmd->args[0], 2);
+		if (is_absolute(token->data->cmd->args[0]))
+			ft_putstr_fd(": No such file or directory\n", 2);
+		else
+			ft_putstr_fd(": command not found\n", 2);
+		//clear_cmd(token);
+		retval = 127;
+	}
 	else
-		ft_putstr_fd(": command not found\n", 2);
-	//clear_cmd(token);
+		retval = 0;
 	ms_cleaner(ms);
 	reverse_cascade_free(ms->env, split_len(ms->env));
 	free(ms->prompt);
 	free(ms);
-	exit(127);
+	exit(retval);
 }
 
 int	exec_child(t_token *token, t_ms *ms)
