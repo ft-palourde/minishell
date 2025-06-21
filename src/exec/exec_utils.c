@@ -116,6 +116,7 @@ void	close_fds(t_ms *ms)
 
 int	is_absolute(char *str)
 {
-	(void) str;
+	if (str && ft_strchr(str, '/'))
+		return (1);
 	return (0);
 }

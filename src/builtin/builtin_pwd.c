@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*ft_get_pwd(int prefix)
+/* char	*ft_get_pwd(int prefix)
 {
 	char	*pwd;
 	char	*tmp;
@@ -30,6 +30,27 @@ char	*ft_get_pwd(int prefix)
 	}
 	pwd = ft_strjoin(tmp, "\n");
 	free(tmp);
+	if (!pwd)
+		return (0);
+	return (pwd);
+} */
+
+char	*ft_get_pwd(int prefix)
+{
+	char	*pwd;
+	char	*tmp;
+
+	tmp = getcwd(NULL, 0);
+	pwd = 0;
+	if (!tmp)
+		return (0);
+	if (prefix)
+	{
+		pwd = ft_strjoin("PWD=", tmp);
+		free(tmp);
+		if (!pwd)
+			return (0);
+	}
 	if (!pwd)
 		return (0);
 	return (pwd);

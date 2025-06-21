@@ -42,10 +42,10 @@ char	**set_default_env(void)
 	new[0] = pwd;
 	if (!new[0])
 		return (free(new), NULL);
-	new[1] = ft_strdup("SHLVL=1\n");
+	new[1] = ft_strdup("SHLVL=1");
 	if (!new[1])
 		return (reverse_cascade_free(new, 1));
-	new[2] = ft_strdup("_=/usr/bin/env\n");
+	new[2] = ft_strdup("_=/usr/bin/env");
 	return (new);
 }
 
