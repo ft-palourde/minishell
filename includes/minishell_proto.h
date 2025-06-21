@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 15:27:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:26:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int				is_closed(char *str, char c);
 
 /* EXPAND */
 
+
+char			*hd_expand(t_ms *ms, char *str);
 char			*get_next_chunk(char *str);
 char			*expand_chunk(char *str, t_ms *ms);
 char			*str_expand(char *str, t_ms *ms);

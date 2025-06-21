@@ -45,6 +45,7 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_utils\
 				expand/chunk \
 				expand/exp_cmd_args \
+				expand/expand_heredocs \
 				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
