@@ -6,11 +6,21 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 12:32:11 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:15:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/** exec_builtin - call the right builtin to execute
+ * @token: the t_token of T_CMD type
+ * @ms: the minishell struct
+ * 
+ * checks the cmd name and if it is one of the builtins
+ * and call it while handling the dup of STDIN or STDOUT if needed
+ *
+ * Returns: the command return value
+ */
 
 int	exec_builtin(t_token *token, t_ms *ms)
 {
@@ -38,6 +48,17 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	return (retval);
 }
 
+/** command_failed - handle the error if the cmd didnt exit
+ * @token: the t_token of T_CMD type
+ * @ms: the minishell struct
+ * 
+ * clear what needs to be closed or freed, then set the right
+ * retval on the ms structure (127 if the command doesnt exist
+ * or 0)
+ * display an error message on STDERR if the command can not be executed
+ *
+ * Returns: void
+ */
 void	command_failed(t_token *token, t_ms *ms)
 {
 	int	retval;
@@ -61,6 +82,17 @@ void	command_failed(t_token *token, t_ms *ms)
 	exit(retval);
 }
 
+/** exec_child - executes the cmd in the child process
+ * @token: the t_token of T_CMD type
+ * @ms: the minishell struct
+ * 
+ * Dup the stdin and stdout if needed.
+ * if the command is a builtin, call the right BI and clear before exit
+ * else call the cmd with execve and call command failed if the cmd doesnt
+ * exist or if the called file is not a program
+ * 
+ * Returns: the command exit code
+ */
 int	exec_child(t_token *token, t_ms *ms)
 {
 	t_cmd	*cmd;
@@ -90,6 +122,17 @@ int	exec_child(t_token *token, t_ms *ms)
 	return (ms->retval);
 }
 
+/** exec_cmd - execute the cmd node in the binary tree
+ * @node: a t_tree node, must be a T_CMD type
+ * @ms: the minishell struct
+ * 
+ * exec_cmd takes a node in parametter and fill the token
+ * before executing the cmd, either it's a builtin or not.
+ * If the cmd is a builtin and is not in or out a pipe 
+ * it doesnt fork. In any other case it does fork.
+ * 
+ * Returns: void
+ */
 void	exec_cmd(t_tree *node, t_ms *ms)
 {
 	int	pid;

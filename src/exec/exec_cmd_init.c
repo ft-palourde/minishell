@@ -6,12 +6,20 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:24:51 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 12:30:54 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:40:40 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** get_paths - split $PATH
+ * @env: ms->env
+ * 
+ * browse the env array to find the PATH variable and splits its content.
+ *
+ * Returns: the splitted paths for $PATH, or an empty split if $PATH is not set
+ * (NULL if malloc failed)
+ */
 char	**get_paths(char **env)
 {
 	int	i;
@@ -29,6 +37,18 @@ char	**get_paths(char **env)
 	return (ft_split(env[i] + j, ':'));
 }
 
+/** cmd_exists - check if the command exists at this path
+ * @cmd: the cmd given in input
+ * @path: the path to test
+ * 
+ * adds the cmd after the path then checks with access if the 
+ * cmd can be executed.
+ * 
+ * Returns: 
+ * -1 if malloc failed
+ * 0 if the cmd doesnt exist
+ * 1 if the cmd exists
+ */
 int	cmd_exists(char *cmd, char *path)
 {
 	char	*join;
@@ -36,7 +56,7 @@ int	cmd_exists(char *cmd, char *path)
 
 	join = ft_strjoin(path, "/");
 	if (!join)
-		return (-1);
+		return (perror("malloc"), -1);
 	join2 = ft_strjoin(join, cmd);
 	if (!join2)
 		return (free(join), -1);
@@ -48,26 +68,46 @@ int	cmd_exists(char *cmd, char *path)
 	return (0);
 }
 
-char	*add_paths(char *p1, char *p2)
+/** add_paths - build the path string
+ * @path: the path found by get_cmd_path function
+ * @cmd: the cmd name given in input
+ * 
+ * add the path as a prefix of the cmd for execve to find it
+ *
+ * Returns: mallocd built string or NULL on malloc error
+ */
+char	*add_paths(char *path, char *cmd)
 {
 	char	*new;
 	char	*tmp;
 
-	if (!p1 && !p2)
+	if (!path && !cmd)
 		return (NULL);
-	if (!p1)
-		return (p2);
-	if (!p2)
-		return (p1);
-	new = ft_strjoin(p1, "/");
+	if (!path)
+		return (cmd);
+	if (!cmd)
+		return (path);
+	new = ft_strjoin(path, "/");
 	if (!new)
 		return (perror("malloc"), NULL);
 	tmp = new;
-	new = ft_strjoin(tmp, p2);
+	new = ft_strjoin(tmp, cmd);
 	free(tmp);
 	return (new);
 }
 
+/** get_cmd_path - find the right path to execute
+ * @cmd: t_token->data->cmd
+ * @paths: an array of string containing the split of all the paths in $PATH
+ * 
+ * search for the right PATH to execute the command. If none is found, just
+ * returns the cmd given in input.
+ *
+ * Returns:
+ * -mallocd path of cmd if one is matching
+ * -mallocd cmd name if none
+ * -NULL on malloc error
+ */
 char	*get_cmd_path(t_cmd *cmd, char **paths)
 {
 	int		i;
@@ -94,6 +134,16 @@ char	*get_cmd_path(t_cmd *cmd, char **paths)
 	return (not_found);
 }
 
+/** init_cmd - set the cmd token values before executing
+ * @node: current tree node carrying a T_CMD type token
+ * @ms: the minishell struct
+ * 
+ * init_cmd expand the command arguments, then checks for the 
+ * right path to execute the cmd in execve.
+ * if the cmd given in input has an absolute path, it keeps it.
+ *
+ * Returns: 1 on malloc error, 0 else
+ */
 int	init_cmd(t_tree *node, t_ms *ms)
 {
 	char	**paths;
@@ -109,7 +159,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 		{
 			paths = get_paths(ms->env);
 			if (!paths)
-				return (1);
+				return (perror("malloc"), 1);
 			cmd->path = get_cmd_path(node->token->data->cmd, paths);
 			reverse_cascade_free(paths, split_len(paths));
 		}

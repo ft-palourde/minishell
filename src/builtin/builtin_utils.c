@@ -6,12 +6,21 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 12:45:35 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:17:15 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** is_builtin - check if the command in the token is a builtin
+ * @token: the token you want to check
+ * 
+ * check for the cmd token given in input and compare its name to the 7 builtins
+ * handled by minishell and set its 'is_builtin' variable to the value
+ * of the corresponding builtin
+ *
+ * Returns: 1 if found, 0 else
+ */
 int	is_builtin(t_token *token)
 {
 	const char	*cmd = token->data->cmd->args[0];
@@ -34,6 +43,16 @@ int	is_builtin(t_token *token)
 	return (token->data->cmd->is_builtin);
 }
 
+/** get_var_name - extract the variable key from a string
+ * @var: the variable string
+ * 
+ * create a new string which is a copy of the variable given in parametter
+ * without its content.
+ *
+ * Returns:
+ * malloc string with the name of the variable and the '=' sign
+ * NULL on malloc error
+ */
 char	*get_var_name(char *var)
 {
 	int		i;
@@ -48,6 +67,14 @@ char	*get_var_name(char *var)
 	return (name);
 }
 
+/** var_exists -
+ * @env: ms->env
+ * @var: the variable string
+ * 
+ * browse the environnement for the variable name
+ *
+ * Returns: 1 if found, 0 else
+ */
 int	var_exists(char **env, char *var)
 {
 	char	*name;
@@ -70,6 +97,13 @@ int	var_exists(char **env, char *var)
 	return (0);
 }
 
+/** var_is_empty -
+ * @var: the variable string
+ *
+ * check if there is no content in the variable after the key
+ *
+ * Returns: 1 if yes, 0 else
+ */
 int	var_is_empty(char *var)
 {
 	int		i;
@@ -96,6 +130,13 @@ int	var_is_empty(char *var)
 	return (0);
 }
 
+/** is_var - check if the variable is well formated
+ * @var: the variable string
+ * 
+ * check if the variable contains a key, an '=' sign and a value
+ *
+ * Returns: 1 if yes, 0 else
+ */
 int	is_var(char *var)
 {
 	int	has_name;

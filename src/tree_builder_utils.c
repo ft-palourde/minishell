@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/22 13:01:39 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:26:20 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_tree	*get_root(t_tree *node);
 t_tree	*get_new_node(t_token *token);
-void	debug_print_tree(t_tree *root, int i);
 
 t_tree	*get_root(t_tree *node)
 {
@@ -37,6 +36,10 @@ t_tree	*get_new_node(t_token *token)
 	return (new);
 }
 
+
+
+/* //////////// DEBUG ////////////////
+
 void	print_spaces(int i)
 {
 	int	j;
@@ -48,9 +51,6 @@ void	print_spaces(int i)
 		j++;
 	}
 }
-
-/*
-//////////// DEBUG ////////////////
 
 void	debug_print_tree(t_tree *root, int i)
 {

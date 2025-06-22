@@ -6,12 +6,22 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/10 16:20:32 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:14:02 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** exec_heredoc - execute a heredoc node
+ * @node: current tree node carrying a T_HEREDOC type token
+ * @ms: minishell struct
+ * 
+ * checks if the heredoc needs to be piped in something and dups
+ * STDIN or STDOUT if needed before writing its content in the 
+ * wanted fd.
+ *
+ * Returns: 1 on malloc failed, 0 else
+ */
 int	exec_init(t_ms *ms)
 {
 	sort_tokens(ms);
@@ -22,6 +32,16 @@ int	exec_init(t_ms *ms)
 	return (0);
 }
 
+/** exec_heredoc - execute a heredoc node
+ * @node: current tree node carrying a T_HEREDOC type token
+ * @ms: minishell struct
+ * 
+ * checks if the heredoc needs to be piped in something and dups
+ * STDIN or STDOUT if needed before writing its content in the 
+ * wanted fd.
+ *
+ * Returns: 1 on malloc failed, 0 else
+ */
 int	exec_tree(t_tree *root, t_ms *ms)
 {
 	if (!root)

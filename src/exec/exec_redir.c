@@ -6,13 +6,22 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 17:53:07 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:13:51 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <fcntl.h>
 
+/** open_failed - error checker
+ * @path: the file path
+ * @ms: minishell struct
+ * 
+ * display an error message and then set ms->open_failed to 1 to stop executing
+ * if the open failed
+ *
+ * Returns: 1 on open fail, 0 on success
+ */
 int	open_failed(char *path, t_ms *ms)
 {
 	if (ms->file_in == -1 || ms->file_out == -1)
@@ -25,6 +34,16 @@ int	open_failed(char *path, t_ms *ms)
 	return (0);
 }
 
+/** exec_redir - execute a redir node
+ * @node: current tree node carrying a redir type token
+ * @ms: minishell struct
+ * 
+ * expand the content of the path and then open the file pointed to by
+ * token->rd->file->filename and stock the new fd at the end of ms->fd
+ * and set it in ms->file_in/out
+ *
+ * Returns: 1 on malloc failed, 0 else
+ */
 void	exec_redir(t_token *token, t_ms *ms)
 {
 	char	*path;
