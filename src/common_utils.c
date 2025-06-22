@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   common_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 12:35:30 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/22 12:42:15 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/06/22 12:46:01 by tcoeffet          #+#    #+#             */
+/*   Updated: 2025/06/22 12:47:29 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ms	*init_ms_struct(char **env)
+void	free_split(char **split)
 {
-	t_ms	*new;
+	int	i;
 
-	new = ft_calloc(1, sizeof(t_ms));
-	if (!new)
-		return (NULL);
-	new->file_in = STDIN_FILENO;
-	new->file_out = STDOUT_FILENO;
-	new->env = set_env(env);
-	new->ms_stdin = dup(STDIN_FILENO);
-	new->ms_stdout = dup(STDOUT_FILENO);
-	new->term = malloc(sizeof(t_termios));
-	if (!new->term)
-		return (NULL);
-	new->prompt = get_prompt(env);
-	if (!new->prompt)
-		return (NULL);
-	return (new);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+int	split_len(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		i++;
+	return (i);
 }

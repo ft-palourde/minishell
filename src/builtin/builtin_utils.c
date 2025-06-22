@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 16:16:37 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:45:35 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ char	*get_var_name(char *var)
 	if (!name)
 		return (perror("malloc"), NULL);
 	return (name);
-}
-
-int	split_len(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		i++;
-	return (i);
 }
 
 int	var_exists(char **env, char *var)
@@ -106,7 +96,7 @@ int	var_is_empty(char *var)
 	return (0);
 }
 
-int is_var(char *var)
+int	is_var(char *var)
 {
 	int	has_name;
 	int	has_sign;

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/09 17:39:15 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:01:39 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	print_spaces(int i)
 	}
 }
 
+/*
+//////////// DEBUG ////////////////
+
 void	debug_print_tree(t_tree *root, int i)
 {
 	if (!i)
@@ -80,4 +83,4 @@ void	debug_print_tree(t_tree *root, int i)
 		print_spaces(i);
 		dprintf(2, "right = [X]\n");
 	}
-}
+} */
