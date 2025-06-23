@@ -90,6 +90,14 @@ void			add_var_to_new(char **new, char *str, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
 char			*expand_path(char *str, t_ms *ms);
 
+/* SIGNAL */
+
+void			signal_listener(void);
+void			handle_sigint(int sig);
+void			handle_sigquit(int sig);
+void			handle_sigabort(int sig);
+void			handle_sigsegv(int sig);
+
 ///////// BUILT-INS /////////
 
 int				bi_cd(char **env, char *path);

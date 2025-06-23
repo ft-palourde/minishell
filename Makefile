@@ -69,6 +69,8 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_rd_file \
 				parsing/parse_utils \
 				parsing/parse \
+				signal/signal_handler \
+				signal/signal_listener \
 				clear \
 				common_utils\
 				init \
@@ -120,6 +122,7 @@ $(OBJ_DIR) :
 	$(QUIET) mkdir -p $(OBJ_DIR)/builtin
 	$(QUIET) mkdir -p $(OBJ_DIR)/lexing
 	$(QUIET) mkdir -p $(OBJ_DIR)/parsing
+	$(QUIET) mkdir -p $(OBJ_DIR)/signal
 	$(QUIET) mkdir -p $(OBJ_DIR)/exec
 	$(QUIET) mkdir -p $(OBJ_DIR)/expand
 
