@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 16:20:39 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:06:09 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/06/23 16:43:20 by rcochran          #+#    #+#             */
+/*   Updated: 2025/06/23 16:43:23 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 /** pipe_heredoc - 
  * @node: current tree node carrying a T_HEREDOC type token
@@ -48,7 +50,6 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 {
 	char	*line;
 
-	// signal_child();
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
 	if (node->parent && node->parent->token->type == T_CMD)
@@ -69,6 +70,5 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 		line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	}
 	reset_dup(node->token->in_fd, node->token->out_fd, ms);
-	// signal_listener();
 	return (0);
 }

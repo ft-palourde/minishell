@@ -13,8 +13,10 @@
 #include "minishell.h"
 
 void	handle_sigint(int sig);
-void	handle_sigabort(int sig);
-void	handle_sigsegv(int sig);
+int		sig_comp(int sig);
+int		is_ctrlc(void);
+
+int	g_sig;
 
 /** handle_sigint - Display a new line and redisplay prompt.
  * @sig: int sig code given by signal(), cannot be null or void.
@@ -37,7 +39,8 @@ void	handle_sigsegv(int sig);
  */
 void	handle_sigint(int sig)
 {
-	(void)sig;
+	g_sig = sig;
+	printf("int sig = %d\n", sig);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -45,28 +48,21 @@ void	handle_sigint(int sig)
 	return ;
 }
 
-/** handle_sigabort - Handle ABORT signal.
- * @sig: int sig code given by signal(), cannot be null or void.
- *
- * Display "Abort\n" in STDOUT
- * 
- * Returns : void.
- */
-void	handle_sigabort(int sig)
+int	sig_comp(int sig)
 {
-	(void)sig;
-	write(1, "Abort\n", 6);
+	if (sig == g_sig)
+	{
+		g_sig = 0;
+		return (1);
+	}
+	return (0);
 }
-
-/** handle_sigsegv - Handle SIGINT signal.
- * @sig: int sig code given by signal(), cannot be null or void.
- *
- * Display "Segmentation fault\n" in STDERR
- * 
- * Returns : void.
- */
-void	handle_sigsegv(int sig)
+int	is_ctrlc(void)
 {
-	(void)sig;
-	write(2, "Segmentation fault\n", 19);
+	if (g_sig == SIGINT)
+	{
+		g_sig = 0;
+		return (1);
+	}
+	return (0);
 }

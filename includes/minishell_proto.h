@@ -94,9 +94,9 @@ char			*expand_path(char *str, t_ms *ms);
 
 void			signal_listener(void);
 void			handle_sigint(int sig);
-void			handle_sigabort(int sig);
-void			handle_sigsegv(int sig);
 void			signal_child(void);
+int				sig_comp(int sig);
+int				is_ctrlc(void);
 
 ///////// BUILT-INS /////////
 

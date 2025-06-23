@@ -115,6 +115,8 @@ int	exec_child(t_token *token, t_ms *ms)
 	}
 	else
 	{
+		signal(SIGINT, NULL);
+		signal(SIGQUIT, NULL);
 		execve(cmd->path, cmd->args, ms->env);
 		ms->retval = 127;
 		command_failed(token, ms);

@@ -13,6 +13,8 @@
 #include "minishell.h"
 #include <sys/wait.h>
 
+extern int	g_sig;
+
 int	wait_all(t_ms *ms)
 {
 	int	i;
@@ -67,7 +69,9 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	int		retval;
 
-	(void) ac, (void) av;
+	g_sig = 0;
+	if (ac > 1 && !strncmp("-h", av[1], 2))
+		display_art();
 	ms = init_ms_struct(env);
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
@@ -91,58 +95,3 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-// DEBUG TOKENS
-
-/* int	main(int ac, char **av, char **env)
-{
-	char		*prompt;
-	char		*line;
-	t_token		*tokens;
-
-	(void) env;
-	(void) av;
-	(void) ac;
-	tokens = NULL;
-	prompt = get_prompt(env);
-	line = readline(prompt);
-	if (*line == '\0')
-		free(line);
-	printf("%s", line);
-	while (strncmp("EXIT", line, 5))
-	{
-		tokens = parse(line);
-		if (!tokens)
-			printf("\nParsing error\n");
-		debug_display_token_args(tokens);
-		line = readline(prompt);
-		printf("%s", line);
-	}
-	free_tokens(tokens);
-	free(prompt);
-	return (0);
-} */
-
-//DISPLAY ART
-
-/* void	display_art(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("./assets/ms_ascii", O_RDONLY);
-	if (fd == -1)
-		return ;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-		else
-			break ;
-	}
-	close(fd);
-	return ;
-} */
