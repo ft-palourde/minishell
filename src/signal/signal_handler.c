@@ -40,13 +40,20 @@ int	g_sig;
 void	handle_sigint(int sig)
 {
 	g_sig = sig;
-	printf("int sig = %d\n", sig);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	return ;
 }
+
+/* void	handle_sigint_hd(int sig)
+{
+	g_sig = sig;
+	if (is_ctrlc)
+	
+	return ;
+} */
 
 int	sig_comp(int sig)
 {
@@ -57,6 +64,7 @@ int	sig_comp(int sig)
 	}
 	return (0);
 }
+
 int	is_ctrlc(void)
 {
 	if (g_sig == SIGINT)

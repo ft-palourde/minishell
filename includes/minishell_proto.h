@@ -97,6 +97,7 @@ void			handle_sigint(int sig);
 void			signal_child(void);
 int				sig_comp(int sig);
 int				is_ctrlc(void);
+void			handle_sigint_hd(int sig);
 
 ///////// BUILT-INS /////////
 

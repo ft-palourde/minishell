@@ -40,7 +40,11 @@ int	wait_all(t_ms *ms)
 
 int	ms_exec(t_ms *ms)
 {
-	exec_init(ms);
+	int	err;
+
+	err = exec_init(ms);
+	if (err)
+		return (0);
 	build_tree(ms);
 	if (!ms->tree)
 		return (0);
