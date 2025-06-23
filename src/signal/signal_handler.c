@@ -67,10 +67,5 @@ int	sig_comp(int sig)
 
 int	is_ctrlc(void)
 {
-	if (g_sig == SIGINT)
-	{
-		g_sig = 0;
-		return (1);
-	}
-	return (0);
+	return (sig_comp(SIGINT));
 }
