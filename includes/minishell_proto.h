@@ -94,7 +94,6 @@ char			*expand_path(char *str, t_ms *ms);
 
 void			signal_listener(void);
 void			handle_sigint(int sig);
-void			handle_sigquit(int sig);
 void			handle_sigabort(int sig);
 void			handle_sigsegv(int sig);
 

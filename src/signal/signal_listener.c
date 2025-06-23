@@ -20,10 +20,10 @@ void	signal_listener(void);
 // https://www.gnu.org/software/libc/manual/html_node/Basic-Signal-Handling.html
 void	signal_listener(void)
 {
-	signal(SIGINT, &handle_sigint);
-	signal(SIGQUIT, &handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGABRT, &handle_sigabort);
 	signal(SIGSEGV, &handle_sigsegv);
+	signal(SIGINT, &handle_sigint);
 	return ;
 }
 /* 
