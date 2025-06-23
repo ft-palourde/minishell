@@ -13,6 +13,8 @@
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
 
+extern pid_t			g_sig;
+
 /* 
 {
 	B_NONE,

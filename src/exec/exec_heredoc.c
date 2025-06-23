@@ -48,6 +48,7 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 {
 	char	*line;
 
+	// signal_child();
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
 	if (node->parent && node->parent->token->type == T_CMD)
@@ -68,5 +69,6 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 		line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	}
 	reset_dup(node->token->in_fd, node->token->out_fd, ms);
+	// signal_listener();
 	return (0);
 }

@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 void	signal_listener(void);
+void	signal_child(void);
 
 /** signal_listener - On a signal reception, trigger the associated function.
  * SIGQUIT (ctrl + backslash) does nothing :
@@ -27,5 +28,12 @@ void	signal_listener(void)
 	signal(SIGABRT, &handle_sigabort);
 	signal(SIGSEGV, &handle_sigsegv);
 	signal(SIGINT, &handle_sigint);
+	return ;
+}
+
+void	signal_child(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	return ;
 }
