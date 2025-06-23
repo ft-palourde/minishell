@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/04/29 17:50:53 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:30:36 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** errors_cd - errors handler
+ * @path: destination path given in input
+ * 
+ * if cd fails, display an error message on STDOUT
+ *
+ * Returns: 1
+ */
 int	errors_cd(char *path)
 {
 	ft_putstr_fd("cd : ", 2);
@@ -25,6 +32,14 @@ int	errors_cd(char *path)
 	return (1);
 }
 
+/** bi_cd - Built-in command cd
+ * @env: ms->env
+ * @path: destination path given in input
+ * 
+ * moves the user to the path given and sets the new $PWD
+ *
+ * Returns: 1 on error, 0 else
+ */
 int	bi_cd(char **env, char *path)
 {
 	char	*new_path;

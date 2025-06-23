@@ -6,12 +6,19 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 15:29:24 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:56:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** print_export - print sorted env
+ * @env: sorted copy of ms->env
+ * 
+ * displays the sorted copy of ms->env on STDOUT and then free the copy
+ *
+ * Returns: 0
+ */
 int	print_export(char **env)
 {
 	int		i;
@@ -32,9 +39,17 @@ int	print_export(char **env)
 		free(value);
 		i++;
 	}
+	reverse_cascade_free(env, split_len(env));
 	return (0);
 }
 
+/** display_sort - display env in alphabetic order
+ * @env: a copy of ms->env
+ * 
+ * sort a copy of the env and displays it on STDOUT
+ *
+ * Returns: 0
+ */
 int	display_sort(char **env)
 {
 	char	*tmp;
@@ -42,6 +57,8 @@ int	display_sort(char **env)
 	int		j;
 
 	j = 0;
+	if (!env)
+		return (1);
 	while (env[j])
 		j++;
 	while (j > 0)
@@ -59,11 +76,16 @@ int	display_sort(char **env)
 		}
 		j--;
 	}
-	print_export(env);
-	reverse_cascade_free(env, split_len(env));
-	return (0);
+	return (print_export(env));
 }
 
+/** check var - checks if the variable is well formated
+ * @var: environnement variable to set
+ * 
+ * checks if the variable contains an '=' sign and add it if needed
+ *
+ * Returns: NULL on malloc failed or the mallocd variable
+ */
 char	*check_var(char *var)
 {
 	int		i;
@@ -88,6 +110,14 @@ char	*check_var(char *var)
 	return (new_var);
 }
 
+/** export - add a variable
+ * @env: ms->env
+ * @var: environnement variable to set
+ * 
+ * realloc the environnement with one more string to copy the new variable to
+ *
+ * Returns: the new env or the old env if malloc failed or the variable cant be set
+ */
 static char	**export(char **env, char *var)
 {
 	int		env_len;
@@ -117,6 +147,16 @@ static char	**export(char **env, char *var)
 	return (reverse_cascade_free(env, i - 1), new_env);
 }
 
+/** bi_export - Builtin export
+ * @env: ms->env
+ * @arg: arguments given in input
+ * 
+ * add a new variable to the environnement or truncate it if it already exists.
+ * if export is called without argument, displays all the variable in 
+ * alphabetical order
+ *
+ * Returns: 1 on malloc failed, 0 else
+ */
 int	bi_export(char ***env, char **arg)
 {
 	int		i;
@@ -125,7 +165,8 @@ int	bi_export(char ***env, char **arg)
 	i = 0;
 	if (!arg || !arg[0])
 	{
-		display_sort(set_env(*env));
+		if (display_sort(set_env(*env)))
+			return (1);
 		return (0);
 	}
 	while (arg[i])

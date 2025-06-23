@@ -6,23 +6,19 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:03 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/05/19 17:31:54 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:36:04 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-//envoyer un arg qui contient tout l'argument apres echo sans aucun traitement
-
-/* 
-specific cases :
-if echo "blabla"		-> blabla\n
-if echo "-n" "blabla"	-> blabla%
-if echo -n blabla		-> blabla%
-if echo "-n blabla"		-> blabla\n
-if echo -n "blabla"		-> blabla%
-*/
-
+/** check_option
+ * @str: echo argument
+ * 
+ * check if the argument contains -n to prevent echo to display a newline
+ *
+ * Returns: 1 if yes, 0 else
+ */
 static int	check_option(char *str)
 {
 	int	i;
@@ -43,6 +39,14 @@ static int	check_option(char *str)
 	return (0);
 }
 
+/** bi_echo - Builtin echo
+ * @arg: arguments given in input
+ * 
+ * displays all the arguments on the required fd
+ * (STDOUT if no pipe or redirection)
+ *
+ * Returns: 0
+ */
 int	bi_echo(char **arg)
 {
 	int		option;

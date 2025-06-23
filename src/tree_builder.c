@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/09 17:45:35 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:54:32 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ int	fill_tree(t_tree *node, t_token *list)
 {
 	t_tree		*prev_node;
 
-	if (list)
-		list = list->next;
 	while (redir_branch(node, list))
 		list = list->next;
 	while (list)
@@ -105,7 +103,7 @@ int	build_tree(t_ms *ms)
 	ms->tree = get_new_node(ms->token);
 	if (!ms->tree)
 		return (perror("malloc"), 1);
-	if (fill_tree(ms->tree, ms->token))
+	if (fill_tree(ms->tree, ms->token->next))
 		free_tree(ms->tree);
 	ms->tree = get_root(ms->tree);
 	return (0);

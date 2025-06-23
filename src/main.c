@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/18 15:48:42 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:50:38 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ms_exec(t_ms *ms)
 {
 	exec_init(ms);
 	build_tree(ms);
-	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
@@ -62,43 +61,16 @@ int	reset_ms_struct(t_ms *ms)
 	return (0);
 }
 
-void	display_art(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("./assets/ms_ascii", O_RDONLY);
-	if (fd == -1)
-		return ;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-		else
-			break ;
-	}
-	close(fd);
-	return ;
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_ms	*ms;
 	char	*input;
 	int		retval;
 
-	if (ac > 1 && !strncmp("-h", av[1], 2))
-		display_art();
+	(void) ac, (void) av;
 	ms = init_ms_struct(env);
 	if (!ms)
-		return (perror("malloc"), 1);
-	ms->prompt = get_prompt(env);
-	if (!ms->prompt)
-		return (1);
+		return (perror("malloc"), ms_full_clean(ms), 1);
 	retval = 0;
 	while (!ms->exit)
 	{
@@ -147,4 +119,29 @@ int	main(int ac, char **av, char **env)
 	free_tokens(tokens);
 	free(prompt);
 	return (0);
+} */
+
+//DISPLAY ART
+
+/* void	display_art(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("./assets/ms_ascii", O_RDONLY);
+	if (fd == -1)
+		return ;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line)
+		{
+			printf("%s", line);
+			free(line);
+		}
+		else
+			break ;
+	}
+	close(fd);
+	return ;
 } */

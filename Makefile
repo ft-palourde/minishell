@@ -38,13 +38,17 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
 				exec/exec_cmd\
+				exec/exec_cmd_init\
+				exec/exec_cmd_utils\
 				exec/exec_heredoc\
+				exec/exec_heredoc_init\
 				exec/exec_pipe\
 				exec/exec_redir\
 				exec/exec_tree\
 				exec/exec_utils\
 				expand/chunk \
 				expand/exp_cmd_args \
+				expand/expand_heredocs \
 				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
@@ -66,6 +70,7 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse_utils \
 				parsing/parse \
 				clear \
+				common_utils\
 				init \
 				minishell_cleaner \
 				prompt \

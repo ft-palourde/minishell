@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 15:27:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:03:13 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int				is_closed(char *str, char c);
 
 /* EXPAND */
 
+char			*hd_expand(t_ms *ms, char *str);
 char			*get_next_chunk(char *str);
 char			*expand_chunk(char *str, t_ms *ms);
 char			*str_expand(char *str, t_ms *ms);
@@ -107,7 +108,7 @@ char			*get_var_value(char *var);
 char			*get_var_name(char *var);
 int				var_exists(char **env, char *var);
 int				var_is_empty(char *var);
-int 			is_var(char *var);
+int				is_var(char *var);
 
 int				split_len(char **split);
 
@@ -133,6 +134,11 @@ void			sort_tokens(t_ms *ms);
 
 //////// EXEC /////////
 
+int				init_cmd(t_tree *node, t_ms *ms);
+void			reset_ms_files(t_ms *ms);
+
+int				add_pid(int pid, t_ms *ms);
+
 void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
@@ -151,7 +157,6 @@ int				add_fd(int fd, t_ms *ms);
 int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
-
 
 //////// CLEANER /////////
 
