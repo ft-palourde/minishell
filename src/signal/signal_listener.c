@@ -14,10 +14,13 @@
 
 void	signal_listener(void);
 
-//sigint, sigquit
-
-//SIG_IGN permeet d'ignorer un signal
-// https://www.gnu.org/software/libc/manual/html_node/Basic-Signal-Handling.html
+/** signal_listener - On a signal reception, trigger the associated function.
+ * SIGQUIT (ctrl + backslash) does nothing :
+ * SIG_IGN is used to ignore this signal.
+ * The other sig handled are SIGABRT, SIGSEGV, SIGINT.
+ * Each signal above has its own associated function called with signal(). 
+ * https://www.gnu.org/software/libc/manual/html_node/Basic-Signal-Handling.html
+*/
 void	signal_listener(void)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -26,6 +29,3 @@ void	signal_listener(void)
 	signal(SIGINT, &handle_sigint);
 	return ;
 }
-/* 
-la fonction handle pointee en param de signal ne peut prendre void en argument
-*/
