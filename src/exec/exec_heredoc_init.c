@@ -60,11 +60,16 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 
 	len = ft_strlen(lim);
 	expand = check_lim(&lim, len);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_sigint_hd);
 	if (expand == -1)
 		return (1);
 	while (1)
 	{
 		line = readline("> ");
+		// dup2(ms->ms_stdin, 0);
+		if (!line || is_ctrlc())
+			return (1);
 		if (!ft_strncmp(line, lim, len))
 			break ;
 		if (expand)
@@ -77,6 +82,8 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		write(pfd[1], "\n", 1);
 		free(line);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal_listener();
 	return (0);
 }
 

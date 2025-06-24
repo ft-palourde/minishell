@@ -55,9 +55,15 @@ void	clean_pfds(int	**pfd)
 void	ms_cleaner(t_ms *ms)
 {
 	if (ms->file_in != STDIN_FILENO)
+	{
+		dup2(ms->file_in, ms->ms_stdin);
 		close(ms->file_in);
+	}
 	if (ms->file_out != STDOUT_FILENO)
+	{
+		dup2(ms->file_out, ms->ms_stdout);
 		close(ms->file_out);
+	}
 	if (ms->fd)
 	{
 		clean_fds(ms->fd);

@@ -40,7 +40,7 @@ int	g_sig;
 void	handle_sigint(int sig)
 {
 	g_sig = sig;
-	write(1, "\n", 1);
+	write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -48,13 +48,15 @@ void	handle_sigint(int sig)
 	return ;
 }
 
-/* void	handle_sigint_hd(int sig)
+void	handle_sigint_hd(int sig)
 {
 	g_sig = sig;
-	if (is_ctrlc)
-	
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	close(STDIN_FILENO);
 	return ;
-} */
+}
 
 int	sig_comp(int sig)
 {

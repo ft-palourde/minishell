@@ -74,8 +74,7 @@ int	main(int ac, char **av, char **env)
 	int		retval;
 
 	g_sig = 0;
-	if (ac > 1 && !strncmp("-h", av[1], 2))
-		display_art();
+	(void)ac, (void)av;
 	ms = init_ms_struct(env);
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
@@ -86,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		reset_ms_struct(ms);
 		ms->retval = retval;
 		input = readline(ms->prompt);
-		dup2(ms->ms_stdin, 0);
+		// dup2(ms->ms_stdin, 0);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
