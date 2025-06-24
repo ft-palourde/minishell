@@ -111,7 +111,6 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	token->data->rd->heredoc->fd = pfd;
 	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
 	g_sig = 0;
-	dup2(ms->ms_stdin, STDIN_FILENO);
 	signal_listener();
 	close(pfd[1]);
 	if (ret)

@@ -41,9 +41,10 @@ void	handle_sigint(int sig)
 {
 	g_sig = sig;
 	write(STDIN_FILENO, "^C", 2);
-	//rl_replace_line("", 0);
-	//rl_on_new_line();
-	rl_redisplay();
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	if (!g_sig)
+		rl_redisplay();
 	close(STDIN_FILENO);
 	return ;
 }
@@ -52,8 +53,8 @@ void	handle_sigint_hd(int sig)
 {
 	g_sig = sig;
 	write(STDIN_FILENO, "^C", 2);
-	//rl_replace_line("", 0);
-	//rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	close(STDIN_FILENO);
 	return ;
 }

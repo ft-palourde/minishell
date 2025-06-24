@@ -84,8 +84,8 @@ int	main(int ac, char **av, char **env)
 	{
 		reset_ms_struct(ms);
 		ms->retval = retval;
-		input = readline(ms->prompt);
 		dup2(ms->ms_stdin, 0);
+		input = readline(ms->prompt);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);

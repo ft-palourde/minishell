@@ -29,9 +29,9 @@ void	signal_listener(void)
 	return ;
 }
 
-void	signal_child(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-	return ;
-}
+// void	signal_child(void)
+// {
+// 	signal(SIGQUIT, SIG_DFL);
+// 	signal(SIGINT, SIG_DFL);
+// 	return ;
+// }
