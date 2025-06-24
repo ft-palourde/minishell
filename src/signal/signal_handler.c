@@ -40,9 +40,9 @@ int	g_sig;
 void	handle_sigint(int sig)
 {
 	g_sig = sig;
-	write(STDIN_FILENO, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
+	write(STDIN_FILENO, "^C", 2);
+	//rl_replace_line("", 0);
+	//rl_on_new_line();
 	rl_redisplay();
 	close(STDIN_FILENO);
 	return ;
@@ -51,9 +51,9 @@ void	handle_sigint(int sig)
 void	handle_sigint_hd(int sig)
 {
 	g_sig = sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
+	write(STDIN_FILENO, "^C", 2);
+	//rl_replace_line("", 0);
+	//rl_on_new_line();
 	close(STDIN_FILENO);
 	return ;
 }
@@ -66,9 +66,4 @@ int	sig_comp(int sig)
 		return (1);
 	}
 	return (0);
-}
-
-int	is_ctrlc(void)
-{
-	return (sig_comp(SIGINT));
 }

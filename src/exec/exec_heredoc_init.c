@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+extern int g_sig; 
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -60,15 +61,15 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 
 	len = ft_strlen(lim);
 	expand = check_lim(&lim, len);
-	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
 	signal(SIGINT, handle_sigint_hd);
 	if (expand == -1)
 		return (1);
 	while (1)
 	{
+		dup2(ms->ms_stdin, 0);
 		line = readline("> ");
-		// dup2(ms->ms_stdin, 0);
-		if (!line || is_ctrlc())
+		if (!line || sig_comp(SIGINT))
 			return (1);
 		if (!ft_strncmp(line, lim, len))
 			break ;
@@ -82,7 +83,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		write(pfd[1], "\n", 1);
 		free(line);
 	}
-	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
 	signal_listener();
 	return (0);
 }
@@ -100,6 +101,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 int	add_new_hd(t_ms *ms, t_token *token)
 {
 	int		*pfd;
+	int		ret;
 
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd)
@@ -107,9 +109,13 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
-	if (fill_new_hd(ms, pfd, token->data->rd->heredoc->lim))
-		return (1);
+	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
+	g_sig = 0;
+	dup2(ms->ms_stdin, STDIN_FILENO);
+	signal_listener();
 	close(pfd[1]);
+	if (ret)
+		return (close(pfd[0]), free(pfd), 1);
 	if (add_fd(pfd[0], ms))
 		return (1);
 	return (0);

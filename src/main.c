@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		reset_ms_struct(ms);
 		ms->retval = retval;
 		input = readline(ms->prompt);
-		// dup2(ms->ms_stdin, 0);
+		dup2(ms->ms_stdin, 0);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -94,6 +94,7 @@ int	main(int ac, char **av, char **env)
 			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
+		g_sig = 0;
 	}
 	ms_full_clean(ms);
 	return (0);
