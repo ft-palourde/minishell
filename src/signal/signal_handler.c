@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 16:15:56 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:43:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,18 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
+	int	redisplay;
+
+	redisplay = 0;
+	if (g_sig == -1)
+		redisplay = 1;
 	g_sig = sig;
-	write(STDIN_FILENO, "^C", 2);
+	// write(STDIN_FILENO, "^C", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	if (!g_sig)
-		rl_redisplay();
+	if (redisplay)
+		write(1, "\n", 1);
+		// rl_redisplay();
 	close(STDIN_FILENO);
 	return ;
 }
