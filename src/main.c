@@ -81,7 +81,6 @@ int	main(int ac, char **av, char **env)
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
 	retval = 0;
-	ms->retval = retval;
 	signal_listener();
 	while (!ms->exit)
 	{
