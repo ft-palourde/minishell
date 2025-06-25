@@ -66,9 +66,9 @@ int	exec_redir(t_token *token, t_ms *ms)
 	if (open_failed(path, ms))
 		return (1);
 	if (in != STDIN_FILENO && add_fd(ms->file_in, ms))
-		return (perror("malloc"), 1);
+		return (1);
 	if (out != STDOUT_FILENO && add_fd(out, ms))
-		return (perror("malloc"), 1);
+		return (1);
 	ms->file_in = in;
 	ms->file_out = out;
 	return (0);
