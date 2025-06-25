@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 void	signal_listener(void);
-void	signal_child(void);
 
 /** signal_listener - On a signal reception, trigger the associated function.
  * SIGQUIT (ctrl + backslash) does nothing :
@@ -21,6 +20,8 @@ void	signal_child(void);
  * The other sig handled is SIGINT.
  * Each signal above has its own associated function called with signal(). 
  * https://www.gnu.org/software/libc/manual/html_node/Basic-Signal-Handling.html
+ * 
+ * Return : void.
 */
 void	signal_listener(void)
 {
@@ -29,9 +30,14 @@ void	signal_listener(void)
 	return ;
 }
 
-// void	signal_child(void)
-// {
-// 	signal(SIGQUIT, SIG_DFL);
-// 	signal(SIGINT, SIG_DFL);
-// 	return ;
-// }
+/** sig_ignore - Ignores the behavior of SIGINT and SIGQUIT
+ * 
+ * Overwrite signal handler to NULL for SIGINT and SIGQUIT.
+ * 
+ * Return : void.
+*/
+void	sig_ignore(void)
+{
+	signal(SIGINT, NULL);
+	signal(SIGQUIT, NULL);
+}

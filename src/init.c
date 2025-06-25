@@ -30,6 +30,5 @@ t_ms	*init_ms_struct(char **env)
 	new->prompt = get_prompt(env);
 	if (!new->prompt)
 		return (NULL);
-	rl_catch_signals = 0;
 	return (new);
 }

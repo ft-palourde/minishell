@@ -79,7 +79,7 @@ int	display_sort(char **env)
 	return (print_export(env));
 }
 
-/** check var - checks if the variable is well formated
+/** check_var - checks if the variable is well formated
  * @var: environnement variable to set
  * 
  * checks if the variable contains an '=' sign and add it if needed
@@ -116,7 +116,8 @@ char	*check_var(char *var)
  * 
  * realloc the environnement with one more string to copy the new variable to
  *
- * Returns: the new env or the old env if malloc failed or the variable cant be set
+ * Returns: the new env 
+ * or the old env if malloc failed or the variable cant be set
  */
 static char	**export(char **env, char *var)
 {

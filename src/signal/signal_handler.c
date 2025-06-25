@@ -14,7 +14,6 @@
 
 void	handle_sigint(int sig);
 int		sig_comp(int sig);
-int		is_ctrlc(void);
 
 int	g_sig;
 

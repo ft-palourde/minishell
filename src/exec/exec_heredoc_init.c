@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-extern int g_sig; 
+
+extern int	g_sig;
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -57,21 +58,16 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 {
 	char	*line;
 	int		expand;
-	int		len;
 
-	len = ft_strlen(lim);
-	expand = check_lim(&lim, len);
-	//signal(SIGINT, SIG_IGN);
+	expand = check_lim(&lim, ft_strlen(lim));
 	signal(SIGINT, handle_sigint_hd);
-	if (expand == -1)
-		return (1);
-	while (1)
+	while (1 && expand != -1)
 	{
 		dup2(ms->ms_stdin, 0);
 		line = readline("> ");
 		if (!line || sig_comp(SIGINT))
 			return (1);
-		if (!ft_strncmp(line, lim, len))
+		if (!ft_strncmp(line, lim, ft_strlen(lim)))
 			break ;
 		if (expand)
 		{
@@ -83,9 +79,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		write(pfd[1], "\n", 1);
 		free(line);
 	}
-	//signal(SIGINT, SIG_IGN);
-	signal_listener();
-	return (0);
+	return (expand == -1);
 }
 
 /** add_new_hd

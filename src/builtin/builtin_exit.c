@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 /** bi_exit - exit the shell
  * @ms: minishell struct
  * 

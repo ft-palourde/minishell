@@ -13,7 +13,6 @@
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
 
-
 /* 
 {
 	B_NONE,

@@ -15,16 +15,13 @@
 
 char			*get_prompt(char **env);
 
-/*  */
-
-/*  */
-
 /* LEXER */
+
 /* takes readline output as argument and returns a list of tokens*/
 t_token			*lexer(char *input);
-// t_token			*lexer(void);
 
 /* LEXER UTILS */
+
 /* c == white space ? 1 : 0*/
 int				is_space(char c);
 int				extract_word_len(const char *input);
@@ -32,6 +29,7 @@ int				extract_word_len(const char *input);
 /* TOKEN */
 
 /* token constructor */
+
 t_token			*constr_new_token(t_token_type type, char *str);
 void			add_to_tokens(t_token *new_token, t_token **tokens);
 void			free_token(t_token *token);
@@ -94,10 +92,9 @@ char			*expand_path(char *str, t_ms *ms);
 
 void			signal_listener(void);
 void			handle_sigint(int sig);
-void			signal_child(void);
 int				sig_comp(int sig);
-int				is_ctrlc(void);
 void			handle_sigint_hd(int sig);
+void			sig_ignore(void);
 
 ///////// BUILT-INS /////////
 
