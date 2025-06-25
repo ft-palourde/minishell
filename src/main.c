@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 16:42:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:11:43 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ extern int	g_sig;
 
 int	wait_all(t_ms *ms)
 {
-	int	i;
-	int	ret;
-	int	stat;
+	int				i;
+	unsigned char	ret;
+	int				stat;
 
 	ret = 0;
 	i = 0;
@@ -31,11 +31,11 @@ int	wait_all(t_ms *ms)
 		if (WIFEXITED(stat))
 			ret = WEXITSTATUS(stat);
 		if (WIFSIGNALED(stat))
-			ret = WTERMSIG(stat);
+			ret = WTERMSIG(stat) + 128;
 		i++;
 	}
 	tcsetattr(ms->ms_stdin, TCSADRAIN, ms->term);
-	return (ret);
+	return ((int) ret);
 }
 
 int	ms_exec(t_ms *ms)
@@ -81,11 +81,11 @@ int	main(int ac, char **av, char **env)
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
 	retval = 0;
+	ms->retval = retval;
 	signal_listener();
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		ms->retval = retval;
 		dup2(ms->ms_stdin, 0);
 		input = readline(ms->prompt);
 		if (input && *input)
@@ -96,6 +96,10 @@ int	main(int ac, char **av, char **env)
 			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
+		if (g_sig == 2)
+			ms->retval = 130;
+		else
+			ms->retval = retval;
 		g_sig = 0;
 	}
 	ms_full_clean(ms);

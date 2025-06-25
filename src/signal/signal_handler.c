@@ -86,9 +86,6 @@ void	handle_sigint_hd(int sig)
 int	sig_comp(int sig)
 {
 	if (sig == g_sig)
-	{
-		g_sig = 0;
 		return (1);
-	}
 	return (0);
 }
