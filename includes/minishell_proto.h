@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 13:03:13 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:44:11 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
 int				exec_heredoc(t_tree *node, t_ms *ms);
-void			exec_redir(t_token *token, t_ms *ms);
+int				exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 12:48:42 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:38:22 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	redir_branch(t_tree *node, t_token *list)
 	new = 0;
 	if (!list)
 		return (0);
-	while (cursor && cursor->right && (is_redir(cursor->right->token->type)))
+	while (cursor && cursor->right && (is_redir(cursor->right->token->type) \
+		|| cursor->right->token->type == T_HEREDOC))
 		cursor = cursor->right;
-	if (is_redir(list->type))
+	if (is_redir(list->type) || list->type == T_HEREDOC)
 	{
 		new = get_new_node(list);
 		if (!new)

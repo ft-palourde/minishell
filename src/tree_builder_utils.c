@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 11:04:27 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:34:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	debug_print_tree(t_tree *root, int i)
 	dprintf(2, "[%d]current node = %s", i, root->token->str);
 	if (is_redir(root->token->type))
 		dprintf(2, " %s", root->token->data->rd->file->filename);
+	if (root->token->type == T_HEREDOC)
+		dprintf(2, " %s", root->token->data->rd->heredoc->lim);
 	dprintf(2, "\n");
 	if (root->left)
 	{

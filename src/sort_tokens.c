@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 11:00:30 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:11:23 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	needs_sort(t_token *token)
 	return (0);
 }
 
-static t_token	*add_after_cmd(t_token *token, int sorted)
+static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 {
 	t_token	*cursor;
 	t_token	*nxt;
@@ -80,6 +80,8 @@ static t_token	*add_after_cmd(t_token *token, int sorted)
 	nxt = token->next;
 	while (cursor && cursor->type != T_CMD)
 		cursor = cursor->next;
+	if (head)
+		head->next = cursor;
 	while (cursor && i < sorted)
 	{
 		cursor = cursor->next;
@@ -90,7 +92,7 @@ static t_token	*add_after_cmd(t_token *token, int sorted)
 	token->next = tmp;
 	return (nxt);
 }
-/* 
+
 //DEBUG
 void	print_token_list(t_token *token)
 {
@@ -102,48 +104,40 @@ void	print_token_list(t_token *token)
 		printf("\n");
 		token = token->next;
 	}
-} */
+}
 
 void	sort_tokens(t_ms *ms)
 {
 	int		to_sort;
 	int		i;
 	int		lock_first;
+	t_token	*head;
 	t_token	*cursor;
 
+	print_token_list(ms->token);
+	printf("\n\n");
 	cursor = ms->token;
 	lock_first = 0;
+	head = 0;
 	while (cursor)
 	{
 		to_sort = needs_sort(cursor);
 		i = 0;
 		while (i < to_sort)
 		{
-			cursor = add_after_cmd(cursor, i);
+			cursor = add_after_cmd(cursor, i, head);
 			if (!lock_first)
 				ms->token = cursor;
 			i++;
 		}
 		while (cursor && !token_is_operator(cursor))
 			cursor = cursor->next;
+		head = cursor;
 		if (!cursor)
-			break;
+			break ;
 		cursor = cursor->next;
 		lock_first = 1;
+		print_token_list(ms->token);
+		printf("\n\n");
 	}
 }
-
-/* void	debug_print_list(t_ms *ms)
-{
-	t_token *cursor;
-
-	cursor = ms->token;
-	printf("DEBUG PRINT TOKEN AFTER SORT\n");
-	int j = 0;
-	while (cursor != NULL)
-	{
-		dprintf(2, "[%d] %s\n", j, cursor->str);
-		cursor = cursor->next;
-		j++;
-	}
-} */
