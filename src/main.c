@@ -86,7 +86,7 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		dup2(ms->ms_stdin, 0);
+		// dup2(ms->ms_stdin, 0);
 		input = readline(ms->prompt);
 		if (input && *input)
 			add_history(input);

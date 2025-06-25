@@ -46,9 +46,10 @@ void	handle_sigint(int sig)
 	g_sig = sig;
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	if (redisplay)
-		write(1, "\n", 1);
-	close(STDIN_FILENO);
+	// if (redisplay)
+	write(1, "\n", 1);
+	rl_redisplay();
+	// close(STDIN_FILENO);
 	return ;
 }
 
