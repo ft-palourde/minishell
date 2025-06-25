@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 15:40:51 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:01:54 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		if (!line || sig_comp(SIGINT))
 			return (1);
 		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
-
 			break ;
-		}
-		
 		if (expand)
 		{
 			line = hd_expand(ms, line);

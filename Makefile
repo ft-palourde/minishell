@@ -71,7 +71,6 @@ FILES		= 	builtin/builtin_cd\
 				parsing/parse \
 				signal/signal_handler \
 				signal/signal_listener \
-				clear \
 				common_utils\
 				init \
 				minishell_cleaner \

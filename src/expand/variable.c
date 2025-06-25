@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 14:30:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:00:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*var_expand(char *str, t_ms *ms)
 	i = 1;
 	if (str[0] == '~')
 		return (expand_path(str, ms));
+	if (str[i] && str[i] == '?')
+		return (ft_itoa(ms->retval));
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/23 09:49:09 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:15:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	handle_sigint_hd(int sig)
 	close(STDIN_FILENO);
 	return ;
 }
+
 /** sig_comp - Compare global variable with specified signal.
  * 
  *  @sig: int sig code to be compared with global g_sig.
