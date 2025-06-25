@@ -6,12 +6,21 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 13:01:03 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:00:30 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	debug_print_list(t_ms *ms);
+
+/** token_is_operator - token checker
+ * @token: the token to check
+ * 
+ * checks if token type is T_OR_IF || T_AND_IF || T_PIPE || T_HEREDOC
+ *
+ * Returns: 1 if yes, no else
+ */
 static int	token_is_operator(t_token *token)
 {
 	t_token_type	type;
@@ -22,6 +31,16 @@ static int	token_is_operator(t_token *token)
 	return (0);
 }
 
+/** need_sort
+ * @token: the token to check
+ * 
+ * check if the token given in argument is the first of 
+ * a part of the list that needs to be sorted
+ *
+ * Returns:
+ * n elements to skip until sorting is needed
+ * 0 else
+ */
 static int	needs_sort(t_token *token)
 {
 	t_token	*cursor;
@@ -37,7 +56,7 @@ static int	needs_sort(t_token *token)
 	{
 		if (cursor->type == T_CMD)
 			cmd ++;
-		if (is_redir(cursor->type) && !cmd)
+		if ((is_redir(cursor->type) || cursor->type == T_HEREDOC) && !cmd)
 		{
 			redir++;
 			i++;
@@ -108,8 +127,23 @@ void	sort_tokens(t_ms *ms)
 		while (cursor && !token_is_operator(cursor))
 			cursor = cursor->next;
 		if (!cursor)
-			return ;
+			break;
 		cursor = cursor->next;
 		lock_first = 1;
 	}
 }
+
+/* void	debug_print_list(t_ms *ms)
+{
+	t_token *cursor;
+
+	cursor = ms->token;
+	printf("DEBUG PRINT TOKEN AFTER SORT\n");
+	int j = 0;
+	while (cursor != NULL)
+	{
+		dprintf(2, "[%d] %s\n", j, cursor->str);
+		cursor = cursor->next;
+		j++;
+	}
+} */
