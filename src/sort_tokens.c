@@ -114,8 +114,8 @@ void	sort_tokens(t_ms *ms)
 	t_token	*head;
 	t_token	*cursor;
 
-	print_token_list(ms->token);
-	printf("\n\n");
+	//print_token_list(ms->token);
+	//printf("\n\n");
 	cursor = ms->token;
 	lock_first = 0;
 	head = 0;
@@ -137,7 +137,7 @@ void	sort_tokens(t_ms *ms)
 			break ;
 		cursor = cursor->next;
 		lock_first = 1;
-		print_token_list(ms->token);
-		printf("\n\n");
+		//print_token_list(ms->token);
+		//printf("\n\n");
 	}
 }

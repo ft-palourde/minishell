@@ -138,6 +138,7 @@ typedef struct s_token
 	struct s_token	*next;
 	int				in_fd;
 	int				out_fd;
+	int				is_piped;
 }	t_token;
 /* 
 {

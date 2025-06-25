@@ -36,9 +36,20 @@ int	check_outfile(t_token *list, t_tree *node)
 void	new_branch(int is_left, t_tree *parent, t_tree *child)
 {
 	if (is_left)
-		parent->left = child;
+	{
+		if (child->token->is_piped)
+		{
+			parent->left = child->parent;
+			parent->left->parent = parent;
+		}
+		else
+			parent->left = child;
+	}
 	else
+	{
 		parent->right = child;
+		child->token->is_piped = 1;
+	}
 	child->parent = parent;
 }
 /* 
