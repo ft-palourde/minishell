@@ -36,7 +36,7 @@ char	**set_default_env(void)
 	pwd = ft_get_pwd(1);
 	if (!pwd)
 		return (0);
-	new = ft_calloc(4, sizeof(char *));
+	new = ft_calloc(3, sizeof(char *));
 	if (!new)
 		return (0);
 	new[0] = pwd;
@@ -45,7 +45,6 @@ char	**set_default_env(void)
 	new[1] = ft_strdup("SHLVL=1");
 	if (!new[1])
 		return (reverse_cascade_free(new, 1));
-	new[2] = ft_strdup("_=/usr/bin/env");
 	return (new);
 }
 

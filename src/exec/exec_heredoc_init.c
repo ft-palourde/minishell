@@ -109,7 +109,7 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	close(pfd[1]);
 	if (ret)
 		return (close(pfd[0]), free(pfd), 1);
-	if (add_fd(pfd[0], ms))
+	if (add_fd(pfd[0], ms) || add_pfd(pfd, ms))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:13:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:47:58 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	open_failed(char *path, t_ms *ms)
  *
  * Returns: 1 on malloc failed, 0 else
  */
-void	exec_redir(t_token *token, t_ms *ms)
+int	exec_redir(t_token *token, t_ms *ms)
 {
 	char	*path;
 	int		out;
@@ -53,10 +53,10 @@ void	exec_redir(t_token *token, t_ms *ms)
 	in = STDIN_FILENO;
 	out = STDOUT_FILENO;
 	if (ms->open_failed)
-		return ;
+		return (1);
 	path = str_expand(token->data->rd->file->filename, ms);
 	if (!path)
-		return ;
+		return (1);
 	if (token->type == T_REDIR_IN)
 		in = open(path, O_RDONLY | O_CREAT, 0644);
 	else if (token->type == T_APPEND)
@@ -64,11 +64,12 @@ void	exec_redir(t_token *token, t_ms *ms)
 	else if (token->type == T_REDIR_OUT)
 		out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (open_failed(path, ms))
-		return ;
-	if (in != STDIN_FILENO)
-		add_fd(ms->file_in, ms);
-	if (out != STDOUT_FILENO)
-		add_fd(out, ms);
+		return (1);
+	if (in != STDIN_FILENO && add_fd(ms->file_in, ms))
+		return (perror("malloc"), 1);
+	if (out != STDOUT_FILENO && add_fd(out, ms))
+		return (perror("malloc"), 1);
 	ms->file_in = in;
 	ms->file_out = out;
+	return (0);
 }

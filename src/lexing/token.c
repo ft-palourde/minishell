@@ -27,6 +27,7 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token->next = NULL;
 	new_token->in_fd = STDIN_FILENO;
 	new_token->out_fd = STDOUT_FILENO;
+	new_token->is_piped = 0;
 	return (new_token);
 }
 

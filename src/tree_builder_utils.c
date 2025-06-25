@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:28:07 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/22 18:26:20 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:34:52 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ t_tree	*get_new_node(t_token *token)
 	return (new);
 }
 
-
-
-/* //////////// DEBUG ////////////////
+//////////////// DEBUG ////////////////
 
 void	print_spaces(int i)
 {
@@ -60,6 +58,8 @@ void	debug_print_tree(t_tree *root, int i)
 	dprintf(2, "[%d]current node = %s", i, root->token->str);
 	if (is_redir(root->token->type))
 		dprintf(2, " %s", root->token->data->rd->file->filename);
+	if (root->token->type == T_HEREDOC)
+		dprintf(2, " %s", root->token->data->rd->heredoc->lim);
 	dprintf(2, "\n");
 	if (root->left)
 	{
@@ -83,4 +83,4 @@ void	debug_print_tree(t_tree *root, int i)
 		print_spaces(i);
 		dprintf(2, "right = [X]\n");
 	}
-} */
+}

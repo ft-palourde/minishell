@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:27:10 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 12:54:32 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:38:22 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,20 @@ int	check_outfile(t_token *list, t_tree *node)
 void	new_branch(int is_left, t_tree *parent, t_tree *child)
 {
 	if (is_left)
-		parent->left = child;
+	{
+		if (child->token->is_piped)
+		{
+			parent->left = child->parent;
+			parent->left->parent = parent;
+		}
+		else
+			parent->left = child;
+	}
 	else
+	{
 		parent->right = child;
+		child->token->is_piped = 1;
+	}
 	child->parent = parent;
 }
 /* 
@@ -54,9 +65,10 @@ int	redir_branch(t_tree *node, t_token *list)
 	new = 0;
 	if (!list)
 		return (0);
-	while (cursor && cursor->right && is_redir(cursor->right->token->type))
+	while (cursor && cursor->right && (is_redir(cursor->right->token->type) \
+		|| cursor->right->token->type == T_HEREDOC))
 		cursor = cursor->right;
-	if (is_redir(list->type))
+	if (is_redir(list->type) || list->type == T_HEREDOC)
 	{
 		new = get_new_node(list);
 		if (!new)
@@ -80,14 +92,14 @@ int	fill_tree(t_tree *node, t_token *list)
 		node = get_new_node(list);
 		if (!node)
 			return (perror("malloc"), 1);
-		while (redir_branch(node, list))
+		while (redir_branch(node, list->next))
 			list = list->next;
 		if (prev_node->token->type != T_PIPE)
 			new_branch(1, node, prev_node);
 		else if (!prev_node->right)
 		{
 			new_branch(0, prev_node, node);
-			node = prev_node;
+			//node = prev_node;
 		}
 		else
 			new_branch(1, node, prev_node);

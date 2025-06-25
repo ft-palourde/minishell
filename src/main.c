@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 17:11:43 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:01:34 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ms_exec(t_ms *ms)
 	if (err)
 		return (0);
 	build_tree(ms);
+	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
