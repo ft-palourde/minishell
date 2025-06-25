@@ -48,6 +48,22 @@ void	handle_sigint(int sig)
 	return ;
 }
 
+/** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
+ * @sig: int sig code given by signal(), cannot be null or void.
+ *
+ * rl_replace_line() :
+ * Replace the contents of rl_line_buffer with text.
+ * The point and mark are preserved, if possible.
+ * If clear_undo is non-zero, 
+ * the undo list associated with the current line is cleared.
+ * 
+ * rl_on_new_line() : 
+ * Tell the update functions that we have moved onto a new (empty) line,
+ * usually after outputting a newline. 
+ * 
+ * Close fd 0 opened with dup in parent function.
+ * Returns : void.
+ */
 void	handle_sigint_hd(int sig)
 {
 	g_sig = sig;
@@ -57,7 +73,12 @@ void	handle_sigint_hd(int sig)
 	close(STDIN_FILENO);
 	return ;
 }
-
+/** sig_comp - Compare global variable with specified signal.
+ * 
+ *  @sig: int sig code to be compared with global g_sig.
+ *  
+ * Returns : 1 if true, 0 otherwise.
+ */
 int	sig_comp(int sig)
 {
 	if (sig == g_sig)
