@@ -39,7 +39,7 @@ char	*var_expand(char *str, t_ms *ms)
 	if (str[0] == '~')
 		return (expand_path(str, ms));
 	if (str[i] && str[i] == '?')
-		return (ft_itoa(ms->retval));
+			return (ft_itoa(ms->retval));
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);
@@ -93,6 +93,11 @@ void	add_var_to_new(char **new, char *str, t_ms *ms)
 	char	*var;
 
 	var = var_expand(str, ms);
+	if (!var)
+	{
+		perror("malloc");
+		return ;
+	}
 	tmp = *new;
 	*new = ft_strjoin(*new, var);
 	free(tmp);
