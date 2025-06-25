@@ -59,7 +59,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
  *
  * Returns: void
  */
-void	command_failed(t_token *token, t_ms *ms)
+static void	command_failed(t_token *token, t_ms *ms)
 {
 	int	retval;
 
@@ -91,9 +91,9 @@ void	command_failed(t_token *token, t_ms *ms)
  * else call the cmd with execve and call command failed if the cmd doesnt
  * exist or if the called file is not a program
  * 
- * Returns: the command exit code
+ * Returns: void
  */
-int	exec_child(t_token *token, t_ms *ms)
+static void	exec_child(t_token *token, t_ms *ms)
 {
 	t_cmd	*cmd;
 	int		is_bi;
@@ -115,11 +115,10 @@ int	exec_child(t_token *token, t_ms *ms)
 	}
 	else
 	{
+		sig_ignore();
 		execve(cmd->path, cmd->args, ms->env);
-		ms->retval = 127;
 		command_failed(token, ms);
 	}
-	return (ms->retval);
 }
 
 /** exec_cmd - execute the cmd node in the binary tree
@@ -148,7 +147,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		if (pid == -1)
 			perror("fork");
 		else if (!pid)
-			ms->retval = exec_child(node->token, ms);
+			exec_child(node->token, ms);
 		else
 		{
 			if (add_pid(pid, ms))

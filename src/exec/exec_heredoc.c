@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 16:20:39 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:06:09 by tcoeffet         ###   ########.fr       */
+/*   Created: 2025/06/23 16:43:20 by rcochran          #+#    #+#             */
+/*   Updated: 2025/06/23 16:43:23 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 /** pipe_heredoc - 
  * @node: current tree node carrying a T_HEREDOC type token

@@ -22,6 +22,7 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <termios.h>
+# include <signal.h>
 
 # include "libft.h"
 # include "minishell_structs.h"

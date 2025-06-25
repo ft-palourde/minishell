@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc_init.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:32:36 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:01:54 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -56,16 +58,16 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 {
 	char	*line;
 	int		expand;
-	int		len;
 
-	len = ft_strlen(lim);
-	expand = check_lim(&lim, len);
-	if (expand == -1)
-		return (1);
-	while (1)
+	expand = check_lim(&lim, ft_strlen(lim));
+	signal(SIGINT, handle_sigint_hd);
+	while (1 && expand != -1)
 	{
+		dup2(ms->ms_stdin, 0);
 		line = readline("> ");
-		if (!ft_strncmp(line, lim, len))
+		if (!line || sig_comp(SIGINT))
+			return (1);
+		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
 			break ;
 		if (expand)
 		{
@@ -77,7 +79,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		write(pfd[1], "\n", 1);
 		free(line);
 	}
-	return (0);
+	return (expand == -1);
 }
 
 /** add_new_hd
@@ -93,6 +95,7 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 int	add_new_hd(t_ms *ms, t_token *token)
 {
 	int		*pfd;
+	int		ret;
 
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd)
@@ -100,9 +103,12 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
-	if (fill_new_hd(ms, pfd, token->data->rd->heredoc->lim))
-		return (1);
+	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
+	g_sig = 0;
+	signal_listener();
 	close(pfd[1]);
+	if (ret)
+		return (close(pfd[0]), free(pfd), 1);
 	if (add_fd(pfd[0], ms))
 		return (1);
 	return (0);

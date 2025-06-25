@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:03 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:04 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:35:57 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*str_expand(char *str, t_ms *ms);
 
-//prend une string a expand et la return en ayant remplace les var d'env
 char	*str_expand(char *str, t_ms *ms)
 {
 	char	*new;

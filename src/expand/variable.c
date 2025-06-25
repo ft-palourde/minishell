@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 14:30:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:07:52 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*var_expand(char *str, t_ms *ms)
 	i = 1;
 	if (str[0] == '~')
 		return (expand_path(str, ms));
+	if (str[i] && str[i] == '?')
+			return (ft_itoa(ms->retval));
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);
@@ -91,6 +93,11 @@ void	add_var_to_new(char **new, char *str, t_ms *ms)
 	char	*var;
 
 	var = var_expand(str, ms);
+	if (!var)
+	{
+		perror("malloc");
+		return ;
+	}
 	tmp = *new;
 	*new = ft_strjoin(*new, var);
 	free(tmp);
