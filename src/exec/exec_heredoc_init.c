@@ -52,19 +52,28 @@ WTERMSIG == retourne le signal le cas echeant
 unsigned char wait_child(pid_t cpid)
 {
 	int	status;
-	
+
 	(void)cpid;
+	printf("hoyoyoyoyoyo");
 	// waitpid(cpid, &status, 0);
 	wait(&status);
 	if (WIFEXITED(status))
+	{
+		printf("toto1");
 		return (WEXITSTATUS(status));
+	}
 	if (WIFSIGNALED(status))
 	{
+		printf("toto2");
 		g_sig = WTERMSIG(status);
 		return (128 + g_sig);
 	}
 	if (WIFSTOPPED(status))
+	{
+		printf("toto3");
 		return (WSTOPSIG(status));
+	}
+	printf("yeyeyeyeye");
 	return (0);
 }
 
@@ -90,22 +99,16 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 	new = fork();
 	if (new == -1)
 		perror("fork");
+	reset_dfl_sig();
 	if (new == 0)
 	{
+		rl_catch_signals = 0;
 		reset_dfl_sig();
 		close(pfd[0]);
 		while (1 && expand != -1)
 		{
-			// dup2(ms->ms_stdin, 0);
 			line = readline("> ");
-			// write(1, "> ", 2);
-			// line = get_next_line(0);
-			// printf("line = [%s]\n", line);
-			// dup2(ms->ms_stdin, 0);
-			// printf("LINE: [%s]", line);
-			if (!line || sig_comp(SIGINT))
-				return (1);
-			if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
+			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line)))
 				break ;
 			if (expand)
 			{
@@ -119,30 +122,18 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 		}
 		close(pfd[1]);
 		exit(0);
-		// process enfant
-		// close fd inutiles
-		// expand hd avec readline et write dans le pfd[1]
-		// exit(ret);
 	}
 	else
 	{
-
+		signal_listener();
 		retval = wait_child(new);
+		printf("guess who's back back again");
 		if (retval || g_sig == SIGINT)
 		{
 			ms->retval = 130;
 			return (1);
 		}
-		// process parent
-		// new == pid du process enfant
-		// close fd inutiles
-		// wait l'enfant
-		// get child exit code
 	}
-
-
-
-
 	return (expand == -1);
 }
 
