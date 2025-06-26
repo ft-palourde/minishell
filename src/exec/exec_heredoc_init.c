@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_sig;
+#include <sys/wait.h>
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -42,6 +41,32 @@ int	check_lim(char	**lim, int len)
 	}
 	return (expand);
 }
+/* 
+
+macros de lib wait :
+WIFEXITED == si termine correctement
+WEXITSTATUS == code de retour 
+WIFSIGNALED == interrompu par signal
+WTERMSIG == retourne le signal le cas echeant
+*/
+unsigned char wait_child(pid_t cpid)
+{
+	int	status;
+	
+	(void)cpid;
+	// waitpid(cpid, &status, 0);
+	wait(&status);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		g_sig = WTERMSIG(status);
+		return (128 + g_sig);
+	}
+	if (WIFSTOPPED(status))
+		return (WSTOPSIG(status));
+	return (0);
+}
 
 /** fill_new_hd - get heredoc content
  * @token: the t_token of T_HEREDOC type
@@ -58,29 +83,109 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 {
 	char	*line;
 	int		expand;
+	pid_t	new;
+	int		retval;
+
+	expand = check_lim(&lim, ft_strlen(lim));
+	new = fork();
+	if (new == -1)
+		perror("fork");
+	if (new == 0)
+	{
+		reset_dfl_sig();
+		close(pfd[0]);
+		while (1 && expand != -1)
+		{
+			// dup2(ms->ms_stdin, 0);
+			line = readline("> ");
+			// write(1, "> ", 2);
+			// line = get_next_line(0);
+			// printf("line = [%s]\n", line);
+			// dup2(ms->ms_stdin, 0);
+			// printf("LINE: [%s]", line);
+			if (!line || sig_comp(SIGINT))
+				return (1);
+			if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
+				break ;
+			if (expand)
+			{
+				line = hd_expand(ms, line);
+				if (!line)
+					return (1);
+			}
+			ft_putstr_fd(line, pfd[1]);
+			write(pfd[1], "\n", 1);
+			free(line);
+		}
+		close(pfd[1]);
+		exit(0);
+		// process enfant
+		// close fd inutiles
+		// expand hd avec readline et write dans le pfd[1]
+		// exit(ret);
+	}
+	else
+	{
+
+		retval = wait_child(new);
+		if (retval || g_sig == SIGINT)
+		{
+			ms->retval = 130;
+			return (1);
+		}
+		// process parent
+		// new == pid du process enfant
+		// close fd inutiles
+		// wait l'enfant
+		// get child exit code
+	}
+
+
+
+
+	return (expand == -1);
+}
+
+
+
+/* int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
+{
+	char				*line;
+	int					expand;
+	char				*expanded;
 
 	expand = check_lim(&lim, ft_strlen(lim));
 	signal(SIGINT, handle_sigint_hd);
 	while (1 && expand != -1)
 	{
-		dup2(ms->ms_stdin, 0);
 		line = readline("> ");
-		if (!line || sig_comp(SIGINT))
+		if (!line || g_sig)
+		{
+			free(line);
+			g_sig = 0;
 			return (1);
-		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
+		}
+		if (!ft_strncmp(line, lim, ft_strlen(lim))
+			&& ft_strlen(line) == ft_strlen(lim))
+		{
+			free(line);
 			break ;
+		}
 		if (expand)
 		{
-			line = hd_expand(ms, line);
-			if (!line)
+			expanded = hd_expand(ms, line);
+			free(line);
+			if (!expanded)
 				return (1);
+			line = expanded;
 		}
 		ft_putstr_fd(line, pfd[1]);
 		write(pfd[1], "\n", 1);
 		free(line);
 	}
-	return (expand == -1);
-}
+	signal(SIGINT, &handle_sigint);
+	return (0);
+} */
 
 /** add_new_hd
  * @token: the t_token of T_HEREDOC type
@@ -104,7 +209,8 @@ int	add_new_hd(t_ms *ms, t_token *token)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
 	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
-	g_sig = 0;
+	if (g_sig)
+	// g_sig = 0;
 	signal_listener();
 	close(pfd[1]);
 	if (ret)

@@ -58,13 +58,15 @@ int	exec_redir(t_token *token, t_ms *ms)
 	if (!path)
 		return (1);
 	if (token->type == T_REDIR_IN)
-		in = open(path, O_RDONLY | O_CREAT, 0644);
+		in = open(path, O_RDONLY, 0644);
 	else if (token->type == T_APPEND)
 		out = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else if (token->type == T_REDIR_OUT)
 		out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (open_failed(path, ms))
 		return (1);
+/* 	if(in == -1 || out == -1)
+		return (printf("-1\n"), 1); */
 	if ((in != STDIN_FILENO && add_fd(ms->file_in, ms)) || \
 			(out != STDOUT_FILENO && add_fd(out, ms)))
 		return (1);

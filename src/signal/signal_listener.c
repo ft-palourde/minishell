@@ -41,3 +41,9 @@ void	sig_ignore(void)
 	signal(SIGINT, NULL);
 	signal(SIGQUIT, NULL);
 }
+
+void	reset_dfl_sig(void)
+{
+	// signal(SIGQUIT, SIG_DFL);??
+	signal(SIGINT, SIG_DFL);
+}

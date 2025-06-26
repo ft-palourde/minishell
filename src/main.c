@@ -42,13 +42,12 @@ int	ms_exec(t_ms *ms)
 {
 	int	err;
 
-	if (g_sig == SIGINT)
-		return (0);
+	// printf("ENTER ms_exec\n");
+/* 	if (g_sig == SIGINT)
+		return (130); */
 	err = exec_init(ms);
-	if (err)
-		return (0);
+	// display_tokens(ms->token);
 	build_tree(ms);
-	//debug_print_tree(ms->tree, 0);
 	if (!ms->tree)
 		return (0);
 	exec_tree(ms->tree, ms);
@@ -77,6 +76,7 @@ int	main(int ac, char **av, char **env)
 	int		retval;
 
 	g_sig = -1;
+	// rl_event_hook = &event;
 	(void)ac, (void)av;
 	ms = init_ms_struct(env);
 	if (!ms)
@@ -88,6 +88,7 @@ int	main(int ac, char **av, char **env)
 		reset_ms_struct(ms);
 		// dup2(ms->ms_stdin, 0);
 		input = readline(ms->prompt);
+		// printf("INPUT: [%s]\n", input);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -96,13 +97,16 @@ int	main(int ac, char **av, char **env)
 			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
-		if (g_sig == 2)
+		// printf("gsig = %d\n\n", g_sig);
+		if (g_sig == SIGINT)
+		{
+			g_sig = -1;
 			ms->retval = 130;
+		}
 		else
 			ms->retval = retval;
-		g_sig = 0;
+		g_sig = -1;
 	}
 	ms_full_clean(ms);
 	return (0);
 }
-

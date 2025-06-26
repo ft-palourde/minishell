@@ -38,18 +38,17 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
-	int	redisplay;
-
-	redisplay = 0;
-	if (g_sig == -1)
-		redisplay = 1;
+	// printf("dflt\n");
+	// int	redisplay;
+	// redisplay = 0;
+	// if (g_sig == -1)
+		// redisplay = 1;
 	g_sig = sig;
+	// rl_done = 1;
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	// if (redisplay)
-	write(1, "\n", 1);
 	rl_redisplay();
-	// close(STDIN_FILENO);
 	return ;
 }
 
@@ -69,15 +68,40 @@ void	handle_sigint(int sig)
  * Close fd 0 opened with dup in parent function.
  * Returns : void.
  */
-void	handle_sigint_hd(int sig)
+/* void	handle_sigint_hd(int sig)
 {
+	// printf("hd\n");
+	// int	redisplay;
 	g_sig = sig;
 	rl_replace_line("", 0);
+	rl_done = 1;
 	rl_on_new_line();
+
 	// close(STDIN_FILENO);
-	rl_redisplay();
+	// rl_redisplay();
 	return ;
-}
+
+	// redisplay = 0;
+	// if (g_sig == -1)
+		// redisplay = 1;
+	// g_sig = sig;
+	// write(1, "\n", 1);
+	// write(1, "\n", 1);
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_done = 1;
+	// if (redisplay)
+	// rl_redisplay();
+} */
+// void handle_sigint_hd(int sig)
+// {
+// 	g_sig = sig;
+// 	rl_done = 1;
+// 	rl_replace_line("", 0);
+// 	// rl_on_new_line();
+// 	// rl_redisplay();
+
+// }
 
 /** sig_comp - Compare global variable with specified signal.
  * 
@@ -91,3 +115,12 @@ int	sig_comp(int sig)
 		return (1);
 	return (0);
 }
+
+/* 
+
+*/
+/* int	event(void)
+{
+	return (1);
+} */
+

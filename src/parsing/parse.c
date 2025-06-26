@@ -25,6 +25,8 @@ t_token	*parse(char *input, t_ms *ms)
 	t_token	*cursor;
 	t_token	*tokens;
 
+	if (!input || !(*input))
+		return (NULL);
 	tokens = lexer(input);
 	if (check_syntax_error(tokens))
 		return (free_tokens(tokens), NULL);

@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-extern int	g_sig;
-
 /** pipe_heredoc - 
  * @node: current tree node carrying a T_HEREDOC type token
  * @ms: minishell struct

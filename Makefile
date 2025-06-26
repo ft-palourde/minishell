@@ -19,7 +19,7 @@ MAKEFLAGS += --no-print-directory
 QUIET		=	@
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -g3
 AR			=	ar -rcs
 NAME		= 	minishell
 

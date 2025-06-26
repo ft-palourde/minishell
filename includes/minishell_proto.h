@@ -13,6 +13,8 @@
 #ifndef MINISHELL_PROTO_H
 # define MINISHELL_PROTO_H
 
+extern int	g_sig;
+
 char			*get_prompt(char **env);
 
 /* LEXER */
@@ -95,6 +97,8 @@ void			handle_sigint(int sig);
 int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
+int				event(void);
+void			reset_dfl_sig(void);
 
 ///////// BUILT-INS /////////
 

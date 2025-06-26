@@ -28,3 +28,5 @@ int	expand_wildcard(void)
 /* 
 expand_path
 */
+
+//pas de expand wildcard dans hd

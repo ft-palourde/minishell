@@ -39,7 +39,12 @@ char	*var_expand(char *str, t_ms *ms)
 	if (str[0] == '~')
 		return (expand_path(str, ms));
 	if (str[i] && str[i] == '?')
+	{
+		if (!sig_comp(-1))
+			return (ft_itoa((unsigned char)(128 + g_sig)));
+		g_sig = -1;
 		return (ft_itoa(ms->retval));
+	}
 	if (str[i] && str[i] == '$')
 		return (ft_itoa((int)getpid()));
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))

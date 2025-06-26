@@ -110,5 +110,4 @@ char	*hd_expand(t_ms *ms, char *str)
 			return (NULL);
 	}
 	return (new);
-	return (new);
 }
