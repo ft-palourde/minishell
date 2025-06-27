@@ -38,18 +38,12 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
-	// printf("dflt\n");
-	// int	redisplay;
-	// redisplay = 0;
-	// if (g_sig == -1)
-		// redisplay = 1;
+	// ft_putstr_fd("dflt\n", 2);
 	g_sig = sig;
-	// rl_done = 1;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	return ;
 }
 
 /** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
@@ -93,15 +87,20 @@ void	handle_sigint(int sig)
 	// if (redisplay)
 	// rl_redisplay();
 } */
-// void handle_sigint_hd(int sig)
-// {
-// 	g_sig = sig;
-// 	rl_done = 1;
-// 	rl_replace_line("", 0);
-// 	// rl_on_new_line();
-// 	// rl_redisplay();
+void handle_sigint_hd(int sig)
+{
+	// ft_putstr_fd("hd\n", 2);
+	// g_sig = sig;
+	(void)sig;
+	g_sig = 130;
+	// rl_done = 1;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	close(STDIN_FILENO);
+	// rl_redisplay();
 
-// }
+}
 
 /** sig_comp - Compare global variable with specified signal.
  * 

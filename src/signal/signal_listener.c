@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	signal_listener(void);
+void	ms_signal_listener(void);
 
-/** signal_listener - On a signal reception, trigger the associated function.
+/** ms_signal_listener - On a signal reception, trigger the associated function.
  * SIGQUIT (ctrl + backslash) does nothing :
  * SIG_IGN is used to ignore this signal.
  * The other sig handled is SIGINT.
@@ -23,7 +23,7 @@ void	signal_listener(void);
  * 
  * Return : void.
 */
-void	signal_listener(void)
+void	ms_signal_listener(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &handle_sigint);
@@ -42,8 +42,14 @@ void	sig_ignore(void)
 	signal(SIGQUIT, NULL);
 }
 
-void	reset_dfl_sig(void)
+void	set_child_sig_handler(void)
 {
-	// signal(SIGQUIT, SIG_DFL);??
+	signal(SIGINT, &handle_sigint_hd);
+	// signal(SIGINT, &handle_sigint_hd);
+}
+
+void	reset_dlt_sig_behaviour(void)
+{
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

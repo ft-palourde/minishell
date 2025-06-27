@@ -52,28 +52,39 @@ WTERMSIG == retourne le signal le cas echeant
 unsigned char wait_child(pid_t cpid)
 {
 	int	status;
-
+	pid_t	retval;
 	(void)cpid;
-	printf("hoyoyoyoyoyo");
+	ft_putstr_fd("\n1", 2);
+	// printf("hoyoyoyoyoyo");
 	// waitpid(cpid, &status, 0);
-	wait(&status);
+	while (1)
+	{
+		retval = wait(&status);
+		if 	(retval == -1)
+			break ;
+	}
+	ft_putstr_fd("\n2", 2);
+	// ft_putstr_fd("pid = %d\n", retval);
+	// printf("glob = %d\n", g_sig);
 	if (WIFEXITED(status))
 	{
-		printf("toto1");
+		// ft_putstr_fd("toto1", 2);
 		return (WEXITSTATUS(status));
 	}
+	ft_putstr_fd("\n3", 2);
 	if (WIFSIGNALED(status))
 	{
-		printf("toto2");
+		// ft_putstr_fd("toto2", 2);
 		g_sig = WTERMSIG(status);
-		return (128 + g_sig);
+		return ((unsigned char)(128 + g_sig));
 	}
+	ft_putstr_fd("\n4", 2);
 	if (WIFSTOPPED(status))
 	{
-		printf("toto3");
+		// ft_putstr_fd("toto3", 2);
 		return (WSTOPSIG(status));
 	}
-	printf("yeyeyeyeye");
+	// printf("yeyeyeyeye");
 	return (0);
 }
 
@@ -93,22 +104,27 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 	char	*line;
 	int		expand;
 	pid_t	new;
-	int		retval;
+	unsigned char	retval;
+	// int		saved_fd;
+	// int	i;
 
+	g_sig = 0;
 	expand = check_lim(&lim, ft_strlen(lim));
 	new = fork();
 	if (new == -1)
 		perror("fork");
-	reset_dfl_sig();
+	// saved_fd = dup(ms->ms_stdin);
+	// set_child_sig_handler();
+	// rl_catch_signals = 0;
 	if (new == 0)
 	{
-		rl_catch_signals = 0;
-		reset_dfl_sig();
-		close(pfd[0]);
+		// set_child_sig_handler();
+		reset_dlt_sig_behaviour();
+		// rl_catch_signals = 0;
 		while (1 && expand != -1)
 		{
 			line = readline("> ");
-			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line)))
+			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim)))
 				break ;
 			if (expand)
 			{
@@ -120,19 +136,55 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 			write(pfd[1], "\n", 1);
 			free(line);
 		}
+		close(pfd[0]);
 		close(pfd[1]);
-		exit(0);
+		close(3);
+		close(4);
+		clean_fds(ms->fd);
+		clean_pfds(ms->pfd);
+		// i = 3;
+		// while (ms->fd && ms->fd[i] && i <= 1023)
+		// {
+		// 	close(i);
+		// 	i++;
+		// }
+		// clean_fds(ms->fd);
+		// clean_pfds(ms->pfd);
+		exit(g_sig);
 	}
 	else
 	{
-		signal_listener();
+		// close(saved_fd);
 		retval = wait_child(new);
-		printf("guess who's back back again");
+		ft_putstr_fd("i'm back in the game bitches", 2);
+		// printf("retval == %d", retval);
+		// ft_putstr_fd("back to parent\n", 2);
+		// signal(SIGINT, &handle_sigint);
+		// ft_putstr_fd("iojegrjoigerjiorgejoi", 2);
+		// dup2(saved_fd, ms->ms_stdin);
+		// printf("guess who's back back again");
+/* 		i = 3;
+		while (ms->fd && ms->fd[i] && i <= 1023)
+		{
+			printf("a");
+			close(i);
+			i++;
+		} */
+		// ms_cleaner(ms);
+		// clean_fds(ms->fd);
+		// clean_pfds(ms->pfd);
+		clean_fds(ms->fd);
+		// close(3);
+		// close(4);
+		clean_pfds(ms->pfd);
+		signal(SIGINT, &handle_sigint);
 		if (retval || g_sig == SIGINT)
 		{
+			// ft_putstr_fd("hophophop", 2);
 			ms->retval = 130;
 			return (1);
 		}
+		// ms_cleaner(ms);
 	}
 	return (expand == -1);
 }
@@ -202,7 +254,7 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
 	if (g_sig)
 	// g_sig = 0;
-	signal_listener();
+	ms_signal_listener();
 	close(pfd[1]);
 	if (ret)
 		return (close(pfd[0]), free(pfd), 1);

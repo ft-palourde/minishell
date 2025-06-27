@@ -92,13 +92,14 @@ char			*expand_path(char *str, t_ms *ms);
 
 /* SIGNAL */
 
-void			signal_listener(void);
+void			ms_signal_listener(void);
 void			handle_sigint(int sig);
 int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
 int				event(void);
-void			reset_dfl_sig(void);
+void			set_child_sig_handler(void);
+void			reset_dlt_sig_behaviour(void);
 
 ///////// BUILT-INS /////////
 
@@ -167,7 +168,8 @@ int				add_fd(int fd, t_ms *ms);
 int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
-
+void			clean_fds(int *fd);
+void			clean_pfds(int	**pfd);
 //////// CLEANER /////////
 
 void			free_split(char **split);

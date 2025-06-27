@@ -26,6 +26,8 @@ void	clean_fds(int *fd)
 	int	i;
 
 	i = 0;
+	if (!fd)
+		return ;
 	if (!fd[i])
 		return ;
 	while (fd[i])
@@ -41,6 +43,8 @@ void	clean_pfds(int	**pfd)
 	int	i;
 
 	i = 0;
+	if (!pfd)
+		return ;
 	if (!pfd[i])
 		return ;
 	while (pfd[i])
