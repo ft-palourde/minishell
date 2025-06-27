@@ -285,3 +285,9 @@ int	get_heredocs_pfd(t_ms *ms)
 	}
 	return (0);
 }
+
+
+int fork_hd(t_ms *ms, int *pfd, char *lim)
+{
+	
+}
