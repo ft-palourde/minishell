@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 17:07:52 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:54:19 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	*var_expand(char *str, t_ms *ms)
 	if (!var_name)
 		return (NULL);
 	var_value = var_name_to_value(var_name, ms);
-	free(var_name);
-	return (var_value);
+	return (free(var_name), var_value);
 }
 
 /** var_name_to_value - Expands a variable in the given string.

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/29 15:08:22 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:42:15 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,42 +51,25 @@ WTERMSIG == retourne le signal le cas echeant
 */
 unsigned char wait_child(pid_t cpid)
 {
-	int	status;
-	pid_t	retval;
-	(void)cpid;
-	ft_putstr_fd("\n1", 2);
-	// printf("hoyoyoyoyoyo");
-	// waitpid(cpid, &status, 0);
-	while (1)
+	int status;
+
+	if (waitpid(cpid, &status, 0) == -1)
 	{
-		retval = wait(&status);
-		if 	(retval == -1)
-			break ;
+		perror("waitpid");
+		return (1);
 	}
-	ft_putstr_fd("\n2", 2);
-	// ft_putstr_fd("pid = %d\n", retval);
-	// printf("glob = %d\n", g_sig);
 	if (WIFEXITED(status))
-	{
-		// ft_putstr_fd("toto1", 2);
-		return (WEXITSTATUS(status));
-	}
-	ft_putstr_fd("\n3", 2);
+		return WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 	{
-		// ft_putstr_fd("toto2", 2);
 		g_sig = WTERMSIG(status);
-		return ((unsigned char)(128 + g_sig));
+		return (128 + g_sig);
 	}
-	ft_putstr_fd("\n4", 2);
 	if (WIFSTOPPED(status))
-	{
-		// ft_putstr_fd("toto3", 2);
-		return (WSTOPSIG(status));
-	}
-	// printf("yeyeyeyeye");
-	return (0);
+		return WSTOPSIG(status);
+	return 0;
 }
+
 
 /** fill_new_hd - get heredoc content
  * @token: the t_token of T_HEREDOC type
@@ -99,221 +82,81 @@ unsigned char wait_child(pid_t cpid)
  *
  * Returns: 1 on malloc error, 0 else
  */
-int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
+void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand)
 {
-	char	*line;
-	int		expand;
-	pid_t	new;
-	unsigned char	retval;
-	// int		saved_fd;
-	// int	i;
+	char *line;
+	char *expanded;
 
-	g_sig = 0;
-	expand = check_lim(&lim, ft_strlen(lim));
-	new = fork();
-	if (new == -1)
-		perror("fork");
-	// saved_fd = dup(ms->ms_stdin);
-	// set_child_sig_handler();
-	// rl_catch_signals = 0;
-	if (new == 0)
-	{
-		// set_child_sig_handler();
-		reset_dlt_sig_behaviour();
-		// rl_catch_signals = 0;
-		while (1 && expand != -1)
-		{
-			line = readline("> ");
-			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim)))
-				break ;
-			if (expand)
-			{
-				line = hd_expand(ms, line);
-				if (!line)
-					return (1);
-			}
-			ft_putstr_fd(line, pfd[1]);
-			write(pfd[1], "\n", 1);
-			free(line);
-		}
-		close(pfd[0]);
-		close(pfd[1]);
-		close(3);
-		close(4);
-		clean_fds(ms->fd);
-		clean_pfds(ms->pfd);
-		// i = 3;
-		// while (ms->fd && ms->fd[i] && i <= 1023)
-		// {
-		// 	close(i);
-		// 	i++;
-		// }
-		// clean_fds(ms->fd);
-		// clean_pfds(ms->pfd);
-		exit(g_sig);
-	}
-	else
-	{
-		// close(saved_fd);
-		retval = wait_child(new);
-		ft_putstr_fd("i'm back in the game bitches", 2);
-		// printf("retval == %d", retval);
-		// ft_putstr_fd("back to parent\n", 2);
-		// signal(SIGINT, &handle_sigint);
-		// ft_putstr_fd("iojegrjoigerjiorgejoi", 2);
-		// dup2(saved_fd, ms->ms_stdin);
-		// printf("guess who's back back again");
-/* 		i = 3;
-		while (ms->fd && ms->fd[i] && i <= 1023)
-		{
-			printf("a");
-			close(i);
-			i++;
-		} */
-		// ms_cleaner(ms);
-		// clean_fds(ms->fd);
-		// clean_pfds(ms->pfd);
-		clean_fds(ms->fd);
-		// close(3);
-		// close(4);
-		clean_pfds(ms->pfd);
-		signal(SIGINT, &handle_sigint);
-		if (retval || g_sig == SIGINT)
-		{
-			// ft_putstr_fd("hophophop", 2);
-			ms->retval = 130;
-			return (1);
-		}
-		// ms_cleaner(ms);
-	}
-	return (expand == -1);
-}
-
-int fork_hd(t_ms *ms, int *pfd, char *lim)
-{
-	char	*line;
-	int		expand;
-	pid_t	new;
-	unsigned char	retval;
-	// int		saved_fd;
-	// int	i;
-
-	g_sig = 0;
-	expand = check_lim(&lim, ft_strlen(lim));
-	new = fork();
-	if (new == -1)
-		perror("fork");
-		if (new == 0)
-	{
-		// set_child_sig_handler();
-		reset_dlt_sig_behaviour();
-		// rl_catch_signals = 0;
-		while (1 && expand != -1)
-		{
-			line = readline("> ");
-			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim)))
-				break ;
-			if (expand)
-			{
-				line = hd_expand(ms, line);
-				if (!line)
-					return (1);
-			}
-			ft_putstr_fd(line, pfd[1]);
-			write(pfd[1], "\n", 1);
-			free(line);
-		}
-		close(pfd[0]);
-		close(pfd[1]);
-		close(3);
-		close(4);
-		clean_fds(ms->fd);
-		clean_pfds(ms->pfd);
-		// i = 3;
-		// while (ms->fd && ms->fd[i] && i <= 1023)
-		// {
-		// 	close(i);
-		// 	i++;
-		// }
-		// clean_fds(ms->fd);
-		// clean_pfds(ms->pfd);
-		exit(g_sig);
-	}
-	else
-	{
-		// close(saved_fd);
-		retval = wait_child(new);
-		ft_putstr_fd("i'm back in the game bitches", 2);
-		// printf("retval == %d", retval);
-		// ft_putstr_fd("back to parent\n", 2);
-		// signal(SIGINT, &handle_sigint);
-		// ft_putstr_fd("iojegrjoigerjiorgejoi", 2);
-		// dup2(saved_fd, ms->ms_stdin);
-		// printf("guess who's back back again");
-/* 		i = 3;
-		while (ms->fd && ms->fd[i] && i <= 1023)
-		{
-			printf("a");
-			close(i);
-			i++;
-		} */
-		// ms_cleaner(ms);
-		// clean_fds(ms->fd);
-		// clean_pfds(ms->pfd);
-		clean_fds(ms->fd);
-		// close(3);
-		// close(4);
-		clean_pfds(ms->pfd);
-		signal(SIGINT, &handle_sigint);
-		if (retval || g_sig == SIGINT)
-		{
-			// ft_putstr_fd("hophophop", 2);
-			ms->retval = 130;
-			return (1);
-		}
-		// ms_cleaner(ms);
-	}
-	return (expand == -1);
-}
-
-/* int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
-{
-	char				*line;
-	int					expand;
-	char				*expanded;
-
-	expand = check_lim(&lim, ft_strlen(lim));
-	signal(SIGINT, handle_sigint_hd);
-	while (1 && expand != -1)
+	while (1)
 	{
 		line = readline("> ");
-		if (!line || g_sig)
-		{
-			free(line);
-			g_sig = 0;
-			return (1);
-		}
-		if (!ft_strncmp(line, lim, ft_strlen(lim))
-			&& ft_strlen(line) == ft_strlen(lim))
-		{
-			free(line);
+		if (!line)
 			break ;
+
+		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0 &&
+			ft_strlen(line) == ft_strlen(lim))
+		{
+			free(line);
+			break;
 		}
+
 		if (expand)
 		{
 			expanded = hd_expand(ms, line);
 			free(line);
-			if (!expanded)
-				return (1);
 			line = expanded;
+			if (!line)
+				break;
 		}
-		ft_putstr_fd(line, pfd[1]);
-		write(pfd[1], "\n", 1);
+
+		ft_putstr_fd(line, fd_out);
+		write(fd_out, "\n", 1);
 		free(line);
 	}
-	signal(SIGINT, &handle_sigint);
+}
+
+
+int fork_hd(t_ms *ms, int *pfd, char *lim)
+{
+	pid_t	child_pid;
+	int		expand;
+	int		status;
+
+	g_sig = 0;
+	expand = check_lim(&lim, ft_strlen(lim));
+	if (expand == -1)
+		return (perror("malloc"), 1);
+	child_pid = fork();
+	if (child_pid == -1)
+		return (perror("fork"), 1);
+
+	if (child_pid == 0)
+	{
+		reset_dlt_sig_behaviour();
+		close(pfd[0]);
+		fill_new_hd(ms, pfd[1], lim, expand);
+		close(pfd[1]);
+		clean_fds(ms->fd);
+		clean_pfds(ms->pfd);
+		exit(0);
+	}
+	close(pfd[1]);
+	if (waitpid(child_pid, &status, 0) == -1)
+		return (perror("waitpid"), 1);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		ms->retval = 130;
+		g_sig = SIGINT;
+		close(pfd[0]);
+		return (1);
+	}
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		close(pfd[0]);
+		return (1);
+	}
 	return (0);
-} */
+}
 
 /** add_new_hd
  * @token: the t_token of T_HEREDOC type
@@ -328,7 +171,6 @@ int fork_hd(t_ms *ms, int *pfd, char *lim)
 int	add_new_hd(t_ms *ms, t_token *token)
 {
 	int		*pfd;
-	int		ret;
 
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd)
@@ -336,13 +178,12 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
-	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
-	if (g_sig)
-	// g_sig = 0;
+	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))
+	{
+		ms_signal_listener();
+		return (free(pfd), 1);
+	}
 	ms_signal_listener();
-	close(pfd[1]);
-	if (ret)
-		return (close(pfd[0]), free(pfd), 1);
 	if (add_fd(pfd[0], ms) || add_pfd(pfd, ms))
 		return (1);
 	return (0);

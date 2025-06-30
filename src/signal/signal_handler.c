@@ -6,12 +6,11 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/29 19:30:16 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:59:07 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/readline.h>
 
 void	handle_sigint(int sig);
 int		sig_comp(int sig);
@@ -39,7 +38,6 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
-	// ft_putstr_fd("dflt\n", 2);
 	g_sig = sig;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
@@ -63,44 +61,14 @@ void	handle_sigint(int sig)
  * Close fd 0 opened with dup in parent function.
  * Returns : void.
  */
-/* void	handle_sigint_hd(int sig)
+void	handle_sigint_hd(int sig)
 {
-	// printf("hd\n");
-	// int	redisplay;
-	g_sig = sig;
-	rl_replace_line("", 0);
-	rl_done = 1;
-	rl_on_new_line();
-
-	// close(STDIN_FILENO);
-	// rl_redisplay();
-	return ;
-
-	// redisplay = 0;
-	// if (g_sig == -1)
-		// redisplay = 1;
-	// g_sig = sig;
-	// write(1, "\n", 1);
-	// write(1, "\n", 1);
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_done = 1;
-	// if (redisplay)
-	// rl_redisplay();
-} */
-void handle_sigint_hd(int sig)
-{
-	// ft_putstr_fd("hd\n", 2);
-	// g_sig = sig;
 	(void)sig;
 	g_sig = 130;
-	// rl_done = 1;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	close(STDIN_FILENO);
-	// rl_redisplay();
-
 }
 
 /** sig_comp - Compare global variable with specified signal.
@@ -115,12 +83,3 @@ int	sig_comp(int sig)
 		return (1);
 	return (0);
 }
-
-/* 
-
-*/
-/* int	event(void)
-{
-	return (1);
-} */
-

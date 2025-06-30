@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:01:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/23 10:01:09 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:56:29 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ void	sig_ignore(void)
 {
 	signal(SIGINT, NULL);
 	signal(SIGQUIT, NULL);
-}
-
-void	set_child_sig_handler(void)
-{
-	signal(SIGINT, &handle_sigint_hd);
-	// signal(SIGINT, &handle_sigint_hd);
 }
 
 void	reset_dlt_sig_behaviour(void)
