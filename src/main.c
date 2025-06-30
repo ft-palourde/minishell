@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/30 11:33:38 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:34:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	ms_exec(t_ms *ms)
 		return (130); */
 	err = exec_init(ms);
 	if (err)
-		perror("malloc");
+	{
+		// printf("g_sig = %d\n", g_sig);
+		return (130);
+	}
 	// display_tokens(ms->token);
 	build_tree(ms);
 	if (!ms->tree)
@@ -78,7 +81,6 @@ int	main(int ac, char **av, char **env)
 	int		retval;
 
 	g_sig = -1;
-	// rl_event_hook = &event;
 	(void)ac, (void)av;
 	ms = init_ms_struct(env);
 	if (!ms)
@@ -88,9 +90,7 @@ int	main(int ac, char **av, char **env)
 	while (!ms->exit)
 	{
 		reset_ms_struct(ms);
-		// dup2(ms->ms_stdin, 0);
 		input = readline(ms->prompt);
-		// printf("INPUT: [%s]\n", input);
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -99,7 +99,6 @@ int	main(int ac, char **av, char **env)
 			retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
-		// printf("gsig = %d\n\n", g_sig);
 		if (g_sig == SIGINT)
 		{
 			g_sig = -1;

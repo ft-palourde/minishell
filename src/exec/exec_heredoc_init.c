@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/30 12:42:15 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:36:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,23 @@ void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand)
 	char *line;
 	char *expanded;
 
-	while (1)
+	reset_dlt_sig_behaviour();
+	while (1 && expand != -1)
 	{
 		line = readline("> ");
 		if (!line)
-			break ;
-
-		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0 &&
-			ft_strlen(line) == ft_strlen(lim))
 		{
-			free(line);
-			break;
+			write(1, "\n", 1);
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+			close(fd_out);
+			clean_fds(ms->fd);
+			clean_pfds(ms->pfd);
+			exit(130);
 		}
-
+		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim))
+			break ;
 		if (expand)
 		{
 			expanded = hd_expand(ms, line);
@@ -108,7 +112,6 @@ void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand)
 			if (!line)
 				break;
 		}
-
 		ft_putstr_fd(line, fd_out);
 		write(fd_out, "\n", 1);
 		free(line);
@@ -131,7 +134,7 @@ int fork_hd(t_ms *ms, int *pfd, char *lim)
 		return (perror("fork"), 1);
 
 	if (child_pid == 0)
-	{
+	{//extract tout ce bloc dans un bloc handle_child()
 		reset_dlt_sig_behaviour();
 		close(pfd[0]);
 		fill_new_hd(ms, pfd[1], lim, expand);
@@ -140,6 +143,7 @@ int fork_hd(t_ms *ms, int *pfd, char *lim)
 		clean_pfds(ms->pfd);
 		exit(0);
 	}
+	// le reste dans handle parent()
 	close(pfd[1]);
 	if (waitpid(child_pid, &status, 0) == -1)
 		return (perror("waitpid"), 1);
@@ -180,7 +184,10 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	token->data->rd->heredoc->fd = pfd;
 	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))
 	{
+		write(1, "\n", 1);
 		ms_signal_listener();
+		close(pfd[0]);
+		close(pfd[1]);
 		return (free(pfd), 1);
 	}
 	ms_signal_listener();
