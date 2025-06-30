@@ -6,11 +6,12 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 16:47:42 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/29 19:30:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
 
 void	handle_sigint(int sig);
 int		sig_comp(int sig);

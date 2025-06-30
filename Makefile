@@ -23,11 +23,24 @@ CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -g3
 AR			=	ar -rcs
 NAME		= 	minishell
 
+UNAME_S 	:= $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+	READLINE_DIR := $(shell brew --prefix readline)
+	INCLUDES += -I$(READLINE_DIR)/include
+	READLINE_LIBS := -L$(READLINE_DIR)/lib -lreadline -lncurses
+else
+	READLINE_LIBS := -lreadline
+endif
+
+
+
 LIBFT_PATH	=	./libft
 LIBFT		=	$(LIBFT_PATH)/libft.a
 
 INCLUDES	= 	-I$(LIBFT_PATH)/includes\
-				-I ./includes
+				-I ./includes\
+				-I$(READLINE_DIR)/include
 
 FILES		= 	builtin/builtin_cd\
 				builtin/builtin_echo\
@@ -107,8 +120,10 @@ fclean : clean
 
 re : fclean all
 
+# $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
+# 	$(QUIET) $(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
 $(NAME) : $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_MAIN)
-	$(QUIET) $(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft -lreadline -o $(NAME)
+	$(QUIET) $(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_MAIN) -L$(LIBFT_PATH) -lft $(READLINE_LIBS) -o $(NAME)
 
 $(LIBFT):
 	$(QUIET) make all -C $(LIBFT_PATH) 

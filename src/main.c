@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 11:01:34 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:33:38 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ms_exec(t_ms *ms)
 /* 	if (g_sig == SIGINT)
 		return (130); */
 	err = exec_init(ms);
+	if (err)
+		perror("malloc");
 	// display_tokens(ms->token);
 	build_tree(ms);
 	if (!ms->tree)

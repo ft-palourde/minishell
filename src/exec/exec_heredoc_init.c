@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 16:01:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:08:22 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,92 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 	return (expand == -1);
 }
 
+int fork_hd(t_ms *ms, int *pfd, char *lim)
+{
+	char	*line;
+	int		expand;
+	pid_t	new;
+	unsigned char	retval;
+	// int		saved_fd;
+	// int	i;
 
+	g_sig = 0;
+	expand = check_lim(&lim, ft_strlen(lim));
+	new = fork();
+	if (new == -1)
+		perror("fork");
+		if (new == 0)
+	{
+		// set_child_sig_handler();
+		reset_dlt_sig_behaviour();
+		// rl_catch_signals = 0;
+		while (1 && expand != -1)
+		{
+			line = readline("> ");
+			if (!line || (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim)))
+				break ;
+			if (expand)
+			{
+				line = hd_expand(ms, line);
+				if (!line)
+					return (1);
+			}
+			ft_putstr_fd(line, pfd[1]);
+			write(pfd[1], "\n", 1);
+			free(line);
+		}
+		close(pfd[0]);
+		close(pfd[1]);
+		close(3);
+		close(4);
+		clean_fds(ms->fd);
+		clean_pfds(ms->pfd);
+		// i = 3;
+		// while (ms->fd && ms->fd[i] && i <= 1023)
+		// {
+		// 	close(i);
+		// 	i++;
+		// }
+		// clean_fds(ms->fd);
+		// clean_pfds(ms->pfd);
+		exit(g_sig);
+	}
+	else
+	{
+		// close(saved_fd);
+		retval = wait_child(new);
+		ft_putstr_fd("i'm back in the game bitches", 2);
+		// printf("retval == %d", retval);
+		// ft_putstr_fd("back to parent\n", 2);
+		// signal(SIGINT, &handle_sigint);
+		// ft_putstr_fd("iojegrjoigerjiorgejoi", 2);
+		// dup2(saved_fd, ms->ms_stdin);
+		// printf("guess who's back back again");
+/* 		i = 3;
+		while (ms->fd && ms->fd[i] && i <= 1023)
+		{
+			printf("a");
+			close(i);
+			i++;
+		} */
+		// ms_cleaner(ms);
+		// clean_fds(ms->fd);
+		// clean_pfds(ms->pfd);
+		clean_fds(ms->fd);
+		// close(3);
+		// close(4);
+		clean_pfds(ms->pfd);
+		signal(SIGINT, &handle_sigint);
+		if (retval || g_sig == SIGINT)
+		{
+			// ft_putstr_fd("hophophop", 2);
+			ms->retval = 130;
+			return (1);
+		}
+		// ms_cleaner(ms);
+	}
+	return (expand == -1);
+}
 
 /* int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 {
@@ -284,10 +369,4 @@ int	get_heredocs_pfd(t_ms *ms)
 		cursor = cursor->next;
 	}
 	return (0);
-}
-
-
-int fork_hd(t_ms *ms, int *pfd, char *lim)
-{
-	
 }
