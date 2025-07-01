@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/30 15:34:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:34 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,18 @@ int	main(int ac, char **av, char **env)
 	{
 		reset_ms_struct(ms);
 		input = readline(ms->prompt);
+		if (g_sig == SIGINT)
+		{
+			free(input);
+			g_sig = -1;
+			ms->retval = 130;
+			continue;
+		}
+		if (!input)
+		{
+			ft_putendl_fd("exit", 1);
+			break ;
+		}
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -98,11 +110,6 @@ int	main(int ac, char **av, char **env)
 		{
 			retval = ms_exec(ms);
 			ms_cleaner(ms);
-		}
-		if (g_sig == SIGINT)
-		{
-			g_sig = -1;
-			ms->retval = 130;
 		}
 		else
 			ms->retval = retval;

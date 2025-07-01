@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/30 15:36:09 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:02:20 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,16 @@ unsigned char wait_child(pid_t cpid)
 		return WSTOPSIG(status);
 	return 0;
 }
-
+void	abort_heredoc(t_ms *ms, int fd_out)
+{
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	close(fd_out);
+	clean_fds(ms->fd);
+	clean_pfds(ms->pfd);
+}
 
 /** fill_new_hd - get heredoc content
  * @token: the t_token of T_HEREDOC type
@@ -93,13 +102,7 @@ void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand)
 		line = readline("> ");
 		if (!line)
 		{
-			write(1, "\n", 1);
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
-			close(fd_out);
-			clean_fds(ms->fd);
-			clean_pfds(ms->pfd);
+			abort_heredoc(ms, fd_out);
 			exit(130);
 		}
 		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line) == ft_strlen(lim))
