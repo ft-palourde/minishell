@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/01 15:06:34 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:04:45 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int	main(int ac, char **av, char **env)
 		ms->retval = retval;
 		g_sig = -1;
 	}
+	retval = ms->retval;
 	ms_full_clean(ms);
 	ft_putendl_fd("exit", 1);
-	return (0);
+	return (retval);
 }

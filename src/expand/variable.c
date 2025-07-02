@@ -46,7 +46,7 @@ char	*var_expand(char *str, t_ms *ms)
 		return (ft_itoa(ms->retval));
 	}
 	if (str[i] && str[i] == '$')
-		return (ft_itoa((int)getpid()));// recoder getpid
+		return (ft_get_pid());
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);
@@ -108,4 +108,24 @@ void	add_var_to_new(char **new, char *str, t_ms *ms)
 	*new = ft_strjoin(*new, var);
 	free(tmp);
 	free(var);
+}
+
+// TODO recoder get pid
+/** ft_get_pid - 
+ * 
+ * Return : the PID
+*/
+char	*ft_get_pid(void)
+{
+	int		fd;
+	char	str[12];
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	if (read(fd, str, 11) == -1)
+		return (close(fd), NULL);
+	close(fd);
+	str[11] = '\0';
+	return (ft_itoa(ft_atoi(str)));
 }

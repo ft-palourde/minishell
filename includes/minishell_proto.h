@@ -89,6 +89,7 @@ char			*var_expand(char *str, t_ms *ms);
 void			add_var_to_new(char **new, char *str, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
 char			*expand_path(char *str, t_ms *ms);
+char			*ft_get_pid(void);
 
 /* SIGNAL */
 
@@ -160,7 +161,6 @@ int				get_heredocs_pfd(t_ms *ms);
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
 void			reset_std_dup(t_ms *ms);
-
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);

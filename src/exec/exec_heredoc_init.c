@@ -90,7 +90,7 @@ void	abort_heredoc(t_ms *ms, int *fd_out)
 	clean_pfds(ms->pfd);
 	close(ms->ms_stdin);
 	close(ms->ms_stdout);
-	// ft_putstr_fd("abort heredoc\n", 2);
+	ms_full_clean(ms);
 }
 
 /** fill_new_hd - get heredoc content
@@ -115,7 +115,6 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 		if (!line || g_sig == SIGINT)
 		{
 			abort_heredoc(ms, fd);
-			ms_full_clean(ms);
 			exit(130);
 		}
 		if (!ft_strncmp(line, lim, ft_strlen(lim))
@@ -132,12 +131,9 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 		ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
-	close(ms->ms_stdin);
-	close(ms->ms_stdout);
 }
 
-
-int fork_hd(t_ms *ms, int *pfd, char *lim)
+int	fork_hd(t_ms *ms, int *pfd, char *lim)
 {
 	pid_t	child_pid;
 	int		expand;
@@ -150,7 +146,6 @@ int fork_hd(t_ms *ms, int *pfd, char *lim)
 	child_pid = fork();
 	if (child_pid == -1)
 		return (perror("fork"), 1);
-
 	if (child_pid == 0)
 	{//extract tout ce bloc dans un bloc handle_child()
 		// set_hd_sig_behaviour();
