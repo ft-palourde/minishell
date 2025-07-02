@@ -14,6 +14,12 @@
 
 void	ft_putendl_fd(char *s, int fd);
 
+/** ft_putendl_fd - Write a string in specified fd.
+ * @s: The string to write.
+ * @fd: Target fd to write the string into.
+ * 
+ * Return : Void.
+*/
 void	ft_putendl_fd(char *s, int fd)
 {
 	ft_putstr_fd(s, fd);
