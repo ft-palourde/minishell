@@ -39,10 +39,12 @@ int	g_sig;
 void	handle_sigint(int sig)
 {
 	// ft_putendl_fd("dfl", 2);
-	g_sig = sig;
 	write(1, "\n", 1);
+	rl_on_new_line();
 	rl_replace_line("", 0);
-	close(STDIN_FILENO);
+	rl_redisplay();
+	g_sig = sig;
+	// close(STDIN_FILENO);
 }
 
 /** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
