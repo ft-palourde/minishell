@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:31 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/29 19:25:50 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:36:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdbool.h>
 # include <termios.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 # include "libft.h"
 # include "minishell_structs.h"

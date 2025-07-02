@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/30 12:55:59 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:34:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,10 @@ int				exec_pipe(t_tree *node, t_ms *ms);
 int				exec_heredoc(t_tree *node, t_ms *ms);
 int				exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
+void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
+int				check_lim(char	**lim, int len);
+unsigned char	wait_child(pid_t cpid);
+void			abort_heredoc(t_ms *ms, int *fd);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);

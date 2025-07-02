@@ -6,14 +6,12 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/02 17:04:45 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:17:51 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
-
-extern int	g_sig;
 
 int	wait_all(t_ms *ms)
 {
@@ -42,16 +40,9 @@ int	ms_exec(t_ms *ms)
 {
 	int	err;
 
-	// printf("ENTER ms_exec\n");
-/* 	if (g_sig == SIGINT)
-		return (130); */
 	err = exec_init(ms);
 	if (err)
-	{
-		// printf("g_sig = %d\n", g_sig);
 		return (130);
-	}
-	// display_tokens(ms->token);
 	build_tree(ms);
 	if (!ms->tree)
 		return (0);
