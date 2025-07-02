@@ -89,6 +89,7 @@ char			*var_expand(char *str, t_ms *ms);
 void			add_var_to_new(char **new, char *str, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
 char			*expand_path(char *str, t_ms *ms);
+char			*ft_get_pid(void);
 
 /* SIGNAL */
 

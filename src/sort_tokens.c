@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sort_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 15:11:23 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:03:17 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	debug_print_list(t_ms *ms);
 
 /** token_is_operator - token checker
  * @token: the token to check
@@ -93,19 +92,6 @@ static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 	return (nxt);
 }
 
-//DEBUG
-void	print_token_list(t_token *token)
-{
-	while (token)
-	{
-		printf("[%d]%s", token->type, token->str);
-		if (is_redir(token->type))
-			printf(" %s", token->data->rd->file->filename);
-		printf("\n");
-		token = token->next;
-	}
-}
-
 void	sort_tokens(t_ms *ms)
 {
 	int		to_sort;
@@ -114,8 +100,6 @@ void	sort_tokens(t_ms *ms)
 	t_token	*head;
 	t_token	*cursor;
 
-	//print_token_list(ms->token);
-	//printf("\n\n");
 	cursor = ms->token;
 	lock_first = 0;
 	head = 0;
@@ -137,7 +121,31 @@ void	sort_tokens(t_ms *ms)
 			break ;
 		cursor = cursor->next;
 		lock_first = 1;
-		//print_token_list(ms->token);
-		//printf("\n\n");
 	}
 }
+
+/* void	loop_sort(t_token *cursor, int *lock_first)
+{
+	int	i;
+	int	to_sort;
+
+	while (cursor)
+	{
+		to_sort = needs_sort(cursor);
+		i = 0;
+		while (i < to_sort)
+		{
+			cursor = add_after_cmd(cursor, i, head);
+			if (!lock_first)
+				ms->token = cursor;
+			i++;
+		}
+		while (cursor && !token_is_operator(cursor))
+			cursor = cursor->next;
+		head = cursor;
+		if (!cursor)
+			break ;
+		cursor = cursor->next;
+		lock_first = 1;
+	}
+} */
