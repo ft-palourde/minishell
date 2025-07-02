@@ -46,7 +46,7 @@ char	*var_expand(char *str, t_ms *ms)
 		return (ft_itoa(ms->retval));
 	}
 	if (str[i] && str[i] == '$')
-		return (ft_itoa((int)getpid()));
+		return (ft_itoa((int)getpid()));// recoder getpid
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);
