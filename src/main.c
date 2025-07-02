@@ -90,17 +90,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ms_signal_listener();
 		reset_ms_struct(ms);
-		reset_std_dup(ms);
-		// printf("[%d] ", getpid());
 		input = readline(ms->prompt);
-		// printf("gsig = %d", g_sig);
-		if (g_sig == SIGINT)
-		{
-			free(input);
-			g_sig = -1;
-			ms->retval = 130;
-			continue ;
-		}
 		if (!input)
 			break ;
 		if (input && *input)
