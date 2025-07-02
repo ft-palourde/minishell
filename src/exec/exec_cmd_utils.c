@@ -52,8 +52,7 @@ void	reset_dup(int in_fd, int out_fd, t_ms *ms)
 	if (ms->file_in == STDIN_FILENO && ms->file_out == STDOUT_FILENO \
 		&& in_fd == STDIN_FILENO && out_fd == STDOUT_FILENO)
 		return ;
-	dup2(ms->ms_stdin, STDIN_FILENO);
-	dup2(ms->ms_stdout, STDOUT_FILENO);
+	reset_std_dup(ms);
 	if (ms->file_in != STDIN_FILENO)
 		close (ms->file_in);
 	if (ms->file_out != STDOUT_FILENO)
@@ -119,4 +118,10 @@ int	add_pid(int pid, t_ms *ms)
 	free(ms->pid);
 	ms->pid = new_pid;
 	return (0);
+}
+
+void	reset_std_dup(t_ms *ms)
+{
+	dup2(ms->ms_stdin, STDIN_FILENO);
+	dup2(ms->ms_stdout, STDOUT_FILENO);
 }
