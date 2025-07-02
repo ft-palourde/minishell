@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 13:44:11 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:55:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_PROTO_H
 # define MINISHELL_PROTO_H
+
+extern int	g_sig;
 
 char			*get_prompt(char **env);
 
@@ -90,11 +92,13 @@ char			*expand_path(char *str, t_ms *ms);
 
 /* SIGNAL */
 
-void			signal_listener(void);
+void			ms_signal_listener(void);
 void			handle_sigint(int sig);
 int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
+void			reset_dlt_sig_behaviour(void);
+void			set_hd_sig_behaviour(void);
 
 ///////// BUILT-INS /////////
 
@@ -155,6 +159,8 @@ int				get_heredocs_pfd(t_ms *ms);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
+void			reset_std_dup(t_ms *ms);
+
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
@@ -163,7 +169,8 @@ int				add_fd(int fd, t_ms *ms);
 int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
 void			clear_all(t_ms *ms);
-
+void			clean_fds(int *fd);
+void			clean_pfds(int	**pfd);
 //////// CLEANER /////////
 
 void			free_split(char **split);

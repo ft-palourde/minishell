@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 16:47:42 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:59:07 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,11 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
-	int	redisplay;
-
-	redisplay = 0;
-	if (g_sig == -1)
-		redisplay = 1;
+	// ft_putendl_fd("dfl", 2);
 	g_sig = sig;
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
-	if (redisplay)
-		write(1, "\n", 1);
 	close(STDIN_FILENO);
-	return ;
 }
 
 /** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
@@ -70,11 +63,13 @@ void	handle_sigint(int sig)
  */
 void	handle_sigint_hd(int sig)
 {
-	g_sig = sig;
+	(void)sig;
+	g_sig = 130;
+	// ft_putendl_fd("hd", 2);
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
+	// rl_on_new_line();
 	close(STDIN_FILENO);
-	return ;
 }
 
 /** sig_comp - Compare global variable with specified signal.

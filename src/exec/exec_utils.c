@@ -44,7 +44,7 @@ int	add_pfd(int *pfd, t_ms *ms)
 	{
 		ms->pfd = ft_calloc(2, sizeof(int *));
 		if (!ms->pfd)
-			return (perror("malloc"), 1);
+			return (perror("malloc"), close(pfd[0]), close(pfd[1]), 1);
 		ms->pfd[0] = pfd;
 		return (0);
 	}
@@ -52,7 +52,7 @@ int	add_pfd(int *pfd, t_ms *ms)
 		i++;
 	new_pfd = ft_calloc(i + 2, sizeof(int *));
 	if (!new_pfd)
-		return (perror("malloc"), 1);
+		return (perror("malloc"), close(pfd[0]), close(pfd[1]), 1);
 	new_pfd[i] = pfd;
 	while (--i >= 0)
 		new_pfd[i] = ms->pfd[i];

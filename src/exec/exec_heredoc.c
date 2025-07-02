@@ -6,13 +6,11 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:20:39 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 14:51:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:39:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_sig;
 
 /** pipe_heredoc - 
  * @node: current tree node carrying a T_HEREDOC type token
@@ -30,7 +28,7 @@ int	pipe_heredoc(t_tree *node, t_ms *ms)
 	if (!pfd || pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	ms->file_in = pfd[0];
-	//ms->file_out = pfd[1];
+	ms->file_out = pfd[1];
 	node->token->out_fd = pfd[1];
 	if (add_fd(pfd[0], ms) || add_fd(pfd[1], ms) || add_pfd(pfd, ms))
 		return (perror("malloc"), 1);
@@ -59,6 +57,7 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 	line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	if (!line)
 		return (1);
+		// return (reset_dup(node->token->in_fd, node->token->out_fd, ms), 1);
 	while (line)
 	{
 		ft_putstr_fd(line, node->token->out_fd);
@@ -68,4 +67,5 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 	dup2(ms->ms_stdout, STDOUT_FILENO);
 	close(node->token->out_fd);
 	return (0);
+	// return (reset_dup(node->token->in_fd, node->token->out_fd, ms), 0);
 }

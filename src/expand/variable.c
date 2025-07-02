@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 17:07:52 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:54:19 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,21 @@ char	*var_expand(char *str, t_ms *ms)
 	if (str[0] == '~')
 		return (expand_path(str, ms));
 	if (str[i] && str[i] == '?')
+	{
+		if (!sig_comp(-1))
+			return (ft_itoa((unsigned char)(128 + g_sig)));
+		g_sig = -1;
 		return (ft_itoa(ms->retval));
+	}
+	if (str[i] && str[i] == '$')
+		return (ft_itoa((int)getpid()));
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	var_name = ft_substr(str, 1, i - 1);
 	if (!var_name)
 		return (NULL);
 	var_value = var_name_to_value(var_name, ms);
-	free(var_name);
-	return (var_value);
+	return (free(var_name), var_value);
 }
 
 /** var_name_to_value - Expands a variable in the given string.

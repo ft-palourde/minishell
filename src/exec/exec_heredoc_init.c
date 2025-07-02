@@ -6,13 +6,20 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 16:01:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:38:00 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/wait.h>
 
-extern int	g_sig;
+int				check_lim(char	**lim, int len);
+unsigned char	wait_child(pid_t cpid);
+void			abort_heredoc(t_ms *ms, int *fd);
+void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
+int				fork_hd(t_ms *ms, int *pfd, char *lim);
+int				add_new_hd(t_ms *ms, t_token *token);
+int				get_heredocs_pfd(t_ms *ms);
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -43,6 +50,49 @@ int	check_lim(char	**lim, int len)
 	return (expand);
 }
 
+/* 
+macros de lib wait :
+WIFEXITED == si termine correctement
+WEXITSTATUS == code de retour 
+WIFSIGNALED == interrompu par signal
+WTERMSIG == retourne le signal le cas echeant
+*/
+unsigned char	wait_child(pid_t cpid)
+{
+	int	status;
+
+	if (waitpid(cpid, &status, 0) == -1)
+	{
+		perror("waitpid");
+		return (1);
+	}
+	ft_putstr_fd("toto\n", 2);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		g_sig = WTERMSIG(status);
+		return (128 + g_sig);
+	}
+	if (WIFSTOPPED(status))
+		return (WSTOPSIG(status));
+	return (0);
+}
+
+void	abort_heredoc(t_ms *ms, int *fd_out)
+{
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	close(fd_out[0]);
+	close(fd_out[1]);
+	clean_fds(ms->fd);
+	clean_pfds(ms->pfd);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
+	// ft_putstr_fd("abort heredoc\n", 2);
+}
+
 /** fill_new_hd - get heredoc content
  * @token: the t_token of T_HEREDOC type
  * @ms: the minishell struct
@@ -54,32 +104,81 @@ int	check_lim(char	**lim, int len)
  *
  * Returns: 1 on malloc error, 0 else
  */
-int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
+void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 {
 	char	*line;
-	int		expand;
+	char	*expanded;
 
-	expand = check_lim(&lim, ft_strlen(lim));
-	signal(SIGINT, handle_sigint_hd);
-	while (1 && expand != -1)
+	while (1)
 	{
-		dup2(ms->ms_stdin, 0);
 		line = readline("> ");
-		if (!line || sig_comp(SIGINT))
-			return (1);
-		if (!ft_strncmp(line, lim, ft_strlen(lim)) && ft_strlen(line))
+		if (!line || g_sig == SIGINT)
+		{
+			abort_heredoc(ms, fd);
+			ms_full_clean(ms);
+			exit(130);
+		}
+		if (!ft_strncmp(line, lim, ft_strlen(lim))
+			&& ft_strlen(line) == ft_strlen(lim))
 			break ;
 		if (expand)
 		{
-			line = hd_expand(ms, line);
+			expanded = hd_expand(ms, line);
+			free(line);
+			line = expanded;
 			if (!line)
-				return (1);
+				break ;
 		}
-		ft_putstr_fd(line, pfd[1]);
-		write(pfd[1], "\n", 1);
+		ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
-	return (expand == -1);
+	close(ms->ms_stdin);
+	close(ms->ms_stdout);
+}
+
+
+int fork_hd(t_ms *ms, int *pfd, char *lim)
+{
+	pid_t	child_pid;
+	int		expand;
+	int		status;
+
+	g_sig = 0;
+	expand = check_lim(&lim, ft_strlen(lim));
+	if (expand == -1)
+		return (perror("malloc"), 1);
+	child_pid = fork();
+	if (child_pid == -1)
+		return (perror("fork"), 1);
+
+	if (child_pid == 0)
+	{//extract tout ce bloc dans un bloc handle_child()
+		// set_hd_sig_behaviour();
+		reset_dlt_sig_behaviour();
+		close(pfd[0]);
+		fill_new_hd(ms, pfd, lim, expand);
+		close(pfd[1]);
+		clean_fds(ms->fd);
+		clean_pfds(ms->pfd);
+		exit(0);
+	}
+	// le reste dans handle parent()
+	close(pfd[1]);
+	if (waitpid(child_pid, &status, 0) == -1)
+		return (perror("waitpid"), 1);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		ms->retval = 130;
+		g_sig = SIGINT;
+		close(pfd[0]);
+		return (1);
+	}
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		close(pfd[0]);
+		return (1);
+	}
+	return (0);
 }
 
 /** add_new_hd
@@ -95,7 +194,6 @@ int	fill_new_hd(t_ms *ms, int *pfd, char *lim)
 int	add_new_hd(t_ms *ms, t_token *token)
 {
 	int		*pfd;
-	int		ret;
 
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd)
@@ -103,12 +201,16 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
-	ret = fill_new_hd(ms, pfd, token->data->rd->heredoc->lim);
-	g_sig = 0;
-	signal_listener();
-	close(pfd[1]);
-	if (ret)
-		return (close(pfd[0]), free(pfd), 1);
+	sig_ignore();
+	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))
+	{
+		write(1, "\n", 1);
+		close(pfd[0]);
+		close(pfd[1]);
+		return (free(pfd), 1);
+	}
+	reset_std_dup(ms);
+	ms_signal_listener();
 	if (add_fd(pfd[0], ms) || add_pfd(pfd, ms))
 		return (1);
 	return (0);

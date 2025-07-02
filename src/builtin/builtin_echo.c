@@ -53,6 +53,8 @@ int	bi_echo(char **arg)
 	int		i;
 
 	i = 0;
+	if (!arg || !arg[0])
+		return (printf("\n"), 0);
 	option = check_option(arg[0]);
 	if (option)
 		i++;
