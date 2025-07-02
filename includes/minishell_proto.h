@@ -98,6 +98,7 @@ int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
 void			reset_dlt_sig_behaviour(void);
+void			set_hd_sig_behaviour(void);
 
 ///////// BUILT-INS /////////
 
@@ -158,6 +159,8 @@ int				get_heredocs_pfd(t_ms *ms);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
+void			reset_std_dup(t_ms *ms);
+
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);

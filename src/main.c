@@ -86,23 +86,23 @@ int	main(int ac, char **av, char **env)
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
 	retval = 0;
-	ms_signal_listener();
 	while (!ms->exit)
 	{
+		ms_signal_listener();
 		reset_ms_struct(ms);
+		reset_std_dup(ms);
+		printf("[%d] ", getpid());
 		input = readline(ms->prompt);
+		// printf("gsig = %d", g_sig);
 		if (g_sig == SIGINT)
 		{
 			free(input);
 			g_sig = -1;
 			ms->retval = 130;
-			continue;
+			continue ;
 		}
 		if (!input)
-		{
-			ft_putendl_fd("exit", 1);
 			break ;
-		}
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -116,5 +116,6 @@ int	main(int ac, char **av, char **env)
 		g_sig = -1;
 	}
 	ms_full_clean(ms);
+	ft_putendl_fd("exit", 1);
 	return (0);
 }

@@ -23,6 +23,8 @@ char	*str_expand(char *str, t_ms *ms)
 
 	i = 0;
 	new = ft_strdup("");
+	if (!new)
+		perror("malloc");
 	while (str && str[i])
 	{
 		chunk = get_next_chunk(str + i);

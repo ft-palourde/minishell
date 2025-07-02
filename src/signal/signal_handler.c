@@ -38,11 +38,11 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
+	// ft_putendl_fd("dfl", 2);
 	g_sig = sig;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	close(STDIN_FILENO);
 }
 
 /** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
@@ -65,9 +65,10 @@ void	handle_sigint_hd(int sig)
 {
 	(void)sig;
 	g_sig = 130;
+	// ft_putendl_fd("hd", 2);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
+	// rl_on_new_line();
 	close(STDIN_FILENO);
 }
 

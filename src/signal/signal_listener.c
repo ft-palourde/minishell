@@ -38,12 +38,18 @@ void	ms_signal_listener(void)
 */
 void	sig_ignore(void)
 {
-	signal(SIGINT, NULL);
-	signal(SIGQUIT, NULL);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	reset_dlt_sig_behaviour(void)
 {
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	set_hd_sig_behaviour(void)
+{
+	signal(SIGINT, &handle_sigint_hd);
 	signal(SIGQUIT, SIG_DFL);
 }

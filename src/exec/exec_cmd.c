@@ -115,7 +115,6 @@ static void	exec_child(t_token *token, t_ms *ms)
 	}
 	else
 	{
-		sig_ignore();
 		execve(cmd->path, cmd->args, ms->env);
 		command_failed(token, ms);
 	}
@@ -143,6 +142,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		exec_builtin(node->token, ms);
 	else
 	{
+		reset_dlt_sig_behaviour();
 		pid = fork();
 		if (pid == -1)
 			perror("fork");
@@ -155,5 +155,6 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 			reset_ms_files(ms);
 			reset_dup(node->token->in_fd, node->token->out_fd, ms);
 		}
+		ms_signal_listener();
 	}
 }
