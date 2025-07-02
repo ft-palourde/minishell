@@ -15,6 +15,11 @@
 
 extern int	g_sig;
 
+void	display_nl()
+{
+	write(STDIN_FILENO, "\n", 1);
+}
+
 int	wait_all(t_ms *ms)
 {
 	int				i;
@@ -24,6 +29,7 @@ int	wait_all(t_ms *ms)
 	ret = 0;
 	i = 0;
 	stat = 0;
+	signal(SIGINT, &display_nl);
 	while (ms->pid && ms->pid[i])
 	{
 		if (ms->pid[i])

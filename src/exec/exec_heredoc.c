@@ -28,7 +28,6 @@ int	pipe_heredoc(t_tree *node, t_ms *ms)
 	if (!pfd || pipe(pfd) == -1)
 		return (perror("pipe"), 1);
 	ms->file_in = pfd[0];
-	ms->file_out = pfd[1];
 	node->token->out_fd = pfd[1];
 	if (add_fd(pfd[0], ms) || add_fd(pfd[1], ms) || add_pfd(pfd, ms))
 		return (perror("malloc"), 1);
@@ -56,7 +55,7 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 	dup2(node->token->out_fd, STDOUT_FILENO);
 	line = get_next_line(node->token->data->rd->heredoc->fd[0]);
 	if (!line)
-		return (1);
+		return (perror("GNL"), 1);
 	while (line)
 	{
 		ft_putstr_fd(line, node->token->out_fd);

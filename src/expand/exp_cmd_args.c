@@ -21,7 +21,7 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 	t_cmd	*cmd_to_expand;
 
 	cmd_to_expand = (*cmd);
-	i = 1;
+	i = 0;
 	while (cmd_to_expand->args[i])
 	{
 		tmp = str_expand(cmd_to_expand->args[i], ms);
