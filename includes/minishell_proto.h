@@ -161,7 +161,6 @@ void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
 void			reset_std_dup(t_ms *ms);
 
-
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
 
