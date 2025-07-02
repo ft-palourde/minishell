@@ -54,13 +54,18 @@ int	exec_heredoc(t_tree *node, t_ms *ms)
 		return (1);
 	dup2(node->token->out_fd, STDOUT_FILENO);
 	line = get_next_line(node->token->data->rd->heredoc->fd[0]);
-	if (!line)
+	if (!line && !node->token->data->rd->heredoc->is_empty)
 		return (perror("GNL"), 1);
-	while (line)
+	if (node->token->data->rd->heredoc->is_empty)
+		write(node->token->data->rd->heredoc->fd[0], "\0", 1);
+	else
 	{
-		ft_putstr_fd(line, node->token->out_fd);
-		free(line);
-		line = get_next_line(node->token->data->rd->heredoc->fd[0]);
+		while (line)
+		{
+			ft_putstr_fd(line, node->token->out_fd);
+			free(line);
+			line = get_next_line(node->token->data->rd->heredoc->fd[0]);
+		}
 	}
 	dup2(ms->ms_stdout, STDOUT_FILENO);
 	close(node->token->out_fd);

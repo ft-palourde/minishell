@@ -38,6 +38,7 @@ static void	set_hd(t_token *token)
 	t_token	*tmp;
 
 	token->data->rd->heredoc = malloc(sizeof(t_rd_heredoc));
+	token->data->rd->heredoc->is_empty = 1;
 	if (!token->data->rd->heredoc)
 	{
 		free(token->data->rd);

@@ -16,8 +16,8 @@
 int				check_lim(char	**lim, int len);
 unsigned char	wait_child(pid_t cpid);
 void			abort_heredoc(t_ms *ms, int *fd);
-void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
-int				fork_hd(t_ms *ms, int *pfd, char *lim);
+void			fill_new_hd(t_ms *ms, t_token *token, char *lim, int expand);
+int				fork_hd(t_ms *ms, t_token *token, char *lim);
 int				add_new_hd(t_ms *ms, t_token *token);
 int				get_heredocs_pfd(t_ms *ms);
 
@@ -48,6 +48,15 @@ int	check_lim(char	**lim, int len)
 			return (perror("malloc"), -1);
 	}
 	return (expand);
+}
+
+int	is_lim(char *line, char *lim, t_token *token)
+{
+	if (!ft_strncmp(line, lim, ft_strlen(lim)) \
+			&& ft_strlen(line) == ft_strlen(lim))
+		return (1);
+	token->data->rd->heredoc->is_empty = 0;
+	return (0);
 }
 
 /* 
@@ -104,7 +113,7 @@ void	abort_heredoc(t_ms *ms, int *fd_out)
  *
  * Returns: 1 on malloc error, 0 else
  */
-void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
+void	fill_new_hd(t_ms *ms, t_token *token, char *lim, int expand)
 {
 	char	*line;
 	char	*expanded;
@@ -114,11 +123,10 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 		line = readline("> ");
 		if (!line || g_sig == SIGINT)
 		{
-			abort_heredoc(ms, fd);
+			abort_heredoc(ms, token->data->rd->heredoc->fd);
 			exit(130);
 		}
-		if (!ft_strncmp(line, lim, ft_strlen(lim))
-			&& ft_strlen(line) == ft_strlen(lim))
+		if (is_lim(line, lim, token))
 			break ;
 		if (expand)
 		{
@@ -128,12 +136,12 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 			if (!line)
 				break ;
 		}
-		ft_putendl_fd(line, fd[1]);
+		ft_putendl_fd(line, token->data->rd->heredoc->fd[1]);
 		free(line);
 	}
 }
 
-int	fork_hd(t_ms *ms, int *pfd, char *lim)
+int	fork_hd(t_ms *ms, t_token *token, char *lim)
 {
 	pid_t	child_pid;
 	int		expand;
@@ -150,27 +158,27 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	{//extract tout ce bloc dans un bloc handle_child()
 		// set_hd_sig_behaviour();
 		reset_dlt_sig_behaviour();
-		close(pfd[0]);
-		fill_new_hd(ms, pfd, lim, expand);
-		close(pfd[1]);
+		close(token->data->rd->heredoc->fd[0]);
+		fill_new_hd(ms, token, lim, expand);
+		close(token->data->rd->heredoc->fd[1]);
 		clean_fds(ms->fd);
 		clean_pfds(ms->pfd);
 		exit(0);
 	}
 	// le reste dans handle parent()
-	close(pfd[1]);
+	close(token->data->rd->heredoc->fd[1]);
 	if (waitpid(child_pid, &status, 0) == -1)
 		return (perror("waitpid"), 1);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		ms->retval = 130;
 		g_sig = SIGINT;
-		close(pfd[0]);
+		close(token->data->rd->heredoc->fd[0]);
 		return (1);
 	}
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
-		close(pfd[0]);
+		close(token->data->rd->heredoc->fd[0]);
 		return (1);
 	}
 	return (0);
@@ -197,7 +205,7 @@ int	add_new_hd(t_ms *ms, t_token *token)
 		return (perror("pipe"), 1);
 	token->data->rd->heredoc->fd = pfd;
 	sig_ignore();
-	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))
+	if (fork_hd(ms, token, token->data->rd->heredoc->lim))
 	{
 		write(1, "\n", 1);
 		close(pfd[0]);

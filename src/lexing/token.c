@@ -58,7 +58,7 @@ void	free_token(t_token *token)
 				free_cmd(token->data->cmd);
 			else if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND || token->type == T_HEREDOC)
-				free_redir(token->data->rd);
+				free_redir(token->type, token->data->rd);
 			free(token->data);
 		}
 		free(token);

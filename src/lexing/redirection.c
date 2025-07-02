@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void	free_redir(t_rd *rd);
+void	free_redir(t_token_type type, t_rd *rd);
 
-void	free_redir(t_rd *rd)
+void	free_redir(t_token_type type, t_rd *rd)
 {
 	if (!rd)
 		return ;
-	if (rd->file)
+	if (is_redir(type) && rd->file)
 	{
 		free(rd->file->filename);
 		rd->file->fd = 0;

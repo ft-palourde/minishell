@@ -50,7 +50,7 @@ void			free_tokens(t_token *tokens);
 int				is_backslash(char c);
 int				is_escaped(char *input, int index);
 void			free_cmd(t_cmd *cmd);
-void			free_redir(t_rd *rd);
+void			free_redir(t_token_type type, t_rd *rd);
 int				unclosed_quote(t_token *token);
 int				check_quote_error(char *str, char c);
 
