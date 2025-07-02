@@ -21,6 +21,8 @@
  */
 int	bi_exit(t_ms *ms)
 {
-	ms->exit = 1;
+	ms->exit = ms->retval;
+	if (g_sig == SIGINT)
+		ms->exit = 130;
 	return (0);
 }

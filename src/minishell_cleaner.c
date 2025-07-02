@@ -79,7 +79,7 @@ void	ms_cleaner(t_ms *ms)
 
 void	ms_full_clean(t_ms *ms)
 {
-	if (!ms->exit)
+	if (ms->exit == -1)
 		ms_cleaner(ms);
 	free(ms->prompt);
 	free(ms->term);
