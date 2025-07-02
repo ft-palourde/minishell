@@ -25,6 +25,7 @@ t_ms	*init_ms_struct(char **env)
 	new->ms_stdin = dup(STDIN_FILENO);
 	new->ms_stdout = dup(STDOUT_FILENO);
 	new->term = malloc(sizeof(t_termios));
+	new->exit = -1;
 	new->retval = 0;
 	if (!new->term)
 		return (NULL);
