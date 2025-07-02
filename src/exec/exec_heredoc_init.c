@@ -6,12 +6,21 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/01 15:02:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:38:00 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
+
+int	check_lim(char	**lim, int len);
+unsigned char wait_child(pid_t cpid);
+void	abort_heredoc(t_ms *ms, int fd_out);
+void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand);
+int fork_hd(t_ms *ms, int *pfd, char *lim);
+int	add_new_hd(t_ms *ms, t_token *token);
+int	get_heredocs_pfd(t_ms *ms);
+
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
@@ -113,7 +122,10 @@ void fill_new_hd(t_ms *ms, int fd_out, char *lim, int expand)
 			free(line);
 			line = expanded;
 			if (!line)
-				break;
+			{
+				// close(fd_out);
+				break ;
+			}
 		}
 		ft_putstr_fd(line, fd_out);
 		write(fd_out, "\n", 1);
