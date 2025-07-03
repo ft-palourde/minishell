@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 15:33:28 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/24 10:57:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:17:53 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ char	*ft_strndup(const char *s, int n)
 	char	*dest;
 
 	i = 0;
+	if (!s)
+		return (NULL);
+	if (n < 0)
+		return (NULL);
 	dest = malloc(sizeof(char) * (n + 1));
 	if (!dest)
 		return (NULL);

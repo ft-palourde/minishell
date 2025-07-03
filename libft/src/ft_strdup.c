@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:18:55 by rcochran          #+#    #+#             */
-/*   Updated: 2024/11/20 17:46:30 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:11:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	s_len = 0;
+	if (!s)
+		return (NULL);
 	while (s[s_len])
 		s_len++;
 	dest = malloc(sizeof(char) * (s_len + 1));

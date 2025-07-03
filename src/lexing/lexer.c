@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 11:57:16 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:25:34 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token	*lexer(char *input)
 {
 	t_token			*tokens;
 	int				i;
+	int				len;
 
 	i = 0;
 	tokens = NULL;
@@ -35,9 +36,19 @@ t_token	*lexer(char *input)
 		if (!input[i])
 			break ;
 		if (is_operator(input[i]))
-			i += handle_operator(input + i, &tokens);
+		{
+			len = handle_operator(input + i, &tokens);
+			if (!len)
+				return ;
+			i += len;
+		}
 		else
-			i += handle_word(input + i, &tokens);
+		{
+			len = handle_word(input + i, &tokens);
+			if (!len)
+				return ;
+			i += len;
+		}
 	}
 	return (tokens);
 }
@@ -73,7 +84,11 @@ int	handle_word(char *input, t_token **tokens)
 
 	len = extract_word_len(input);
 	str = ft_strndup(input, len);
+	if (!str)
+		return (perror("malloc"), NULL);
 	new = constr_new_token(T_WORD, str);
+	if (!new)
+		return (free(str), perror("malloc"), -1);
 	free(str);
 	if (!new)
 		return (0);

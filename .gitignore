@@ -13,3 +13,7 @@ minishell
 *.txt
 test*
 test.sh
+
+fun*
+out*
+in*
