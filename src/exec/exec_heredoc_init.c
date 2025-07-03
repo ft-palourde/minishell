@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/02 18:15:34 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:11:57 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ int				fork_hd(t_ms *ms, int *pfd, char *lim);
 int				add_new_hd(t_ms *ms, t_token *token);
 int				get_heredocs_pfd(t_ms *ms);
 void			handle_child(t_ms *ms, int *pfd, char *lim, int expand);
+
+void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
+{
+	set_hd_sig_behaviour();
+	reset_dlt_sig_behaviour();
+	fill_new_hd(ms, pfd, lim, expand);
+	close(pfd[0]);
+	close(pfd[1]);
+	ms_full_clean(ms);
+}
 
 int	fork_hd(t_ms *ms, int *pfd, char *lim)
 {
@@ -31,30 +41,23 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	if (child_pid == -1)
 		return (perror("fork"), 1);
 	if (child_pid == 0)
-	{//extract tout ce bloc dans un bloc handle_child()
-		set_hd_sig_behaviour();
-		reset_dlt_sig_behaviour();
-		close(pfd[0]);
-		fill_new_hd(ms, pfd, lim, expand);
-		close(pfd[1]);
-		ms_full_clean(ms);
+	{
+		handle_child(ms, pfd, lim, expand);
 		exit(0);
-		// handle_child(ms, pfd, lim, expand);
-		// exit(0);
 	}
-	// le reste dans handle parent()
 	close(pfd[1]);
 	if (waitpid(child_pid, &status, 0) == -1)
 		return (perror("waitpid"), 1);
-	close(pfd[0]);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		ms->retval = 130;
 		g_sig = SIGINT;
+		close(pfd[0]);
 		return (1);
 	}
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
+		close(pfd[0]);
 		return (1);
 	}
 	return (0);
@@ -116,13 +119,4 @@ int	get_heredocs_pfd(t_ms *ms)
 		cursor = cursor->next;
 	}
 	return (0);
-}
-
-void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
-{
-	reset_dlt_sig_behaviour();
-	fill_new_hd(ms, pfd, lim, expand);
-	close(pfd[0]);
-	close(pfd[1]);
-	ms_full_clean(ms);
 }
