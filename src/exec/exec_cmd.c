@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 17:15:42 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:56:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static void	exec_child(t_token *token, t_ms *ms)
 	int		is_bi;
 	int		retval;
 
+	reset_dlt_sig_behaviour();
 	is_bi = is_builtin(token);
 	cmd = token->data->cmd;
 	dup_handler(token, ms);
@@ -142,7 +143,6 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		exec_builtin(node->token, ms);
 	else
 	{
-		reset_dlt_sig_behaviour();
 		pid = fork();
 		if (pid == -1)
 			perror("fork");
