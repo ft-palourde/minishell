@@ -19,7 +19,7 @@ MAKEFLAGS += --no-print-directory
 QUIET		=	@
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -g3
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
 AR			=	ar -rcs
 NAME		= 	minishell
 
@@ -105,7 +105,7 @@ OBJ			=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 OBJ_MAIN	=	$(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_DIR)$(MAIN))
 
 ifneq ($(filter debug, $(MAKECMDGOALS)),)
-CFLAGS += -g
+CFLAGS += -g3
 endif
 
 all : $(NAME)
