@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 11:52:59 by rcochran          #+#    #+#             */
-/*   Updated: 2024/11/18 16:52:04 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:04:25 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strchr(const char *s, int c);
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	if (c == '\0')
 		return ((char *) s + ft_strlen(s));
 	while (*s && *s != (c % 256))
