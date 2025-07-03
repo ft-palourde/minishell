@@ -48,9 +48,6 @@ int	ms_exec(t_ms *ms)
 {
 	int	err;
 
-	// printf("ENTER ms_exec\n");
-/* 	if (g_sig == SIGINT)
-		return (130); */
 	err = exec_init(ms);
 	if (err)
 	{
