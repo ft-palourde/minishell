@@ -6,12 +6,18 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/02 17:17:51 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:14:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
+
+void	display_nl(int sig)
+{
+	(void)sig;
+	ft_putendl_fd("", 1);
+}
 
 int	wait_all(t_ms *ms)
 {
@@ -22,6 +28,7 @@ int	wait_all(t_ms *ms)
 	ret = 0;
 	i = 0;
 	stat = 0;
+	signal(SIGINT, &display_nl);
 	while (ms->pid && ms->pid[i])
 	{
 		if (ms->pid[i])
