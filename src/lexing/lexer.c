@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/03 12:25:34 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:50:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ t_token	*lexer(char *input)
 		{
 			len = handle_operator(input + i, &tokens);
 			if (!len)
-				return ;
+				return (NULL);
 			i += len;
 		}
 		else
 		{
 			len = handle_word(input + i, &tokens);
 			if (!len)
-				return ;
+				return (NULL);
 			i += len;
 		}
 	}
@@ -85,10 +85,10 @@ int	handle_word(char *input, t_token **tokens)
 	len = extract_word_len(input);
 	str = ft_strndup(input, len);
 	if (!str)
-		return (perror("malloc"), NULL);
+		return (perror("malloc"), 0);
 	new = constr_new_token(T_WORD, str);
 	if (!new)
-		return (free(str), perror("malloc"), -1);
+		return (free(str), perror("malloc"), 0);
 	free(str);
 	if (!new)
 		return (0);
