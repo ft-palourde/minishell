@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/02 18:15:34 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:51:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,41 @@ int				fork_hd(t_ms *ms, int *pfd, char *lim);
 int				add_new_hd(t_ms *ms, t_token *token);
 int				get_heredocs_pfd(t_ms *ms);
 void			handle_child(t_ms *ms, int *pfd, char *lim, int expand);
+int				handle_parent(t_ms *ms, pid_t child_pid);
+
+void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
+{
+	reset_dlt_sig_behaviour();
+	fill_new_hd(ms, pfd, lim, expand);
+	close(pfd[0]);
+	close(pfd[1]);
+	ms_full_clean(ms);
+}
+
+int	handle_parent(t_ms *ms, pid_t child_pid)
+{
+	int	status;
+
+	if (waitpid(child_pid, &status, 0) == -1)
+		return (perror("waitpid"), 1);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		ms->retval = 130;
+		g_sig = SIGINT;
+		return (1);
+	}
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		return (1);
+	return (0);
+}
 
 int	fork_hd(t_ms *ms, int *pfd, char *lim)
 {
 	pid_t	child_pid;
 	int		expand;
-	int		status;
+	int		err;
 
+	err = 0;
 	g_sig = 0;
 	expand = check_lim(&lim, ft_strlen(lim));
 	if (expand == -1)
@@ -31,33 +59,13 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	if (child_pid == -1)
 		return (perror("fork"), 1);
 	if (child_pid == 0)
-	{//extract tout ce bloc dans un bloc handle_child()
-		set_hd_sig_behaviour();
-		reset_dlt_sig_behaviour();
-		close(pfd[0]);
-		fill_new_hd(ms, pfd, lim, expand);
-		close(pfd[1]);
-		ms_full_clean(ms);
+	{
+		handle_child(ms, pfd, lim, expand);
 		exit(0);
-		// handle_child(ms, pfd, lim, expand);
-		// exit(0);
 	}
-	// le reste dans handle parent()
 	close(pfd[1]);
-	if (waitpid(child_pid, &status, 0) == -1)
-		return (perror("waitpid"), 1);
-	close(pfd[0]);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		ms->retval = 130;
-		g_sig = SIGINT;
-		return (1);
-	}
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-	{
-		return (1);
-	}
-	return (0);
+	err = handle_parent(ms, child_pid);
+	return (err);
 }
 
 /** add_new_hd
@@ -84,8 +92,8 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))
 	{
 		write(1, "\n", 1);
-		close(pfd[0]);
-		close(pfd[1]);
+		// close(pfd[0]);
+		// close(pfd[1]);
 		return (free(pfd), 1);
 	}
 	reset_std_dup(ms);
@@ -118,11 +126,4 @@ int	get_heredocs_pfd(t_ms *ms)
 	return (0);
 }
 
-void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
-{
-	reset_dlt_sig_behaviour();
-	fill_new_hd(ms, pfd, lim, expand);
-	close(pfd[0]);
-	close(pfd[1]);
-	ms_full_clean(ms);
-}
+
