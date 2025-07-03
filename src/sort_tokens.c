@@ -6,12 +6,13 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/02 17:03:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:40:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first);
 
 /** token_is_operator - token checker
  * @token: the token to check
@@ -94,14 +95,20 @@ static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 
 void	sort_tokens(t_ms *ms)
 {
-	int		to_sort;
-	int		i;
 	int		lock_first;
-	t_token	*head;
 	t_token	*cursor;
 
 	cursor = ms->token;
 	lock_first = 0;
+	loop_sort(ms, cursor, &lock_first);
+}
+
+void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first)
+{
+	int		i;
+	int		to_sort;
+	t_token	*head;
+
 	head = 0;
 	while (cursor)
 	{
@@ -120,32 +127,6 @@ void	sort_tokens(t_ms *ms)
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
-		lock_first = 1;
+		*lock_first = 1;
 	}
 }
-
-/* void	loop_sort(t_token *cursor, int *lock_first)
-{
-	int	i;
-	int	to_sort;
-
-	while (cursor)
-	{
-		to_sort = needs_sort(cursor);
-		i = 0;
-		while (i < to_sort)
-		{
-			cursor = add_after_cmd(cursor, i, head);
-			if (!lock_first)
-				ms->token = cursor;
-			i++;
-		}
-		while (cursor && !token_is_operator(cursor))
-			cursor = cursor->next;
-		head = cursor;
-		if (!cursor)
-			break ;
-		cursor = cursor->next;
-		lock_first = 1;
-	}
-} */
