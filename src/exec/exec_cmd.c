@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+int	cmd_is_empty(t_token *token)
+{
+	char	*cmd;
+	int		i;
+
+	i = 0;
+	cmd = token->data->cmd->args[0];
+	if (!cmd)
+		return (1);
+	while (cmd[i])
+	{
+		if (ft_isalnum(cmd[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 /** exec_builtin - call the right builtin to execute
  * @token: the t_token of T_CMD type
  * @ms: the minishell struct
@@ -99,6 +117,7 @@ static void	exec_child(t_token *token, t_ms *ms)
 	int		is_bi;
 	int		retval;
 
+	reset_dlt_sig_behaviour();
 	is_bi = is_builtin(token);
 	cmd = token->data->cmd;
 	dup_handler(token, ms);
@@ -135,6 +154,8 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 {
 	int	pid;
 
+	if (cmd_is_empty(node->token))
+		return ;
 	if (init_cmd(node, ms) || ms->open_failed)
 		return ;
 	if (is_builtin(node->token) && \
@@ -142,7 +163,6 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		exec_builtin(node->token, ms);
 	else
 	{
-		reset_dlt_sig_behaviour();
 		pid = fork();
 		if (pid == -1)
 			perror("fork");

@@ -6,13 +6,13 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/02 17:40:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:24:25 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first);
+void	loop_sort(t_ms *ms, t_token *cursor, int lock_first);
 
 /** token_is_operator - token checker
  * @token: the token to check
@@ -100,10 +100,10 @@ void	sort_tokens(t_ms *ms)
 
 	cursor = ms->token;
 	lock_first = 0;
-	loop_sort(ms, cursor, &lock_first);
+	loop_sort(ms, cursor, lock_first);
 }
 
-void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first)
+void	loop_sort(t_ms *ms, t_token *cursor, int lock_first)
 {
 	int		i;
 	int		to_sort;
@@ -127,6 +127,6 @@ void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first)
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
-		*lock_first = 1;
+		lock_first = 1;
 	}
 }
