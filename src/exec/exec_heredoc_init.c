@@ -6,12 +6,11 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/01 15:38:00 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:42:09 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/wait.h>
 
 int				check_lim(char	**lim, int len);
 unsigned char	wait_child(pid_t cpid);

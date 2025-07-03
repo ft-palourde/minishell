@@ -12,4 +12,6 @@ minishell
 
 *.txt
 test*
-test.sh
+out*
+in*
+fun*
