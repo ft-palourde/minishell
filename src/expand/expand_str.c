@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:03 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/25 15:35:57 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:04:27 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ char	*str_expand(char *str, t_ms *ms)
 	while (str && str[i])
 	{
 		chunk = get_next_chunk(str + i);
+		if (!chunk)
+			return (NULL);
 		i += ft_strlen(chunk);
 		tmp = chunk;
 		chunk = expand_chunk(chunk, ms);
+		if (!chunk)
+			return (free(tmp), NULL);
 		free(tmp);
 		tmp = new;
 		new = ft_strjoin(new, chunk);
-		free(tmp);
-		free(chunk);
 		if (!new)
-			return (NULL);
+			return (free(tmp), free(chunk), NULL);
 	}
-	return (new);
+	return (free(tmp), free(chunk), new);
 }

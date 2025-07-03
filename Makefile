@@ -54,7 +54,8 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_cmd_init\
 				exec/exec_cmd_utils\
 				exec/exec_heredoc\
-				exec/exec_heredoc_init\
+				exec/exec_heredoc_init \
+				exec/exec_heredoc_init2 \
 				exec/exec_pipe\
 				exec/exec_redir\
 				exec/exec_tree\
@@ -91,7 +92,8 @@ FILES		= 	builtin/builtin_cd\
 				set_env \
 				sort_tokens \
 				tree_builder \
-				tree_builder_utils
+				tree_builder_utils \
+				tree_builder_utils2
 
 SRC_DIR		= 	src/
 SRC_FILES	=	$(addsuffix .c, $(FILES))

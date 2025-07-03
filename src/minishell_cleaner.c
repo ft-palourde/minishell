@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_cleaner.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:29:28 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 12:47:41 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:33:52 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ void	ms_cleaner(t_ms *ms)
 
 void	ms_full_clean(t_ms *ms)
 {
-	if (!ms->exit)
+	if (!ms)
+		return ;
+	if (ms->exit == -1)
 		ms_cleaner(ms);
 	free(ms->prompt);
 	free(ms->term);

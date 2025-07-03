@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   sort_tokens_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 17:31:34 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/03 10:09:19 by rcochran         ###   ########.fr       */
+/*   Created: 2025/07/02 16:35:19 by rcochran          #+#    #+#             */
+/*   Updated: 2025/07/02 16:52:42 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str);
+//DEBUG
 
-size_t	ft_strlen(const char *str)
+void	print_token_list(t_token *token)
 {
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	while (token)
+	{
+		printf("[%d]%s", token->type, token->str);
+		if (is_redir(token->type))
+			printf(" %s", token->data->rd->file->filename);
+		printf("\n");
+		token = token->next;
+	}
 }

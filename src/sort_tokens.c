@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sort_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 13:00:49 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 15:11:23 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:40:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	debug_print_list(t_ms *ms);
+void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first);
 
 /** token_is_operator - token checker
  * @token: the token to check
@@ -93,31 +93,22 @@ static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 	return (nxt);
 }
 
-//DEBUG
-void	print_token_list(t_token *token)
-{
-	while (token)
-	{
-		printf("[%d]%s", token->type, token->str);
-		if (is_redir(token->type))
-			printf(" %s", token->data->rd->file->filename);
-		printf("\n");
-		token = token->next;
-	}
-}
-
 void	sort_tokens(t_ms *ms)
 {
-	int		to_sort;
-	int		i;
 	int		lock_first;
-	t_token	*head;
 	t_token	*cursor;
 
-	//print_token_list(ms->token);
-	//printf("\n\n");
 	cursor = ms->token;
 	lock_first = 0;
+	loop_sort(ms, cursor, &lock_first);
+}
+
+void	loop_sort(t_ms *ms, t_token *cursor, int *lock_first)
+{
+	int		i;
+	int		to_sort;
+	t_token	*head;
+
 	head = 0;
 	while (cursor)
 	{
@@ -136,8 +127,6 @@ void	sort_tokens(t_ms *ms)
 		if (!cursor)
 			break ;
 		cursor = cursor->next;
-		lock_first = 1;
-		//print_token_list(ms->token);
-		//printf("\n\n");
+		*lock_first = 1;
 	}
 }

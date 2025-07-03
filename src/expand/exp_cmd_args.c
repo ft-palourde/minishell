@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/13 11:19:16 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:09:10 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 	while (cmd_to_expand->args[i])
 	{
 		tmp = str_expand(cmd_to_expand->args[i], ms);
+		if (!tmp)
+			return (perror("malloc"));
 		free(cmd_to_expand->args[i]);
 		cmd_to_expand->args[i] = ft_strdup(tmp);
 		if (!cmd_to_expand->args[i])

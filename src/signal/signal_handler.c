@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/30 12:59:07 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:05:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	g_sig;
  */
 void	handle_sigint(int sig)
 {
-	// ft_putendl_fd("dfl", 2);
-	g_sig = sig;
 	write(1, "\n", 1);
+	rl_on_new_line();
 	rl_replace_line("", 0);
-	close(STDIN_FILENO);
+	rl_redisplay();
+	g_sig = sig;
 }
 
 /** handle_sigint_hd - Interrupt while heredoc filling, then cut the execution.
@@ -65,10 +65,8 @@ void	handle_sigint_hd(int sig)
 {
 	(void)sig;
 	g_sig = 130;
-	// ft_putendl_fd("hd", 2);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	// rl_on_new_line();
 	close(STDIN_FILENO);
 }
 

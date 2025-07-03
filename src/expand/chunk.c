@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunk.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/21 17:26:47 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:19:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*get_next_chunk(char *str)
 		}
 	}
 	chunk = ft_strndup(str, i);
+	if (!chunk)
+		return (perror("malloc"), NULL);
 	return (chunk);
 }
 
@@ -56,6 +58,8 @@ char	*expand_chunk(char *str, t_ms *ms)
 	{
 		free(new);
 		new = ft_strndup(str + quote_type / 2, i - quote_type);
+		if (!new)
+			return (perror("malloc"), NULL);
 	}
 	while (str[i])
 	{

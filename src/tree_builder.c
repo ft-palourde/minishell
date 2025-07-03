@@ -97,10 +97,7 @@ int	fill_tree(t_tree *node, t_token *list)
 		if (prev_node->token->type != T_PIPE)
 			new_branch(1, node, prev_node);
 		else if (!prev_node->right)
-		{
 			new_branch(0, prev_node, node);
-			//node = prev_node;
-		}
 		else
 			new_branch(1, node, prev_node);
 		if (list)

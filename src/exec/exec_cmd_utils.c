@@ -25,8 +25,8 @@
  */
 void	dup_handler(t_token *token, t_ms *ms)
 {
-/* 	(void)token;
-	(void)ms; */
+	(void)token;
+	(void)ms;
 	if (ms->file_in != STDIN_FILENO)
 		dup2(ms->file_in, STDIN_FILENO);
 	else if (token->in_fd != STDIN_FILENO)

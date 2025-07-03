@@ -47,16 +47,9 @@ int	ms_exec(t_ms *ms)
 {
 	int	err;
 
-	// printf("ENTER ms_exec\n");
-/* 	if (g_sig == SIGINT)
-		return (130); */
 	err = exec_init(ms);
 	if (err)
-	{
-		// printf("g_sig = %d\n", g_sig);
 		return (130);
-	}
-	// display_tokens(ms->token);
 	build_tree(ms);
 	if (!ms->tree)
 		return (0);
@@ -66,7 +59,7 @@ int	ms_exec(t_ms *ms)
 
 int	reset_ms_struct(t_ms *ms)
 {
-	ms->exit = 0;
+	ms->exit = -1;
 	ms->file_in = STDIN_FILENO;
 	ms->file_out = STDOUT_FILENO;
 	ms->open_failed = 0;
@@ -78,6 +71,7 @@ int	reset_ms_struct(t_ms *ms)
 	tcgetattr(STDIN_FILENO, ms->term);
 	return (0);
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -91,23 +85,16 @@ int	main(int ac, char **av, char **env)
 	if (!ms)
 		return (perror("malloc"), ms_full_clean(ms), 1);
 	retval = 0;
-	while (!ms->exit)
+	while (ms->exit == -1)
 	{
 		ms_signal_listener();
 		reset_ms_struct(ms);
-		reset_std_dup(ms);
-		// printf("[%d] ", getpid());
 		input = readline(ms->prompt);
-		// printf("gsig = %d", g_sig);
-		if (g_sig == SIGINT)
-		{
-			free(input);
-			g_sig = -1;
-			ms->retval = 130;
-			continue ;
-		}
 		if (!input)
+		{
+			bi_exit(ms);
 			break ;
+		}
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
@@ -119,7 +106,9 @@ int	main(int ac, char **av, char **env)
 		ms->retval = retval;
 		g_sig = -1;
 	}
+	if (ms->exit != -1)
+		retval = ms->exit;
 	ms_full_clean(ms);
 	ft_putendl_fd("exit", 1);
-	return (0);
+	return (retval);
 }

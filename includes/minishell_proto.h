@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/30 12:55:59 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:34:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char			*var_expand(char *str, t_ms *ms);
 void			add_var_to_new(char **new, char *str, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
 char			*expand_path(char *str, t_ms *ms);
+char			*ft_get_pid(void);
 
 /* SIGNAL */
 
@@ -156,11 +157,14 @@ int				exec_pipe(t_tree *node, t_ms *ms);
 int				exec_heredoc(t_tree *node, t_ms *ms);
 int				exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
+void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
+int				check_lim(char	**lim, int len);
+unsigned char	wait_child(pid_t cpid);
+void			abort_heredoc(t_ms *ms, int *fd);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
 void			dup_handler(t_token *token, t_ms *ms);
 void			reset_std_dup(t_ms *ms);
-
 
 int				is_absolute(char *str);
 int				is_redir(t_token_type type);
