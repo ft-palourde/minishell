@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/03 11:09:10 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:43:58 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 	t_cmd	*cmd_to_expand;
 
 	cmd_to_expand = (*cmd);
-	i = 1;
+	i = 0;
 	while (cmd_to_expand->args[i])
 	{
 		tmp = str_expand(cmd_to_expand->args[i], ms);
