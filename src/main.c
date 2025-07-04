@@ -6,16 +6,14 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/03 19:15:42 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:07:08 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-extern int	g_sig;
-
-void	display_nl()
+void	display_nl(void)
 {
 	write(STDIN_FILENO, "\n", 1);
 }
@@ -72,7 +70,6 @@ int	reset_ms_struct(t_ms *ms)
 	tcgetattr(STDIN_FILENO, ms->term);
 	return (0);
 }
-
 
 int	main(int ac, char **av, char **env)
 {
