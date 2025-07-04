@@ -6,15 +6,16 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 17:07:08 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:15:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-void	display_nl(void)
+void	display_nl(int sig)
 {
+	(void)sig;
 	write(STDIN_FILENO, "\n", 1);
 }
 
