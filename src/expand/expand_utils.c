@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:14:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/04 12:09:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:48:34 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_next_chunk(char *str);
 int		check_quote_type(char c);
-void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 int		expand_is_closed(char *str, char c);
 
 /* 
