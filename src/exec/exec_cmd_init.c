@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:24:51 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 17:40:40 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:26:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	**get_paths(char **env)
 
 	i = 0;
 	j = 0;
+	if (!env)
+		return (ft_split("", '\0'));
 	while (env[i] && ft_strncmp("PATH=", env[i], 5))
 		i++;
 	while (env[i] && env[i][j] && env[i][j] != '=')

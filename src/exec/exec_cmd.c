@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 17:15:42 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:15:00 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ int	cmd_is_empty(t_token *token)
 	int		i;
 
 	i = 0;
-	cmd = token->data->cmd->args[0];
-	if (!cmd)
-		return (1);
-	while (cmd[i])
+	if (token && token->data && token->data->cmd
+		&& token->data->cmd->args)
 	{
-		if (ft_isalnum(cmd[i]))
-			return (0);
-		i++;
+		cmd = token->data->cmd->args[0];
+		if (!cmd)
+			return (1);
+		while (cmd[i])
+		{
+			if (ft_isalnum(cmd[i]))
+				return (0);
+			i++;
+		}
 	}
 	return (1);
 }

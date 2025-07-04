@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:25:12 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/14 18:03:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:50:03 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	parse_cmd(t_token *token, t_ms *ms)
 		return ;
 	token->data->cmd->is_builtin = is_builtin_cmd(token->str);
 	set_cmd_args(token, ms);
+	if (!token)
+		return ;
 	if (!token->data->cmd)
 	{
 		free(token->data);
@@ -94,6 +96,7 @@ void	merge_word_tokens(t_token *token, t_ms *ms)
 	t_token	*cursor;
 	t_token	*to_free;
 	int		i;
+	char	*dup;
 
 	if (!token || token->type != T_WORD)
 		return ;
@@ -102,9 +105,12 @@ void	merge_word_tokens(t_token *token, t_ms *ms)
 	while (cursor && cursor->type == T_WORD)
 	{
 		(void) ms;
-		token->data->cmd->args[i] = ft_strdup(cursor->str);
-		if (!(token->data->cmd->args[i]))
-			free_tokens(token);
+		if (!token->data->cmd->args)
+			return (free_token(token));
+		dup = ft_strdup(cursor->str);
+		if (!dup)
+			return (free_token(token));
+		token->data->cmd->args[i] = dup;
 		to_free = cursor;
 		cursor = cursor->next;
 		if (i > 0)
