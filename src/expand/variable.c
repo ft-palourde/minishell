@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 char	*var_name_to_value(char *name, t_ms *ms);
-char	*var_expand(char *str, t_ms *ms);
-void	add_var_to_new(char **new, char *str, t_ms *ms);
+char	*var_expand(char *str, int *j, t_ms *ms);
+void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 
 /** var_expand - Expands a variable in the given string.
  * @str: The string containing the variable to expand.
@@ -27,7 +27,7 @@ void	add_var_to_new(char **new, char *str, t_ms *ms);
  * Returns: A newly allocated string with the expanded variable,
  * or NULL on failure.
  */
-char	*var_expand(char *str, t_ms *ms)
+char	*var_expand(char *str, int *j, t_ms *ms)
 {
 	char	*var_value;
 	char	*var_name;
@@ -36,6 +36,7 @@ char	*var_expand(char *str, t_ms *ms)
 	if (!str || (str[0] != '$' && str[0] != '~'))
 		return (ft_strdup(str));
 	i = 1;
+	(*j)++;
 	if (str[0] == '~')
 		return (expand_path(str, ms));
 	if (str[i] && str[i] == '?')
@@ -48,7 +49,10 @@ char	*var_expand(char *str, t_ms *ms)
 	if (str[i] && str[i] == '$')
 		return (ft_get_pid());
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
 		i++;
+		(*j)++;
+	}	
 	var_name = ft_substr(str, 1, i - 1);
 	if (!var_name)
 		return (NULL);
@@ -93,12 +97,12 @@ char	*var_name_to_value(char *name, t_ms *ms)
 	return (value);
 }
 
-void	add_var_to_new(char **new, char *str, t_ms *ms)
+void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 {
 	char	*tmp;
 	char	*var;
 
-	var = var_expand(str, ms);
+	var = var_expand(str + *i, i, ms);
 	if (!var)
 	{
 		perror("malloc");

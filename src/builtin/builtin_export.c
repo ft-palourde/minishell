@@ -106,7 +106,7 @@ char	*check_var(char *var)
 	else
 		new_var = ft_strdup(var);
 	if (!i || (new_var && !new_var[i]))
-		return (NULL);
+		return (free(new_var), NULL);
 	return (new_var);
 }
 
