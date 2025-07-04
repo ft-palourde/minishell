@@ -13,8 +13,9 @@
 #include "minishell.h"
 #include <sys/wait.h>
 
-void	display_nl(void)
+void	display_nl(int sig)
 {
+	(void) sig;
 	write(STDIN_FILENO, "\n", 1);
 }
 
