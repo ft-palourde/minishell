@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 16:51:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:47:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*var_name_to_value(char *name, t_ms *ms);
 char	*var_expand(char *str, int *j, t_ms *ms);
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
+char	*ft_get_pid(void);
 
 /** var_expand - Expands a variable in the given string.
  * @str: The string containing the variable to expand.
@@ -36,9 +37,9 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	if (!str || (str[0] != '$' && str[0] != '~'))
 		return (ft_strdup(str));
 	i = 1;
-	(*j)++;
 	if (str[0] == '~')
 		return (expand_path(str, ms));
+	(*j)++;
 	if (str[i] && str[i] == '?')
 	{
 		if (!sig_comp(-1))

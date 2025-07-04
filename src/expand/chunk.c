@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 16:50:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:14:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	add_remains_until_next_trigger(char **new, char *str, int *i)
 
 	j = 0;
 	len = 0;
-	while (str[*i + len] && str[*i + len] != '$' && str[*i + len] != '~')
+	if (!str[(*i)])
+		return (0);
+	while (str[(*i) + len] && str[(*i) + len] != '$' && str[(*i) + len] != '~')
 		len++;
 	remain = ft_calloc(len + 1, sizeof(char));
 	if (!remain)
