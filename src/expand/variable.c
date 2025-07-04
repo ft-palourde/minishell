@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/30 12:54:19 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:51:20 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	*new = ft_strjoin(*new, var);
 	free(tmp);
 	free(var);
+	(*i)++;
 }
 
 // TODO recoder get pid
