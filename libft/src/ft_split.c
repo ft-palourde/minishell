@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:23:10 by rcochran          #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:00 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:31:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static size_t	get_word_length(const char *str, char separator)
 
 void	*reverse_cascade_free(char **str, int i)
 {
+	if (!str)
+		return (NULL);
 	while (i >= 0)
 	{
 		free(str[i]);

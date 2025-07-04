@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 18:36:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:51:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_token	*parse(char *input, t_ms *ms)
 	if (!input || !(*input))
 		return (NULL);
 	tokens = lexer(input);
+	if (!tokens)
+		return (NULL);
 	if (check_syntax_error(tokens))
 		return (free_tokens(tokens), NULL);
 	cursor = tokens;
@@ -35,7 +37,7 @@ t_token	*parse(char *input, t_ms *ms)
 	{
 		handle_cursor(cursor, ms);
 		if (!cursor)
-			break ;
+			return (free_tokens(tokens), NULL);
 		cursor = cursor->next;
 	}
 	return (tokens);

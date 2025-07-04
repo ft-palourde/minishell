@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 11:08:18 by rcochran          #+#    #+#             */
-/*   Updated: 2024/11/19 11:02:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:41:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str = malloc ((size_t)(str_len + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		str[i] = s1[i];
 		i++;
 	}
-	while (s2[j])
+	while (s2 && s2[j])
 	{
 		str[i + j] = s2[j];
 		j++;

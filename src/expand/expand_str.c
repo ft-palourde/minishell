@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:03 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/03 19:13:15 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:38:32 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*str_expand(char *str, t_ms *ms)
 			return (free(tmp), NULL);
 		free(tmp);
 		tmp = new;
-		new = ft_strjoin(new, chunk);
+		new = ft_strjoin(tmp, chunk);
 		if (!new)
 			return (free(tmp), free(chunk), NULL);
 	}
