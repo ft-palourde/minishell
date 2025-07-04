@@ -46,23 +46,29 @@ int	pipe_heredoc(t_tree *node, t_ms *ms)
  */
 int	exec_heredoc(t_tree *node, t_ms *ms)
 {
-	char	*line;
+	char	*buff;
+	int		cursor;
 
+	cursor = 1;
 	node->token->in_fd = ms->file_in;
 	node->token->out_fd = ms->file_out;
 	if (pipe_heredoc(node, ms))
 		return (1);
-	dup2(node->token->out_fd, STDOUT_FILENO);
-	line = get_next_line(node->token->data->rd->heredoc->fd[0]);
-	if (!line)
-		return (1);
-	while (line)
+	buff = ft_calloc(3, sizeof(char));
+	if (!buff)
+		return (perror("malloc"), 1);
+	while (cursor)
 	{
-		ft_putstr_fd(line, node->token->out_fd);
-		free(line);
-		line = get_next_line(node->token->data->rd->heredoc->fd[0]);
+		cursor = read(node->token->data->rd->heredoc->fd[0], buff, 2);
+		if (cursor == -1)
+		{
+			ft_putendl_fd("read : error occured.", 2);
+			break ;
+		}
+		if (cursor)
+			ft_putstr_fd(buff, node->token->out_fd);
 	}
-	dup2(ms->ms_stdout, STDOUT_FILENO);
+	free(buff);
 	close(node->token->out_fd);
 	return (0);
 }
