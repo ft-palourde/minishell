@@ -93,7 +93,7 @@ int	main(int ac, char **av, char **env)
 		input = readline(ms->prompt);
 		if (!input)
 		{
-			bi_exit(ms);
+			bi_exit(ms, NULL);
 			break ;
 		}
 		if (input && *input)

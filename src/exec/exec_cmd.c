@@ -59,7 +59,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_ENV)
 		retval = bi_env(ms->env);
 	if (builtin == B_EXIT)
-		retval = bi_exit(ms);
+		retval = bi_exit(ms, token->data->cmd->args);
 	if (builtin == B_EXPORT)
 		retval = bi_export(&ms->env, token->data->cmd->args + 1);
 	if (builtin == B_PWD)

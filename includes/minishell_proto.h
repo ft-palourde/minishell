@@ -108,7 +108,7 @@ int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);
-int				bi_exit(t_ms *ms);
+int				bi_exit(t_ms *ms, char **arg);
 int				bi_export(char ***env, char **args);
 
 char			*ft_get_pwd(int prefix);
