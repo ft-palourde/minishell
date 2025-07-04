@@ -34,6 +34,24 @@ int	open_failed(char *path, t_ms *ms)
 	return (0);
 }
 
+/** set_ms_fd - set variables in ms struct after redir
+ * @in: in variable from exec_redir function
+ * @out: out variable from exec_redir function
+ * @ms: minishell struct
+ * 
+ * sets the fd in ms->file_in or ms->file_out depending on where the
+ * redirection is pointing.
+ *
+ * Returns: void
+ */
+void	set_ms_fd(int in, int out, t_ms *ms)
+{
+	if (in != STDIN_FILENO)
+		ms->file_in = in;
+	if (out != STDOUT_FILENO)
+		ms->file_out = out;
+}
+
 /** exec_redir - execute a redir node
  * @node: current tree node carrying a redir type token
  * @ms: minishell struct
@@ -63,12 +81,10 @@ int	exec_redir(t_token *token, t_ms *ms)
 		out = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else if (token->type == T_REDIR_OUT)
 		out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (open_failed(path, ms))
+	if (open_failed(path, ms) || \
+		((in != STDIN_FILENO && add_fd(ms->file_in, ms)) || \
+			(out != STDOUT_FILENO && add_fd(out, ms))))
 		return (free(path), 1);
-	if ((in != STDIN_FILENO && add_fd(ms->file_in, ms)) || \
-			(out != STDOUT_FILENO && add_fd(out, ms)))
-		return (free(path), 1);
-	ms->file_in = in;
-	ms->file_out = out;
+	set_ms_fd(in, out, ms);
 	return (free(path), 0);
 }

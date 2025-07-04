@@ -50,11 +50,12 @@ int	exec_tree(t_tree *root, t_ms *ms)
 		exec_pipe(root, ms);
 	if (is_redir(root->token->type))
 		exec_redir(root->token, ms);
+	if (root->token->type == T_HEREDOC)
+		exec_heredoc(root, ms);
 	exec_tree(root->left, ms);
 	exec_tree(root->right, ms);
 	if (root->token->type == T_CMD)
 		exec_cmd(root, ms);
-	if (root->token->type == T_HEREDOC)
-		exec_heredoc(root, ms);
+
 	return (0);
 }

@@ -61,6 +61,7 @@ t_cmd			*new_cmd(void);
 /* DEBUG DISPLAY */
 
 void			display_tokens(t_token *tokens);
+void			print_token_list(t_token *token);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
