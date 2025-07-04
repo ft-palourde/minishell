@@ -14,7 +14,36 @@
 
 char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
-static void	skip_until_next_trigger(char *str, int *i);
+static int	skip_until_next_trigger(char *str, int *i);
+
+int	add_remains_until_next_trigger(char **new, char *str, int *i)
+{
+	char	*remain;
+	char	*tmp;
+	int		len;
+	int		j;
+
+	j = 0;
+	len = 0;
+	while (str[*i + len] && str[*i + len] != '$' && str[*i + len] != '~')
+		len++;
+	remain = ft_calloc(len + 1, sizeof(char));
+	if (!remain)
+		return (1);
+	while (j < len)
+	{
+		remain[j] = str[*i + j];
+		j++;
+	}
+	tmp = *new;
+	*new = ft_strjoin(*new, remain);
+	free(tmp);
+	free(remain);
+	if (!*new)
+		return (1);
+	*i += len;
+	return (0);
+}
 
 //recupere le prochain chunk quote ou pas
 char	*get_next_chunk(char *str)
@@ -64,11 +93,9 @@ char	*expand_chunk(char *str, t_ms *ms)
 	while (str[i])
 	{
 		if (str[i] == '$' || str[i] == '~')
-		{
-			add_var_to_new(&new, str + i, ms);
-			i++;
-		}
-		skip_until_next_trigger(str, &i);
+			add_var_to_new(&new, str, &i, ms);
+		if (add_remains_until_next_trigger(&new, str, &i))
+			return (perror("malloc"), NULL);
 	}
 	return (new);
 }
@@ -82,9 +109,16 @@ char	*expand_chunk(char *str, t_ms *ms)
  *
  * Returns: 
  */
-static void	skip_until_next_trigger(char *str, int *i)
+static int	skip_until_next_trigger(char *str, int *i)
 {
+	int	skip;
+
+	skip = 0;
 	(*i) += (str[*i] == '$' && (*i) != 0);
 	while (str[*i] && str[*i] != '$' && str[*i] != '~')
+	{
+		skip++;
 		(*i)++;
+	}
+	return (skip);
 }
