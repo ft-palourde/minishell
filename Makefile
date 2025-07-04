@@ -91,6 +91,7 @@ FILES		= 	builtin/builtin_cd\
 				prompt \
 				set_env \
 				sort_tokens \
+				sort_tokens_utils \
 				tree_builder \
 				tree_builder_utils \
 				tree_builder_utils2

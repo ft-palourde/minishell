@@ -61,6 +61,7 @@ t_cmd			*new_cmd(void);
 /* DEBUG DISPLAY */
 
 void			display_tokens(t_token *tokens);
+void			print_token_list(t_token *token);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
@@ -108,7 +109,7 @@ int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);
-int				bi_exit(t_ms *ms);
+int				bi_exit(t_ms *ms, char **arg);
 int				bi_export(char ***env, char **args);
 
 char			*ft_get_pwd(int prefix);
