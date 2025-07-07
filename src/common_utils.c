@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	display_nl(int sig)
+{
+	(void) sig;
+	write(STDIN_FILENO, "\n", 1);
+}
+
 void	free_split(char **split)
 {
 	int	i;

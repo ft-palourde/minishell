@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
-int				check_lim(char	**lim, int len);
+int				check_lim(char	*lim);
 unsigned char	wait_child(pid_t cpid);
 void			abort_heredoc(t_ms *ms, int *fd);
 
@@ -59,29 +59,34 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
- * @len: ft_strlen(lim)
  * 
  * Checks if the limiter is simple quoted to know if its expand is required.
  * also replace the limiter with its simple quote trimed if needed
  * 
  * Returns:
- * -1 on malloc error
  * 1 if not simple quoted
  * 0 else
  */
-int	check_lim(char	**lim, int len)
+int	check_lim(char	*lim)
 {
-	int	expand;
+	int		expand;
+	int		i;
+	char	quote;
 
+	i = 0;
 	expand = 1;
-	if (*lim[0] == '\'')
+	if (lim[0] == '\'')
 		expand--;
-	if (is_quote(*lim[0]))
+	if (is_quote(lim[0]))
 	{
-		free(*lim);
-		*lim = ft_strndup(*lim + 1, len - 2);
-		if (!*lim)
-			return (perror("malloc"), -1);
+		quote = lim[0];
+		while (lim[i] && lim[i + 1] && lim[i + 1] != quote)
+		{
+			lim[i] = lim[i + 1];
+			i++;
+		}
+		if (i)
+			lim[i] = '\0';
 	}
 	return (expand);
 }

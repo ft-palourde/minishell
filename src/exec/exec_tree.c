@@ -56,6 +56,5 @@ int	exec_tree(t_tree *root, t_ms *ms)
 	exec_tree(root->right, ms);
 	if (root->token->type == T_CMD)
 		exec_cmd(root, ms);
-
 	return (0);
 }
