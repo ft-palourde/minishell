@@ -13,12 +13,6 @@
 #include "minishell.h"
 #include <sys/wait.h>
 
-void	display_nl(int sig)
-{
-	(void) sig;
-	write(STDIN_FILENO, "\n", 1);
-}
-
 int	wait_all(t_ms *ms)
 {
 	int				i;
@@ -72,18 +66,10 @@ int	reset_ms_struct(t_ms *ms)
 	return (0);
 }
 
-int	main(int ac, char **av, char **env)
+void	minishell_loop(t_ms *ms, int *retval)
 {
-	t_ms	*ms;
 	char	*input;
-	int		retval;
 
-	g_sig = -1;
-	(void)ac, (void)av;
-	ms = init_ms_struct(env);
-	if (!ms)
-		return (perror("malloc"), ms_full_clean(ms), 1);
-	retval = 0;
 	while (ms->exit == -1)
 	{
 		ms_signal_listener();
@@ -92,19 +78,33 @@ int	main(int ac, char **av, char **env)
 		if (!input)
 		{
 			bi_exit(ms, NULL);
-			break ;
+			return ;
 		}
 		if (input && *input)
 			add_history(input);
 		ms->token = parse(input, ms);
 		if (ms->token)
 		{
-			retval = ms_exec(ms);
+			*retval = ms_exec(ms);
 			ms_cleaner(ms);
 		}
-		ms->retval = retval;
+		ms->retval = *retval;
 		g_sig = -1;
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_ms	*ms;
+	int		retval;
+
+	g_sig = -1;
+	(void)ac, (void)av;
+	ms = init_ms_struct(env);
+	if (!ms)
+		return (perror("malloc"), ms_full_clean(ms), 1);
+	retval = 0;
+	minishell_loop(ms, &retval);
 	if (ms->exit != -1)
 		retval = ms->exit;
 	ms_full_clean(ms);

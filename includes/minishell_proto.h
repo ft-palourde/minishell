@@ -181,6 +181,10 @@ void			free_tree(t_tree *tree);
 void			ms_cleaner(t_ms *ms);
 void			ms_full_clean(t_ms *ms);
 
+////// COMMON_UTILS //////
+
+void			display_nl(int sig);
+
 /* INIT */
 
 t_ms			*init_ms_struct(char **env);

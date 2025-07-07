@@ -27,25 +27,10 @@ void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
 	ms_full_clean(ms);
 }
 
-int	fork_hd(t_ms *ms, int *pfd, char *lim)
+int	wait_pid_hd(t_ms *ms, int *pfd, int child_pid)
 {
-	pid_t	child_pid;
-	int		expand;
 	int		status;
 
-	g_sig = 0;
-	expand = check_lim(lim);
-	if (expand == -1)
-		return (perror("malloc"), 1);
-	child_pid = fork();
-	if (child_pid == -1)
-		return (perror("fork"), 1);
-	if (child_pid == 0)
-	{
-		handle_child(ms, pfd, lim, expand);
-		exit(0);
-	}
-	close(pfd[1]);
 	if (waitpid(child_pid, &status, 0) == -1)
 		return (perror("waitpid"), 1);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
@@ -61,6 +46,28 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 		return (1);
 	}
 	return (0);
+}
+
+int	fork_hd(t_ms *ms, int *pfd, char *lim)
+{
+	pid_t	child_pid;
+	int		expand;
+
+	g_sig = 0;
+	expand = check_lim(lim);
+	if (expand == -1)
+		return (perror("malloc"), 1);
+	child_pid = fork();
+	if (child_pid == -1)
+		return (perror("fork"), 1);
+	if (child_pid == 0)
+	{
+		handle_child(ms, pfd, lim, expand);
+		exit(0);
+	}
+	close(pfd[1]);
+	return (wait_pid_hd(ms, pfd, child_pid));
+
 }
 
 /** add_new_hd

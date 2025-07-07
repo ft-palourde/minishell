@@ -59,13 +59,11 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 
 /** check_lim - check the content of the limiter
  * @lim: the limiter given in input
- * @len: ft_strlen(lim)
  * 
  * Checks if the limiter is simple quoted to know if its expand is required.
  * also replace the limiter with its simple quote trimed if needed
  * 
  * Returns:
- * -1 on malloc error
  * 1 if not simple quoted
  * 0 else
  */
