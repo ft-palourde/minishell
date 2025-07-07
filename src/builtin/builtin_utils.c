@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 19:17:15 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:17:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
  */
 int	is_builtin(t_token *token)
 {
-	const char	*cmd = token->data->cmd->args[0];
+	const char	*cmd;
 
+	if (!token)
+		return (0);
+	cmd = token->data->cmd->args[0];
 	token->data->cmd->is_builtin = B_NONE;
 	if (!ft_strncmp(cmd, "exit", 5))
 		token->data->cmd->is_builtin = B_EXIT;
