@@ -23,6 +23,8 @@ int	add_remains_until_next_trigger(char **new, char *str, int *i)
 	int		len;
 	int		j;
 
+	if (!str[*i])
+		return (0);
 	j = 0;
 	len = 0;
 	while (str[*i + len] && str[*i + len] != '$' && str[*i + len] != '~')
@@ -37,12 +39,10 @@ int	add_remains_until_next_trigger(char **new, char *str, int *i)
 	}
 	tmp = *new;
 	*new = ft_strjoin(*new, remain);
-	free(tmp);
-	free(remain);
 	if (!*new)
-		return (1);
+		return (free(tmp), free(remain), 1);
 	*i += len;
-	return (0);
+	return (free(tmp), free(remain), 0);
 }
 
 //recupere le prochain chunk quote ou pas

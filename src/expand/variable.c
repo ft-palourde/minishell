@@ -16,6 +16,23 @@ char	*var_name_to_value(char *name, t_ms *ms);
 char	*var_expand(char *str, int *j, t_ms *ms);
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 
+char	*var_getter(t_ms *ms, char *str, int *j, int i)
+{
+	char	*var_value;
+	char	*var_name;
+
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		i++;
+		(*j)++;
+	}	
+	var_name = ft_substr(str, 1, i - 1);
+	if (!var_name)
+		return (NULL);
+	var_value = var_name_to_value(var_name, ms);
+	return (free(var_name), var_value);
+}
+
 /** var_expand - Expands a variable in the given string.
  * @str: The string containing the variable to expand.
  * @env: The grid of environment variables.
@@ -29,8 +46,6 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
  */
 char	*var_expand(char *str, int *j, t_ms *ms)
 {
-	char	*var_value;
-	char	*var_name;
 	int		i;
 
 	if (!str || (str[0] != '$' && str[0] != '~'))
@@ -48,16 +63,7 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	}
 	if (str[i] && str[i] == '$')
 		return (ft_get_pid());
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-	{
-		i++;
-		(*j)++;
-	}	
-	var_name = ft_substr(str, 1, i - 1);
-	if (!var_name)
-		return (NULL);
-	var_value = var_name_to_value(var_name, ms);
-	return (free(var_name), var_value);
+	return (var_getter(ms, str, j, i));
 }
 
 /** var_name_to_value - Expands a variable in the given string.
@@ -112,7 +118,8 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	*new = ft_strjoin(*new, var);
 	free(tmp);
 	free(var);
-	(*i)++;
+	if (str[*i])
+		(*i)++;
 }
 
 // TODO recoder get pid

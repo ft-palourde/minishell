@@ -84,7 +84,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
  * 
  * clear what needs to be closed or freed, then set the right
  * retval on the ms structure (127 if the command doesnt exist
- * or 0)
+ * , 126 if it is a directory, or 0)
  * display an error message on STDERR if the command can not be executed
  *
  * Returns: void
@@ -93,22 +93,23 @@ static void	command_failed(t_token *token, t_ms *ms)
 {
 	int	retval;
 
-	if (access(token->data->cmd->path, X_OK))
+	retval = 0;
+	if (!is_builtin(token))
 	{
 		ft_putstr_fd("Minishell: ", 2);
-		ft_putstr_fd(token->data->cmd->args[0], 2);
-		if (is_absolute(token->data->cmd->args[0]))
-			ft_putstr_fd(": No such file or directory\n", 2);
+		if (access(token->data->cmd->path, X_OK))
+		{
+			perror(token->data->cmd->args[0]);
+			retval = 127;
+		}
 		else
-			ft_putstr_fd(": command not found\n", 2);
-		retval = 127;
+		{
+			ft_putstr_fd(token->data->cmd->args[0], 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			retval = 126;
+		}
 	}
-	else
-		retval = 0;
-	ms_cleaner(ms);
-	reverse_cascade_free(ms->env, split_len(ms->env));
-	free(ms->prompt);
-	free(ms);
+	ms_full_clean(ms);
 	exit(retval);
 }
 
