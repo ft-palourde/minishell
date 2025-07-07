@@ -157,7 +157,7 @@ int				exec_pipe(t_tree *node, t_ms *ms);
 int				exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
-int				check_lim(char	**lim, int len);
+int				check_lim(char	*lim);
 unsigned char	wait_child(pid_t cpid);
 void			abort_heredoc(t_ms *ms, int *fd);
 

@@ -34,7 +34,7 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	int		status;
 
 	g_sig = 0;
-	expand = check_lim(&lim, ft_strlen(lim));
+	expand = check_lim(lim);
 	if (expand == -1)
 		return (perror("malloc"), 1);
 	child_pid = fork();
