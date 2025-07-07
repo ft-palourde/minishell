@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/27 12:55:55 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:42:14 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	handle_operator(char *input, t_token **tokens)
 	type = get_operator_type(input);
 	len = operator_len(type);
 	str = ft_strndup(input, len);
+	if (!str)
+		return (0);
 	new = constr_new_token(type, str);
 	free(str);
 	if (!new)
