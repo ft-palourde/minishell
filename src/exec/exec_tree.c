@@ -51,7 +51,7 @@ int	exec_tree(t_tree *root, t_ms *ms)
 	if (is_redir(root->token->type))
 		exec_redir(root->token, ms);
 	if (root->token->type == T_HEREDOC)
-		exec_heredoc(root, ms);
+		ms->file_in = root->token->data->rd->heredoc->fd[0];
 	exec_tree(root->left, ms);
 	exec_tree(root->right, ms);
 	if (root->token->type == T_CMD)

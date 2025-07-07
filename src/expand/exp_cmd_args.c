@@ -33,7 +33,7 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 		free(cmd_to_expand->args[i]);
 		sdup = ft_strdup(tmp);
 		if (!sdup)
-			return (perror("malloc"));
+			return (free(tmp), perror("malloc"));
 		cmd_to_expand->args[i] = sdup;
 		free(tmp);
 		i++;

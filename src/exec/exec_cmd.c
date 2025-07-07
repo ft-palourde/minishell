@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+/** cmd_is_empty - check if the given cmd is empty 
+ * @token: the t_token of T_CMD type
+ * 
+ * checks if the command contains any alphanumeric character
+ *
+ * Returns: 1 if the command is empty, 0 else
+ */
+
 int	cmd_is_empty(t_token *token)
 {
 	char	*cmd;
@@ -158,9 +166,9 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 {
 	int	pid;
 
-	if (cmd_is_empty(node->token))
-		return ;
 	if (init_cmd(node, ms) || ms->open_failed)
+		return ;
+	if (cmd_is_empty(node->token))
 		return ;
 	if (is_builtin(node->token) && \
 		(!node->parent || node->parent->token->type != T_PIPE))

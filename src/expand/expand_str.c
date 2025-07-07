@@ -24,12 +24,12 @@ char	*str_expand(char *str, t_ms *ms)
 	i = 0;
 	new = ft_strdup("");
 	if (!new)
-		perror("malloc");
+		return (NULL);
 	while (str && str[i])
 	{
 		chunk = get_next_chunk(str + i);
 		if (!chunk)
-			return (NULL);
+			return (free(new), NULL);
 		i += ft_strlen(chunk);
 		tmp = chunk;
 		chunk = expand_chunk(chunk, ms);
@@ -40,6 +40,8 @@ char	*str_expand(char *str, t_ms *ms)
 		new = ft_strjoin(tmp, chunk);
 		if (!new)
 			return (free(tmp), free(chunk), NULL);
+		free(tmp);
+		free(chunk);
 	}
-	return (free(tmp), free(chunk), new);
+	return (new);
 }

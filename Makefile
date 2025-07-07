@@ -53,7 +53,6 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_cmd\
 				exec/exec_cmd_init\
 				exec/exec_cmd_utils\
-				exec/exec_heredoc\
 				exec/exec_heredoc_init \
 				exec/exec_heredoc_init2 \
 				exec/exec_pipe\
