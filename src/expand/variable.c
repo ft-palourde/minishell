@@ -112,7 +112,8 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	*new = ft_strjoin(*new, var);
 	free(tmp);
 	free(var);
-	(*i)++;
+	if (str[*i])
+		(*i)++;
 }
 
 // TODO recoder get pid
