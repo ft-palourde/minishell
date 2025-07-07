@@ -81,10 +81,10 @@ int	exec_redir(t_token *token, t_ms *ms)
 		out = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else if (token->type == T_REDIR_OUT)
 		out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	set_ms_fd(in, out, ms);
 	if (open_failed(path, ms) || \
 		((in != STDIN_FILENO && add_fd(ms->file_in, ms)) || \
 			(out != STDOUT_FILENO && add_fd(out, ms))))
 		return (free(path), 1);
-	set_ms_fd(in, out, ms);
 	return (free(path), 0);
 }
