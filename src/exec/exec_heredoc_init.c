@@ -67,7 +67,6 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	}
 	close(pfd[1]);
 	return (wait_pid_hd(ms, pfd, child_pid));
-
 }
 
 /** add_new_hd
