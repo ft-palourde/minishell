@@ -19,7 +19,7 @@ MAKEFLAGS += --no-print-directory
 QUIET		=	@
 
 CC			= 	cc
-CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP -g3
+CFLAGS		= 	-Wall -Werror -Wextra -MMD -MP
 AR			=	ar -rcs
 NAME		= 	minishell
 
@@ -65,7 +65,6 @@ FILES		= 	builtin/builtin_cd\
 				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
-				expand/expand_wildcard \
 				expand/variable \
 				lexing/backslash \
 				lexing/lexer_utils \

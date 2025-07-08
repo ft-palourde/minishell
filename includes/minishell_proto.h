@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 11:20:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:51:45 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_token			*lexer(char *input);
 
 /* LEXER UTILS */
 
-/* c == white space ? 1 : 0*/
 int				is_space(char c);
 int				extract_word_len(const char *input);
 
@@ -83,7 +82,6 @@ char			*get_next_chunk(char *str);
 int				check_quote_type(char c);
 void			add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 int				expand_is_closed(char *str, char c);
-int				expand_wildcard(void);
 char			*var_name_to_value(char *name, t_ms *ms);
 char			*var_expand(char *str, int *j, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
@@ -97,8 +95,8 @@ void			handle_sigint(int sig);
 int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
-void			reset_dlt_sig_behaviour(void);
-void			set_hd_sig_behaviour(void);
+void			reset_dlt_sig_behavior(void);
+void			set_hd_sig_behavior(void);
 
 ///////// BUILT-INS /////////
 

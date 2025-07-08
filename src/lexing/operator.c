@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/07 12:42:14 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:08:20 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ int	handle_operator(char *input, t_token **tokens)
 	return (len);
 }
 
-// check for &, |, <, >
+/** is_operator - Read a char and return if it is an operator.
+ * @c: The char read compared to operator symbols.
+ *
+ * Returns: An int as boolean, 1 true, 0 false.
+ */
 bool	is_operator(char c)
 {
 	return (c == '|' || c == '&' || c == '<' || c == '>');

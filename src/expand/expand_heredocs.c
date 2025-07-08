@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredocs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:19:06 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/21 17:46:24 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:41:07 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	add_quote_to_new(char quote, char **new)
 		perror("malloc");
 	return (1);
 }
+
 char	*hd_expand_chunk(char *str, t_ms *ms)
 {
 	char	*new;

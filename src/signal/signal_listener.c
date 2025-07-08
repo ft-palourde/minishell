@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:01:09 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/30 12:56:29 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:38:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,25 @@ void	sig_ignore(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	reset_dlt_sig_behaviour(void)
+/** sig_ignore - Ignores the behavior of SIGINT and SIGQUIT
+ * 
+ * Overwrite signal handler to NULL for SIGINT and SIGQUIT.
+ * 
+ * Return : void.
+*/
+void	reset_dlt_sig_behavior(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	set_hd_sig_behaviour(void)
+/** set_hd_sig_behavior - Changes SIGINT and SIGQUIT behavior in fork
+ * 
+ * SIGQUIT behavior reset to default.
+ * 
+ * Return : void.
+*/
+void	set_hd_sig_behavior(void)
 {
 	signal(SIGINT, &handle_sigint_hd);
 	signal(SIGQUIT, SIG_DFL);

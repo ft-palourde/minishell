@@ -6,16 +6,16 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 11:38:38 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:32:02 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_token	*lexer(char *input);
-int		handle_word(char *input, t_token **tokens);
-int		is_closed(char *input, char quote);
 t_token	*fill_tokens(char *input, int i, t_token *tokens);
+int		extract_word_len(const char *input);
+int		handle_word(char *input, t_token **tokens);
 
 /** lexer - Divide given input into separated tokens.
  * @input: readline output.
@@ -37,9 +37,26 @@ t_token	*lexer(char *input)
 	if (!input)
 		return (NULL);
 	tokens = fill_tokens(input, i, tokens);
+	if (!tokens)
+		return (NULL);
 	return (tokens);
 }
 
+/** fill_tokens - Fill the given tokens list.
+ * @input: readline output.
+ * @i: current index of the cursor.
+ * @tokens: the token list to add each new token to.
+ * 
+ * Reads the string at the current index and skip the whitespaces.
+ * 
+ * Depending on the case, trigger a function either 
+ * to manage an operator or to manage a word.
+ * A new token is created in those functions.
+ * 
+ * Then the current index is increased by the length of the new created token.
+ * 
+ * Returns: The updated t_token list, or NULL if an error occurs.
+ */
 t_token	*fill_tokens(char *input, int i, t_token *tokens)
 {
 	int	len;
@@ -68,10 +85,11 @@ t_token	*fill_tokens(char *input, int i, t_token *tokens)
 	return (tokens);
 }
 
-/** extract_word_len - .
- * @input: .
+/** extract_word_len - Get the word length.
+ * @input: current pointer on the given string from readline prompt.
  *
- * Word = no space nor logic operator,
+ * The "word" is defined between unquoted operator and spaces.
+ * 
  * Returns: The length (int) of the "word" token.
  */
 int	extract_word_len(const char *input)
