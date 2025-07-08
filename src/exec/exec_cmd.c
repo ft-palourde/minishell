@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/04 11:15:00 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:38:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void	exec_child(t_token *token, t_ms *ms)
 	int		is_bi;
 	int		retval;
 
-	reset_dlt_sig_behaviour();
+	reset_dlt_sig_behavior();
 	is_bi = is_builtin(token);
 	cmd = token->data->cmd;
 	dup_handler(token, ms);

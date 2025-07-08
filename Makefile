@@ -65,7 +65,6 @@ FILES		= 	builtin/builtin_cd\
 				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
-				expand/expand_wildcard \
 				expand/variable \
 				lexing/backslash \
 				lexing/lexer_utils \

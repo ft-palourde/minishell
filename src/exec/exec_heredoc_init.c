@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:36:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/03 19:11:57 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:38:43 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void			handle_child(t_ms *ms, int *pfd, char *lim, int expand);
 
 void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
 {
-	set_hd_sig_behaviour();
-	reset_dlt_sig_behaviour();
+	set_hd_sig_behavior();
+	reset_dlt_sig_behavior();
 	fill_new_hd(ms, pfd, lim, expand);
 	close(pfd[0]);
 	close(pfd[1]);

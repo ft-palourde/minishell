@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 11:20:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:38:49 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void			handle_sigint(int sig);
 int				sig_comp(int sig);
 void			handle_sigint_hd(int sig);
 void			sig_ignore(void);
-void			reset_dlt_sig_behaviour(void);
-void			set_hd_sig_behaviour(void);
+void			reset_dlt_sig_behavior(void);
+void			set_hd_sig_behavior(void);
 
 ///////// BUILT-INS /////////
 
