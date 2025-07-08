@@ -6,16 +6,17 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 12:13:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:46:58 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unclosed_quote(t_token *token);
-int	check_quote_error(char *str, char c);
-int	is_closed(char *str, char c);
-int	is_quoted(char *str, char c);
+int		unclosed_quote(t_token *token);
+int		check_quote_error(char *str, char c);
+int		is_closed(char *str, char c);
+void	unclosed_quote_loop(t_token *cursor,
+			int *in_double_quote, int *in_single_quote);
 
 /*
 checks if the quote, double quote or parenthesis has a closing occurence
@@ -52,19 +53,43 @@ check for each node of type word if its str contains quote error
 int	unclosed_quote(t_token *token)
 {
 	t_token	*cursor;
+	int		i;
+	int		in_single_quote;
+	int		in_double_quote;
 
 	cursor = token;
 	while (cursor)
 	{
-		if (token->type == T_WORD)
+		if (cursor->type == T_WORD)
 		{
-			if (check_quote_error(cursor->str, '\'') != 0
-				|| check_quote_error(cursor->str, '\"') != 0)
+			i = 0;
+			in_single_quote = 0;
+			in_double_quote = 0;
+			unclosed_quote_loop(cursor, &in_double_quote, &in_single_quote);
+			if (in_single_quote || in_double_quote)
 				return (1);
 		}
 		cursor = cursor->next;
 	}
 	return (0);
+}
+
+void	unclosed_quote_loop(t_token *cursor,
+	int *in_double_quote, int *in_single_quote)
+{
+	int	i;
+
+	i = 0;
+	while (cursor->str[i])
+	{
+		if (cursor->str[i] == '\''
+			&& !is_escaped(cursor->str, i) && !(*in_double_quote))
+			(*in_single_quote) = !(*in_single_quote);
+		else if (cursor->str[i] == '\"'
+			&& !is_escaped(cursor->str, i) && !(*in_single_quote))
+			(*in_double_quote) = !(*in_double_quote);
+		i++;
+	}
 }
 
 /* 
@@ -94,4 +119,3 @@ int	check_quote_error(char *str, char c)
 	}
 	return (nb_quote % 2);
 }
-

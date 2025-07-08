@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 11:07:33 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:36:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	check_syntax_error(t_token *tokens)
 	}
 	return (0);
 }
+
 
 static	int	invalid_first_token(t_token *tokens)
 {
