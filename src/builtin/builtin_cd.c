@@ -24,7 +24,9 @@ int	errors_cd(char *path)
 	ft_putstr_fd("cd : ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
+	{
 		ft_putstr_fd(" No such file or directory\n", 2);
+	}
 	else if (errno == EACCES)
 		ft_putstr_fd(" Permission denied\n", 2);
 	else
@@ -86,7 +88,7 @@ int	bi_cd(char **env, char *path, t_ms *ms)
 		return (1);
 	new_path = ft_get_pwd(1);
 	if (!new_path)
-		return (perror("minishell"), 1);
+		return (1);
 	free(env[i]);
 	env[i] = new_path;
 	return (0);

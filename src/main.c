@@ -29,6 +29,8 @@ int	wait_all(t_ms *ms)
 	ret = 0;
 	i = 0;
 	stat = 0;
+	if (!ms->pid)
+		return (ms->retval);
 	signal(SIGINT, &display_nl);
 	while (ms->pid && ms->pid[i])
 	{

@@ -173,7 +173,7 @@ void	exec_cmd(t_tree *node, t_ms *ms)
 		return ;
 	if (is_builtin(node->token) && \
 		(!node->parent || node->parent->token->type != T_PIPE))
-		exec_builtin(node->token, ms);
+		ms->retval = exec_builtin(node->token, ms);
 	else
 	{
 		pid = fork();
