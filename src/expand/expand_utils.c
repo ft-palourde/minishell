@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:14:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 19:10:19 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:12:08 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_next_chunk(char *str);
 int		check_quote_type(char c);
-int		expand_is_closed(char *str, char c);
 
 /* 
 return the var part after "=" sign
