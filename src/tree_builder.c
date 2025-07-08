@@ -71,7 +71,7 @@ int	redir_branch(t_tree *node, t_token *list)
 	{
 		new = get_new_node(list);
 		if (!new)
-			return (perror("malloc"), 0);
+			return (perror("minishell"), 0);
 		cursor->right = new;
 		new->parent = cursor;
 		return (1);
@@ -98,7 +98,7 @@ int	fill_tree(t_tree *node, t_token *list)
 		prev_node = node;
 		node = get_new_node(list);
 		if (!node)
-			return (perror("malloc"), 1);
+			return (perror("minishell"), 1);
 		while (redir_branch(node, list->next))
 			list = list->next;
 		if (prev_node->token->type != T_PIPE)
@@ -124,7 +124,7 @@ int	build_tree(t_ms *ms)
 {
 	ms->tree = get_new_node(ms->token);
 	if (!ms->tree)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	if (fill_tree(ms->tree, ms->token->next))
 		free_tree(ms->tree);
 	ms->tree = get_root(ms->tree);

@@ -26,7 +26,7 @@ int	exec_pipe(t_tree *node, t_ms *ms)
 
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd || pipe(pfd) == -1)
-		return (perror("pipe"), 1);
+		return (perror("minishell"), 1);
 	if (node->parent && node->parent->token->type == T_PIPE)
 		node->right->token->out_fd = node->token->out_fd;
 	node->left->token->out_fd = pfd[1];

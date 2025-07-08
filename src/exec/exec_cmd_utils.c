@@ -111,7 +111,7 @@ int	add_pid(int pid, t_ms *ms)
 		i++;
 	new_pid = ft_calloc(i + 2, sizeof(int));
 	if (!new_pid)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	new_pid[i] = pid;
 	while (--i >= 0)
 		new_pid[i] = ms->pid[i];

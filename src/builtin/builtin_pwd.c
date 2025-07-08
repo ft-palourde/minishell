@@ -28,13 +28,13 @@ char	*ft_get_pwd(int prefix)
 	tmp = getcwd(NULL, 0);
 	pwd = 0;
 	if (!tmp)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	if (prefix)
 	{
 		pwd = ft_strjoin("PWD=", tmp);
 		free(tmp);
 		if (!pwd)
-			return (perror("malloc"), NULL);
+			return (perror("minishell"), NULL);
 	}
 	if (!pwd)
 		return (0);
@@ -53,7 +53,7 @@ int	bi_pwd(void)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);

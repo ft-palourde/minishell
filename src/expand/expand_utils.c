@@ -29,7 +29,7 @@ char	*get_var_value(char *var)
 		i++;
 	value = ft_strdup(var + i + 1);
 	if (!value)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	return (value);
 }
 

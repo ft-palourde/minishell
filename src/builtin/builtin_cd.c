@@ -58,7 +58,7 @@ int	bi_cd(char **env, char *path)
 		return (1);
 	new_path = ft_get_pwd(1);
 	if (!new_path)
-		return (perror("get pwd"), 1);
+		return (perror("minishell"), 1);
 	free(env[i]);
 	env[i] = new_path;
 	return (0);

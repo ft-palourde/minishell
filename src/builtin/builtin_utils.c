@@ -66,7 +66,7 @@ char	*get_var_name(char *var)
 		i++;
 	name = ft_strndup(var, i);
 	if (!name)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	return (name);
 }
 

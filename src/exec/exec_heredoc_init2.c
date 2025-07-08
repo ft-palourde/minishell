@@ -104,7 +104,7 @@ unsigned char	wait_child(pid_t cpid)
 
 	if (waitpid(cpid, &status, 0) == -1)
 	{
-		perror("waitpid");
+		perror("minishell");
 		return (1);
 	}
 	ft_putstr_fd("toto\n", 2);

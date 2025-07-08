@@ -44,7 +44,7 @@ int	add_pfd(int *pfd, t_ms *ms)
 	{
 		ms->pfd = ft_calloc(2, sizeof(int *));
 		if (!ms->pfd)
-			return (perror("malloc"), close(pfd[0]), close(pfd[1]), 1);
+			return (perror("minishell"), close(pfd[0]), close(pfd[1]), 1);
 		ms->pfd[0] = pfd;
 		return (0);
 	}
@@ -52,7 +52,7 @@ int	add_pfd(int *pfd, t_ms *ms)
 		i++;
 	new_pfd = ft_calloc(i + 2, sizeof(int *));
 	if (!new_pfd)
-		return (perror("malloc"), close(pfd[0]), close(pfd[1]), 1);
+		return (perror("minishell"), close(pfd[0]), close(pfd[1]), 1);
 	new_pfd[i] = pfd;
 	while (--i >= 0)
 		new_pfd[i] = ms->pfd[i];
@@ -79,7 +79,7 @@ int	add_fd(int fd, t_ms *ms)
 	{
 		ms->fd = ft_calloc(2, sizeof(int));
 		if (!ms->fd)
-			return (perror("malloc"), 1);
+			return (perror("minishell"), 1);
 		ms->fd[0] = fd;
 		return (0);
 	}
@@ -87,7 +87,7 @@ int	add_fd(int fd, t_ms *ms)
 		i++;
 	new_fd = ft_calloc(i + 2, sizeof(int));
 	if (!new_fd)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	new_fd[i] = fd;
 	while (--i >= 0)
 		new_fd[i] = ms->fd[i];

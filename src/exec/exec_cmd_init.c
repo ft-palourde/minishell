@@ -58,7 +58,7 @@ int	cmd_exists(char *cmd, char *path)
 
 	join = ft_strjoin(path, "/");
 	if (!join)
-		return (perror("malloc"), -1);
+		return (perror("minishell"), -1);
 	join2 = ft_strjoin(join, cmd);
 	if (!join2)
 		return (free(join), -1);
@@ -91,7 +91,7 @@ char	*add_paths(char *path, char *cmd)
 		return (path);
 	new = ft_strjoin(path, "/");
 	if (!new)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	tmp = new;
 	new = ft_strjoin(tmp, cmd);
 	free(tmp);
@@ -120,7 +120,7 @@ char	*get_cmd_path(t_cmd *cmd, char **paths)
 	found = 0;
 	cmd->path = cmd->args[0];
 	if (!cmd->path)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	while (paths[i])
 	{
 		found = cmd_exists(cmd->path, paths[i]);
@@ -132,7 +132,7 @@ char	*get_cmd_path(t_cmd *cmd, char **paths)
 	}
 	not_found = ft_strdup(cmd->path);
 	if (!not_found)
-		perror("malloc");
+		perror("minishell");
 	return (not_found);
 }
 
@@ -161,12 +161,12 @@ int	init_cmd(t_tree *node, t_ms *ms)
 		{
 			paths = get_paths(ms->env);
 			if (!paths)
-				return (perror("malloc"), 1);
+				return (perror("minishell"), 1);
 			cmd->path = get_cmd_path(node->token->data->cmd, paths);
 			reverse_cascade_free(paths, split_len(paths));
 		}
 		if (!cmd->path)
-			return (perror("malloc"), 1);
+			return (perror("minishell"), 1);
 	}
 	if (ms->file_in != STDIN_FILENO)
 		node->token->in_fd = ms->file_in;

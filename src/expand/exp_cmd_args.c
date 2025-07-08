@@ -31,11 +31,11 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 	{
 		tmp = str_expand(cmd_to_expand->args[i], ms);
 		if (!tmp)
-			return (perror("malloc"));
+			return (perror("minishell"));
 		free(cmd_to_expand->args[i]);
 		sdup = ft_strdup(tmp);
 		if (!sdup)
-			return (free(tmp), perror("malloc"));
+			return (free(tmp), perror("minishell"));
 		cmd_to_expand->args[i] = sdup;
 		free(tmp);
 		i++;

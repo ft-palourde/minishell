@@ -145,7 +145,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac, (void)av;
 	ms = init_ms_struct(env);
 	if (!ms)
-		return (perror("malloc"), ms_full_clean(ms), 1);
+		return (perror("minishell"), ms_full_clean(ms), 1);
 	retval = 0;
 	minishell_loop(ms, &retval);
 	if (ms->exit != -1)

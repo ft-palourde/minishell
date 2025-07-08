@@ -65,7 +65,7 @@ char	*get_next_chunk(char *str)
 	}
 	chunk = ft_strndup(str, i);
 	if (!chunk)
-		return (perror("malloc"), NULL);
+		return (perror("minishell"), NULL);
 	return (chunk);
 }
 
@@ -88,14 +88,14 @@ char	*expand_chunk(char *str, t_ms *ms)
 		free(new);
 		new = ft_strndup(str + quote_type / 2, i - quote_type);
 		if (!new)
-			return (perror("malloc"), NULL);
+			return (perror("minishell"), NULL);
 	}
 	while (str[i])
 	{
 		if (str[i] == '$' || str[i] == '~')
 			add_var_to_new(&new, str, &i, ms);
 		if (add_remains_until_next_trigger(&new, str, &i))
-			return (perror("malloc"), NULL);
+			return (perror("minishell"), NULL);
 	}
 	return (new);
 }
