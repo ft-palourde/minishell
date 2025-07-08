@@ -59,15 +59,16 @@ int	add_quote_to_new(char quote, char **new)
 		perror("malloc");
 	return (1);
 }
-
 char	*hd_expand_chunk(char *str, t_ms *ms)
 {
 	char	*new;
 	int		i;
 	int		quote;
+	int		expand;
 
 	quote = (str[0] == '\'' || str[0] == '\"');
 	i = 0;
+	expand = 0;
 	while (str[i] && str[i] != '$')
 		i++;
 	new = ft_strndup(str, i);
@@ -75,13 +76,14 @@ char	*hd_expand_chunk(char *str, t_ms *ms)
 	{
 		if (str[i] == '$' || str[i] == '~')
 		{
+			expand = 1;
 			hd_add_var_to_new(&new, str + i, ms);
 			i++;
 		}
 		while (str[i] && str[i] != '$')
 			i++;
 	}
-	if (quote)
+	if (quote && expand)
 		add_quote_to_new(str[0], &new);
 	return (new);
 }
