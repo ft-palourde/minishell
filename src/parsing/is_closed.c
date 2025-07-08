@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 12:11:55 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:13:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ int	check_quote_error(char *str, char c)
 		other_quote = '\'';
 	while (str[i])
 	{
-		nb_quote += (str[i] == c && !is_escaped(str, i));
+		if (str[i] == other_quote && !is_escaped(str, i))
+			is_quoted = !is_quoted;
+		if (!is_quoted && str[i] == c && !is_escaped(str, i))
+			nb_quote++;
 		i++;
 	}
 	return (nb_quote % 2);
