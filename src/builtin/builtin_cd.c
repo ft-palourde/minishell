@@ -32,6 +32,36 @@ int	errors_cd(char *path)
 	return (1);
 }
 
+/** move_dir
+ * @env: ms->env
+ * @path: destination path given in input
+ * 
+ * moves the user to the path given or to home if no path
+ *
+ * Returns: 1 on error, 0 else
+ */
+int	move_dir(char *path, t_ms *ms)
+{
+	int	ret;
+	int	empty;
+
+	ret = 0;
+	empty = 0;
+	if (!path)
+	{
+		empty = 1;
+		path = var_name_to_value("HOME", ms);
+		if (!path)
+			return (0);
+	}
+	ret = chdir((const char *)path);
+	if (ret)
+		errors_cd(path);
+	if (empty)
+		free(path);
+	return (ret);
+}
+
 /** bi_cd - Built-in command cd
  * @env: ms->env
  * @path: destination path given in input
@@ -40,18 +70,16 @@ int	errors_cd(char *path)
  *
  * Returns: 1 on error, 0 else
  */
-int	bi_cd(char **env, char *path)
+int	bi_cd(char **env, char *path, t_ms *ms)
 {
 	char	*new_path;
 	int		i;
 	int		ret;
 
 	i = 0;
-	if (!path)
-		return (1);
-	ret = chdir((const char *)path);
+	ret = move_dir(path, ms);
 	if (ret)
-		return (errors_cd(path));
+		return (ret);
 	while (env[i] && !ft_strncmp("PWD=", env[i], 4))
 		i++;
 	if (!env[i])

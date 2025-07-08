@@ -61,7 +61,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	builtin = token->data->cmd->is_builtin;
 	dup_handler(token, ms);
 	if (builtin == B_CD)
-		retval = bi_cd(ms->env, token->data->cmd->args[1]);
+		retval = bi_cd(ms->env, token->data->cmd->args[1], ms);
 	if (builtin == B_ECHO)
 		retval = bi_echo(token->data->cmd->args + 1);
 	if (builtin == B_ENV)
