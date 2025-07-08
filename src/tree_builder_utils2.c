@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-//////////////// 			DEBUG 			////////////////
+/* //////////////// 			DEBUG 			////////////////
 //all the functions in this file are only used for debbuging
 
 void	print_spaces(int i)
@@ -70,4 +70,4 @@ void	debug_print_tree(t_tree *root, int i)
 	dprintf(2, "\n");
 	print_left(root, i);
 	print_right(root, i);
-}
+} */
