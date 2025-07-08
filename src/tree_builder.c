@@ -12,27 +12,20 @@
 
 #include "minishell.h"
 
-int		check_outfile(t_token *list, t_tree *node);
 void	new_branch(int is_left, t_tree *parent, t_tree *child);
 int		fill_tree(t_tree *node, t_token *list);
 int		build_tree(t_ms *ms);
 
-int	check_outfile(t_token *list, t_tree *node)
-{
-	t_tree	*new;
-
-	if (!list || !list->next)
-		return (1);
-	if (list->next->type != T_REDIR_OUT && list->next->type != T_APPEND)
-		return (1);
-	new = get_new_node(list->next);
-	new->parent = node;
-	if (!new)
-		return (perror("malloc"), 1);
-	node->right = new;
-	return (0);
-}
-
+/** new_branch
+ * @is_left: a boolean to check if the new branch is created on the parent's left
+ * @parent: the parent node
+ * @child: the child node
+ * 
+ * sets the child at the right branch of the parent and the parent as the child's
+ * parent
+ *
+ * Returns: void
+ */
 void	new_branch(int is_left, t_tree *parent, t_tree *child)
 {
 	if (is_left)
@@ -52,10 +45,16 @@ void	new_branch(int is_left, t_tree *parent, t_tree *child)
 	}
 	child->parent = parent;
 }
-/* 
-si le node est une redir : tant que j'ai des redirs je les add a droite
-*/
 
+/** redir_branch
+ * @node: the current node
+ * @list: the current element of the token list
+ * 
+ * add the node on the bottom of the redir branch
+ *
+ * Returns: 1 if there is a redir to handle
+ * or 0 on malloc error or non-redir
+ */
 int	redir_branch(t_tree *node, t_token *list)
 {
 	t_tree	*new;
@@ -80,6 +79,14 @@ int	redir_branch(t_tree *node, t_token *list)
 	return (0);
 }
 
+/** fill_tree
+ * @node: the first node of the tree
+ * @list: the list of tokens to fill in the tree
+ * 
+ * fill the tree with all element of the list of tokens
+ *
+ * Returns: 1 on malloc error, 0 else
+ */
 int	fill_tree(t_tree *node, t_token *list)
 {
 	t_tree		*prev_node;
@@ -106,7 +113,13 @@ int	fill_tree(t_tree *node, t_token *list)
 	return (0);
 }
 
-//verifier les malloc + le cas du node 1.
+/** build_tree
+ * @ms: minishell data structure
+ * 
+ * initialise and build the binary tree containing the tokens to execute
+ *
+ * Returns: 1 on malloc error 0 else
+ */
 int	build_tree(t_ms *ms)
 {
 	ms->tree = get_new_node(ms->token);

@@ -15,6 +15,13 @@
 t_tree	*get_root(t_tree *node);
 t_tree	*get_new_node(t_token *token);
 
+/** get_root
+ * @node: any node of the tree
+ * 
+ * get the root node of the current tree
+ *
+ * Returns: root node of the current tree
+ */
 t_tree	*get_root(t_tree *node)
 {
 	while (node && node->parent)
@@ -22,6 +29,14 @@ t_tree	*get_root(t_tree *node)
 	return (node);
 }
 
+/** get_new_node
+ * @token: the token to add as data of the node
+ * 
+ * create a new node for the tree and put the token given
+ * in argument in it.
+ *
+ * Returns: the new node or NULL on malloc fail
+ */
 t_tree	*get_new_node(t_token *token)
 {
 	t_tree	*new;

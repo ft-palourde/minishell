@@ -69,11 +69,3 @@ int	bi_echo(char **arg)
 		printf("\n");
 	return (0);
 }
-
-/* //test main
-int main(int ac, char **av)
-{
-	(void) ac;
-	bi_echo(&av[1]);
-	return (0);
-} */

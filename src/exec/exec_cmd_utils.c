@@ -120,6 +120,14 @@ int	add_pid(int pid, t_ms *ms)
 	return (0);
 }
 
+/** reset_std_dup
+ * @ms: the minishell struct
+ * 
+ * dup back standard fds to the value saved in ms->ms_stdin/out
+ *
+ * Returns: void
+ */
+
 void	reset_std_dup(t_ms *ms)
 {
 	dup2(ms->ms_stdin, STDIN_FILENO);

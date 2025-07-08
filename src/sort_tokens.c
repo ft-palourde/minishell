@@ -68,6 +68,16 @@ static int	needs_sort(t_token *token)
 	return (0);
 }
 
+/** add_after_cmd
+ * @token: current token to sort
+ * @sorted: the number of elements already sorted
+ * @head: the start of the list to sort
+ * 
+ * move an element before the cmd in expression after it and after all the
+ * elements already sorted
+ *
+ * Returns: the next token to sort
+ */
 static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 {
 	t_token	*cursor;
@@ -93,6 +103,14 @@ static t_token	*add_after_cmd(t_token *token, int sorted, t_token *head)
 	return (nxt);
 }
 
+/** sort_tokens
+ * @ms: minishell data structure
+ * 
+ * sort the element of the list ms->tokens to ensure that the redirections
+ * always follow their command in the right order
+ *
+ * Returns: void
+ */
 void	sort_tokens(t_ms *ms)
 {
 	int		lock_first;
@@ -103,6 +121,15 @@ void	sort_tokens(t_ms *ms)
 	loop_sort(ms, cursor, lock_first);
 }
 
+/** loop_sort
+ * @ms: minishell data structure
+ * @cursor: the first token of the list
+ * @lock_first: a boolean to check if an element is already sort
+ * 
+ * the main loop to sort tokens
+ *
+ * Returns: void
+ */
 void	loop_sort(t_ms *ms, t_token *cursor, int lock_first)
 {
 	int		i;

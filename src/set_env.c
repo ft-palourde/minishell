@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/** get_shlvl_pos
+ * @env: array of strings of the environnement variables
+ * 
+ * get the position in the env of the variable SHLVL
+ *
+ * Returns: the position in the env of the variable SHLVL
+ */
 int	get_shlvl_pos(char **env)
 {
 	int	i;
@@ -28,6 +35,12 @@ int	get_shlvl_pos(char **env)
 	return (i + need_lvl);
 }
 
+/** set_default_env
+ * 
+ * create a new env with minimum informations for it to work
+ *
+ * Returns: the position in the env of the variable SHLVL
+ */
 char	**set_default_env(void)
 {
 	char	**new;
@@ -48,6 +61,13 @@ char	**set_default_env(void)
 	return (new);
 }
 
+/** check_newlvl
+ * @str:
+ * 
+ * check the actual SHLVL value and return this value +1 or manage overflow
+ *
+ * Returns: the new value to set in SHLVL
+ */
 char	*check_newlvl(char *str)
 {
 	int		num;
@@ -71,6 +91,13 @@ char	*check_newlvl(char *str)
 		return (ret);
 }
 
+/** change_shlvl
+ * @env: array of strings of the environnement variables
+ * 
+ * set the value of SHLVL after getting it with check_newlvl
+ *
+ * Returns: the value of the lvl or -1 on error
+ */
 int	change_shlvl(char **env)
 {
 	int		i;
@@ -99,6 +126,14 @@ int	change_shlvl(char **env)
 	return (i);
 }
 
+/** set_env
+ * @env: array of strings of the environnement variables
+ * 
+ * create a new array of strings for the environnement variables and sets the new shlvl
+ * if no env is given just set a new env with minimum requirements
+ *
+ * Returns: the new env or NULL on malloc error
+ */
 char	**set_env(char **env)
 {
 	int		i;

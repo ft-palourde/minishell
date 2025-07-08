@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-//////////////// DEBUG ////////////////
+//////////////// 			DEBUG 			////////////////
+//all the functions in this file are only used for debbuging
 
 void	print_spaces(int i)
 {
