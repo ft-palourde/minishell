@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 14:08:46 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:51:45 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_token			*lexer(char *input);
 
 /* LEXER UTILS */
 
-/* c == white space ? 1 : 0*/
 int				is_space(char c);
 int				extract_word_len(const char *input);
 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 15:03:01 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:32:02 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,20 @@ t_token	*lexer(char *input)
 	return (tokens);
 }
 
-/** fill_tokens - Divide given input into separated tokens.
+/** fill_tokens - Fill the given tokens list.
  * @input: readline output.
+ * @i: current index of the cursor.
+ * @tokens: the token list to add each new token to.
  * 
- * Create a new t_token list.
- * For each token :
- * - set its token->type
- * - set its token->str
+ * Reads the string at the current index and skip the whitespaces.
  * 
- * Returns: The t_token list.
+ * Depending on the case, trigger a function either 
+ * to manage an operator or to manage a word.
+ * A new token is created in those functions.
+ * 
+ * Then the current index is increased by the length of the new created token.
+ * 
+ * Returns: The updated t_token list, or NULL if an error occurs.
  */
 t_token	*fill_tokens(char *input, int i, t_token *tokens)
 {
