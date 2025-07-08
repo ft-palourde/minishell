@@ -6,16 +6,16 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 14:40:13 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:03:01 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_token	*lexer(char *input);
-int		handle_word(char *input, t_token **tokens);
-int		is_closed(char *input, char quote);
 t_token	*fill_tokens(char *input, int i, t_token *tokens);
+int		extract_word_len(const char *input);
+int		handle_word(char *input, t_token **tokens);
 
 /** lexer - Divide given input into separated tokens.
  * @input: readline output.
@@ -80,10 +80,11 @@ t_token	*fill_tokens(char *input, int i, t_token *tokens)
 	return (tokens);
 }
 
-/** extract_word_len - .
- * @input: .
+/** extract_word_len - Get the word length.
+ * @input: current pointer on the given string from readline prompt.
  *
- * Word = no space nor logic operator,
+ * The "word" is defined between unquoted operator and spaces.
+ * 
  * Returns: The length (int) of the "word" token.
  */
 int	extract_word_len(const char *input)
