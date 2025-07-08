@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 16:50:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:08:27 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_next_chunk(char *str)
 
 	i = 0;
 	if (str[0] == '\'' || str[0] == '\"')
-		i = expand_is_closed(str, str[0]) + 1;
+		i = is_closed(str, str[0]) + 1;
 	else
 	{
 		while (str[i])
