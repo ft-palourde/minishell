@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/04 16:49:49 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:20:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char			*get_prompt(char **env);
 
 /* LEXER */
 
-/* takes readline output as argument and returns a list of tokens*/
 t_token			*lexer(char *input);
 
 /* LEXER UTILS */
@@ -65,8 +64,8 @@ void			print_token_list(t_token *token);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
-t_token			*parse(char *input, t_ms *ms);
-void			parse_cmd(t_token *token, t_ms *ms);
+t_token			*parse(char *input);
+void			parse_cmd(t_token *token);
 
 /* PARSE UTILS */
 void			parse_rd_file(t_token *token);

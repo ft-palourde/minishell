@@ -6,21 +6,21 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 11:51:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:36:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token		*parse(char *input, t_ms *ms);
+t_token		*parse(char *input);
 static int	check_syntax_error(t_token *tokens);
 static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
-static	void	handle_cursor(t_token *cursor, t_ms *ms);
+static	void	handle_cursor(t_token *cursor);
 
 /* ************************************************************************** */
 
-t_token	*parse(char *input, t_ms *ms)
+t_token	*parse(char *input)
 {
 	t_token	*cursor;
 	t_token	*tokens;
@@ -35,7 +35,7 @@ t_token	*parse(char *input, t_ms *ms)
 	cursor = tokens;
 	while (cursor)
 	{
-		handle_cursor(cursor, ms);
+		handle_cursor(cursor);
 		if (!cursor)
 			return (free_tokens(tokens), NULL);
 		cursor = cursor->next;
@@ -43,7 +43,7 @@ t_token	*parse(char *input, t_ms *ms)
 	return (tokens);
 }
 
-static	void	handle_cursor(t_token *cursor, t_ms *ms)
+static	void	handle_cursor(t_token *cursor)
 {
 	if (!cursor)
 		return ;
@@ -57,7 +57,7 @@ static	void	handle_cursor(t_token *cursor, t_ms *ms)
 	else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
 		cursor->data = NULL;
 	else if (cursor->type == T_WORD)
-		parse_cmd(cursor, ms);
+		parse_cmd(cursor);
 }
 
 /* 
@@ -91,6 +91,7 @@ int	check_syntax_error(t_token *tokens)
 	}
 	return (0);
 }
+
 
 static	int	invalid_first_token(t_token *tokens)
 {
