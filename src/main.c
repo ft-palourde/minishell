@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 17:07:08 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:08:01 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	minishell_loop(t_ms *ms, int *retval)
 		}
 		if (input && *input)
 			add_history(input);
-		ms->token = parse(input, ms);
+		ms->token = parse(input);
 		if (ms->token)
 		{
 			*retval = ms_exec(ms);

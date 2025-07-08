@@ -6,16 +6,16 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:25:12 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 11:50:03 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:05:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		parse_cmd(t_token *token, t_ms *ms);
+void		parse_cmd(t_token *token);
 static bool	is_builtin_cmd(const char *cmd);
-void		merge_word_tokens(t_token *token, t_ms *ms);
-static void	set_cmd_args(t_token *token, t_ms *ms);
+void		merge_word_tokens(t_token *token);
+static void	set_cmd_args(t_token *token);
 
 /* 
 allocate a new t_cmd struct and fill it with the command and its arguments
@@ -24,7 +24,7 @@ the arguments are the words that follow the command
 the command is stored in token->data->cmd->args[0]
 if the command is a builtin, is_builtin is set to true
 */
-void	parse_cmd(t_token *token, t_ms *ms)
+void	parse_cmd(t_token *token)
 {
 	if (!token || token->type != T_WORD)
 		return ;
@@ -35,7 +35,7 @@ void	parse_cmd(t_token *token, t_ms *ms)
 	if (!token->data->cmd)
 		return ;
 	token->data->cmd->is_builtin = is_builtin_cmd(token->str);
-	set_cmd_args(token, ms);
+	set_cmd_args(token);
 	if (!token)
 		return ;
 	if (!token->data->cmd)
@@ -73,7 +73,7 @@ int	get_arg_count(t_token *token)
 	return (count);
 }
 
-static void	set_cmd_args(t_token *token, t_ms *ms)
+static void	set_cmd_args(t_token *token)
 {
 	int		arg_count;
 
@@ -88,10 +88,10 @@ static void	set_cmd_args(t_token *token, t_ms *ms)
 	token->data->cmd->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!token->data->cmd->args)
 		return ;
-	merge_word_tokens(token, ms);
+	merge_word_tokens(token);
 }
 
-void	merge_word_tokens(t_token *token, t_ms *ms)
+void	merge_word_tokens(t_token *token)
 {
 	t_token	*cursor;
 	t_token	*to_free;
@@ -104,7 +104,6 @@ void	merge_word_tokens(t_token *token, t_ms *ms)
 	i = 0;
 	while (cursor && cursor->type == T_WORD)
 	{
-		(void) ms;
 		if (!token->data->cmd->args)
 			return (free_token(token));
 		dup = ft_strdup(cursor->str);
