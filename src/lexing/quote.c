@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/07 12:45:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:28:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,4 @@ int	handle_quote(char *input, t_token **tokens)
 	return (len);
 }
 
-int	get_quote_len();
+// int	get_quote_len();
