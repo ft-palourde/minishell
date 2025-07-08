@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 12:46:58 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:29:39 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,19 @@ int	is_closed(char *str, char c)
 	in_double_quote = 0;
 	if (c == '(')
 		c = ')';
-	while (str[i])
+	while (str[i] && (str[i] != c || is_escaped(str, i)))
 	{
 		if (str[i] == '\'' && !is_escaped(str, i) && !in_double_quote)
 			in_single_quote = !in_single_quote;
 		else if (str[i] == '"' && !is_escaped(str, i) && !in_single_quote)
 			in_double_quote = !in_double_quote;
-		if (!in_single_quote && !in_double_quote && str[i] == c
-			&& !is_escaped(str, i))
-			return (i);
+		if (str[i] == c && !is_escaped(str, i))
+			break ;
 		i++;
 	}
+	if (!in_single_quote && !in_double_quote && str[i] == c
+		&& !is_escaped(str, i))
+		return (i);
 	return (0);
 }
 
