@@ -52,6 +52,8 @@ int	move_dir(char *path, t_ms *ms)
 	if (!path)
 	{
 		empty = 1;
+		if (!var_exists(ms->env, "HOME"))
+			return (ft_putendl_fd("HOME not set", 2), 0);
 		path = var_name_to_value("HOME", ms);
 		if (!path)
 			return (0);
