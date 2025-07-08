@@ -17,6 +17,17 @@ int				add_new_hd(t_ms *ms, t_token *token);
 int				get_heredocs_pfd(t_ms *ms);
 void			handle_child(t_ms *ms, int *pfd, char *lim, int expand);
 
+/** handle_child
+ * @ms: the minishell struct
+ * @pfd: int[2] the pipe opened for the heredoc
+ * @lim: the limiter string for the heredoc
+ * @expand: a boolean to check if the heredoc needs to expand its content
+ * 
+ * set the signal behaviour, then get all the content for the heredoc and
+ * free and close all that needs to before exiting.
+ *
+ * Returns: 1 on malloc or pipe error, 0 else
+ */
 void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
 {
 	set_hd_sig_behavior();
@@ -27,6 +38,16 @@ void	handle_child(t_ms *ms, int *pfd, char *lim, int expand)
 	ms_full_clean(ms);
 }
 
+/** wait_pid_hd
+ * @ms: the minishell struct
+ * @pfd: int[2] the pipe opened for the heredoc
+ * @child_pid: the pid returned by fork on fork_hd
+ * 
+ * wait for the child receveiving the content for the heredoc
+ * to finish, keep the value of the signal returned by the child
+ *
+ * Returns: 1 on malloc or pipe error, 0 else
+ */
 int	wait_pid_hd(t_ms *ms, int *pfd, int child_pid)
 {
 	int		status;
@@ -48,6 +69,16 @@ int	wait_pid_hd(t_ms *ms, int *pfd, int child_pid)
 	return (0);
 }
 
+/** fork_hd
+ * @ms: the minishell struct
+ * @pfd: int[2] the pipe opened for the heredoc
+ * @lim: the limiter string for the heredoc
+ * 
+ * create a fork in order to get the content to save in the heredoc
+ * while managing signals properly
+ *
+ * Returns: 1 on error, 0 else
+ */
 int	fork_hd(t_ms *ms, int *pfd, char *lim)
 {
 	pid_t	child_pid;
@@ -56,10 +87,10 @@ int	fork_hd(t_ms *ms, int *pfd, char *lim)
 	g_sig = 0;
 	expand = check_lim(lim);
 	if (expand == -1)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	child_pid = fork();
 	if (child_pid == -1)
-		return (perror("fork"), 1);
+		return (perror("minishell"), 1);
 	if (child_pid == 0)
 	{
 		handle_child(ms, pfd, lim, expand);
@@ -87,7 +118,7 @@ int	add_new_hd(t_ms *ms, t_token *token)
 	if (!pfd)
 		return (0);
 	if (pipe(pfd) == -1)
-		return (perror("pipe"), 1);
+		return (perror("minishell"), 1);
 	token->data->rd->heredoc->fd = pfd;
 	sig_ignore();
 	if (fork_hd(ms, pfd, token->data->rd->heredoc->lim))

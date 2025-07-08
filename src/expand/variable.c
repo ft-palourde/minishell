@@ -96,7 +96,7 @@ char	*var_name_to_value(char *name, t_ms *ms)
 	{
 		value = get_var_value(ms->env[i]);
 		if (!value)
-			return (perror("malloc"), NULL);
+			return (perror("minishell"), NULL);
 	}
 	else
 		return (ft_strdup(""));
@@ -111,7 +111,7 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	var = var_expand(str + *i, i, ms);
 	if (!var)
 	{
-		perror("malloc");
+		perror("minishell");
 		return ;
 	}
 	tmp = *new;

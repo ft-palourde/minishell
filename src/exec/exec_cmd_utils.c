@@ -111,7 +111,7 @@ int	add_pid(int pid, t_ms *ms)
 		i++;
 	new_pid = ft_calloc(i + 2, sizeof(int));
 	if (!new_pid)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	new_pid[i] = pid;
 	while (--i >= 0)
 		new_pid[i] = ms->pid[i];
@@ -119,6 +119,14 @@ int	add_pid(int pid, t_ms *ms)
 	ms->pid = new_pid;
 	return (0);
 }
+
+/** reset_std_dup
+ * @ms: the minishell struct
+ * 
+ * dup back standard fds to the value saved in ms->ms_stdin/out
+ *
+ * Returns: void
+ */
 
 void	reset_std_dup(t_ms *ms)
 {

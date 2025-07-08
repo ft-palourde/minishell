@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+/** init_ms_struct
+ * @env: the array of strings containing environnement variables (envp in main)
+ * 
+ * create the ms structure containing usefull datas for program and initialize
+ * its variables.  
+ *
+ * Returns: the new allocd ms struct, or NULL if malloc failed.
+ */
 t_ms	*init_ms_struct(char **env)
 {
 	t_ms	*new;

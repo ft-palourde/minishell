@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/** free_tree
+ * @tree: root node of the binary tree to free
+ * 
+ * free all nodes in the tree and the tree itself
+ *
+ * Returns: void
+ */
 void	free_tree(t_tree *tree)
 {
 	if (tree->left)
@@ -21,6 +28,13 @@ void	free_tree(t_tree *tree)
 	free(tree);
 }
 
+/** clean_fds
+ * @fd: an array of fd opened
+ * 
+ * close all the elements of the array
+ *
+ * Returns: void
+ */
 void	clean_fds(int *fd)
 {
 	int	i;
@@ -38,6 +52,13 @@ void	clean_fds(int *fd)
 	}
 }
 
+/** clean_pfds
+ * @pfd: an array of int[2]
+ * 
+ * free all the elements of the array and the array itself
+ *
+ * Returns: void
+ */
 void	clean_pfds(int	**pfd)
 {
 	int	i;
@@ -56,6 +77,13 @@ void	clean_pfds(int	**pfd)
 	free(pfd);
 }
 
+/** ms_cleaner
+ * @ms: minishell data structure
+ * 
+ * close and free all the element created for the execution of the last input
+ *
+ * Returns: void
+ */
 void	ms_cleaner(t_ms *ms)
 {
 	if (ms->file_in != STDIN_FILENO)
@@ -77,6 +105,13 @@ void	ms_cleaner(t_ms *ms)
 		free_tree(ms->tree);
 }
 
+/** ms_cleaner
+ * @ms: minishell data structure
+ * 
+ * close and free all the element created for the execution of the program
+ *
+ * Returns: void
+ */
 void	ms_full_clean(t_ms *ms)
 {
 	if (!ms)

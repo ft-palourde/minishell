@@ -50,13 +50,13 @@ int	add_quote_to_new(char quote, char **new)
 
 	c = ft_calloc(sizeof(char), 2);
 	if (!c)
-		return (perror("malloc"), 1);
+		return (perror("minishell"), 1);
 	c[0] = quote;
 	tmp = *new;
 	*new = ft_strjoin(*new, c);
 	free(tmp);
 	if (!*new)
-		perror("malloc");
+		perror("minishell");
 	return (1);
 }
 

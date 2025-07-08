@@ -133,10 +133,10 @@ int	handle_word(char *input, t_token **tokens)
 	len = extract_word_len(input);
 	str = ft_strndup(input, len);
 	if (!str)
-		return (perror("malloc"), 0);
+		return (perror("minishell"), 0);
 	new = constr_new_token(T_WORD, str);
 	if (!new)
-		return (free(str), perror("malloc"), 0);
+		return (free(str), perror("minishell"), 0);
 	free(str);
 	if (!new)
 		return (0);

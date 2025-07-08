@@ -13,6 +13,14 @@
 #include "minishell.h"
 #define S_PR "\001\x1b[30;47;1m\002 TCoeffet & RCochran \001\033[0m\x1b[1m\002 "
 
+/** get_pwd
+ * @env: an array of strings containing the environement variables
+ * 
+ * get the value of the PWD variable in the env if it is set.
+ * 
+ * Returns: the content of $PWD, and empty string if not set,
+ * or NULL on malloc fail
+ */
 char	*get_pwd(char **env)
 {
 	int	i;
@@ -32,6 +40,13 @@ char	*get_pwd(char **env)
 	return (ft_strdup(env[i] + j + 1));
 }
 
+/** get_prompt
+ * @env: an array of strings containing the environement variables
+ * 
+ * build a custom prompt for readline
+ * 
+ * Returns: the prompt to display or null on malloc error
+ */
 char	*get_prompt(char **env)
 {
 	const char	*start = S_PR;

@@ -13,6 +13,13 @@
 #include "minishell.h"
 #include <sys/wait.h>
 
+/** wait all
+ * @ms: the minishell struct
+ * 
+ * wait for all the process forked to end and get their return values or signal.
+ *
+ * Returns: the return value of the last process
+ */
 int	wait_all(t_ms *ms)
 {
 	int				i;
@@ -37,12 +44,20 @@ int	wait_all(t_ms *ms)
 	return ((int) ret);
 }
 
+/** ms_exec
+ * @ms: the minishell struct
+ * 
+ * call exec_init to get the content of the heredocs and sort the token list
+ * in order to build the tree before executing all the commands of the input.
+ *
+ * Returns: the return value of the last executed command
+ */
 int	ms_exec(t_ms *ms)
 {
-	int	err;
+	int	sigint;
 
-	err = exec_init(ms);
-	if (err)
+	sigint = exec_init(ms);
+	if (sigint)
 		return (130);
 	build_tree(ms);
 	if (!ms->tree)
@@ -51,7 +66,14 @@ int	ms_exec(t_ms *ms)
 	return (wait_all(ms));
 }
 
-int	reset_ms_struct(t_ms *ms)
+/** reset_ms_struct
+ * @ms: the minishell struct
+ * 
+ * reset all the variables of the ms struct to their default value
+ *
+ * Returns: void;
+ */
+void	reset_ms_struct(t_ms *ms)
 {
 	ms->exit = -1;
 	ms->file_in = STDIN_FILENO;
@@ -63,9 +85,18 @@ int	reset_ms_struct(t_ms *ms)
 	ms->fd = 0;
 	ms->pfd = 0;
 	tcgetattr(STDIN_FILENO, ms->term);
-	return (0);
 }
 
+/** minishell_loop
+ * @ms: the minishell struct
+ * @retval: a pointer to the return value variable
+ * 
+ * the main loop of the program, getting the input of the user
+ * and then executing everything before setting the last return value
+ * and then cleaning up
+ *
+ * Returns: void
+ */
 void	minishell_loop(t_ms *ms, int *retval)
 {
 	char	*input;
@@ -93,6 +124,18 @@ void	minishell_loop(t_ms *ms, int *retval)
 	}
 }
 
+/** main
+ * @ac: count of arguments received
+ * @av: an array of strings containing the arguments of the program
+ * @env: the environnement given to the program
+ * 
+ * initialize the main minishell struct containing all the datas for
+ * the program to work properly, then call for the main loop.
+ * When the programm receive exit as an input or a ctrl+d signal, cleans
+ * everything and display exit before quitting.
+ *
+ * Returns: the return value of the last cmd executed or of the last signal
+ */
 int	main(int ac, char **av, char **env)
 {
 	t_ms	*ms;
@@ -102,7 +145,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac, (void)av;
 	ms = init_ms_struct(env);
 	if (!ms)
-		return (perror("malloc"), ms_full_clean(ms), 1);
+		return (perror("minishell"), ms_full_clean(ms), 1);
 	retval = 0;
 	minishell_loop(ms, &retval);
 	if (ms->exit != -1)

@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-//DEBUG
-
+//DEBUG - print the token list and the type of each token
 void	print_token_list(t_token *token)
 {
 	while (token)

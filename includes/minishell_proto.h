@@ -128,7 +128,6 @@ char			**set_env(char **env);
 
 //////// TREE BUILD /////////
 
-int				check_outfile(t_token *list, t_tree *node);
 void			new_branch(int is_left, t_tree *parent, t_tree *child);
 int				fill_tree(t_tree *node, t_token *list);
 int				build_tree(t_ms *ms);

@@ -101,7 +101,7 @@ char	*check_var(char *var)
 	{
 		new_var = ft_strjoin(var, "=");
 		if (!new_var)
-			return (perror("malloc"), NULL);
+			return (perror("minishell"), NULL);
 	}
 	else
 		new_var = ft_strdup(var);
@@ -132,7 +132,7 @@ static char	**export(char **env, char *var)
 	env_len = split_len(env);
 	new_env = ft_calloc(env_len + 2, sizeof(char *));
 	if (!new_env)
-		return (perror("malloc"), env);
+		return (perror("minishell"), env);
 	i = 0;
 	while (env[i])
 	{
@@ -144,7 +144,7 @@ static char	**export(char **env, char *var)
 	new_env[i] = ft_strdup(new_var);
 	free(new_var);
 	if (!new_env[i])
-		return (reverse_cascade_free(new_env, i), perror("malloc"), env);
+		return (reverse_cascade_free(new_env, i), perror("minishell"), env);
 	return (reverse_cascade_free(env, i - 1), new_env);
 }
 
