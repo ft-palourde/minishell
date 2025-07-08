@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:46:02 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/17 15:30:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:10:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,11 @@ int	change_shlvl(char **env)
 	return (i);
 }
 
-/** set_env
+/** set_env -
  * @env: array of strings of the environnement variables
  * 
- * create a new array of strings for the environnement variables and sets the new shlvl
+ * create a new array of strings for the environnement variables
+ * and sets the new shlvl
  * if no env is given just set a new env with minimum requirements
  *
  * Returns: the new env or NULL on malloc error

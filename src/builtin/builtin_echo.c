@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:03 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:36:04 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:38:04 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "minishell.h"
 
 /** check_option
  * @str: echo argument

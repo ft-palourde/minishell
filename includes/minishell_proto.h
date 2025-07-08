@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 14:51:45 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:16:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char			*str_expand(char *str, t_ms *ms);
 char			*get_next_chunk(char *str);
 int				check_quote_type(char c);
 void			add_var_to_new(char **new, char *str, int *i, t_ms *ms);
-int				expand_is_closed(char *str, char c);
 char			*var_name_to_value(char *name, t_ms *ms);
 char			*var_expand(char *str, int *j, t_ms *ms);
 void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
