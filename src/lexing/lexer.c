@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 11:38:38 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:40:13 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,21 @@ t_token	*lexer(char *input)
 	if (!input)
 		return (NULL);
 	tokens = fill_tokens(input, i, tokens);
+	if (!tokens)
+		return (NULL);
 	return (tokens);
 }
 
+/** fill_tokens - Divide given input into separated tokens.
+ * @input: readline output.
+ * 
+ * Create a new t_token list.
+ * For each token :
+ * - set its token->type
+ * - set its token->str
+ * 
+ * Returns: The t_token list.
+ */
 t_token	*fill_tokens(char *input, int i, t_token *tokens)
 {
 	int	len;
