@@ -177,10 +177,10 @@ int	bi_export(char ***env, char **arg)
 			to_unset = get_var_name(arg[i]);
 			unset(*env, to_unset);
 			free(to_unset);
+			*env = export(*env, arg[i]);
 		}
-		else
-			unset(*env, arg[i]);
-		*env = export(*env, arg[i]);
+		else if (!var_exists(*env, arg[i]))
+			*env = export(*env, arg[i]);
 		i++;
 	}
 	return (0);
