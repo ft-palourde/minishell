@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_rd_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:29:44 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:43:54 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:53:10 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void		parse_rd_file(t_token *token);
 static void	set_rd(t_token *token);
 
-// token->data->rd->file = malloc(sizeof(t_rd_file));
+/** @brief parse_heredoc - Alloc and fill heredoc data.
+ * 
+ * @param token the t_token of type heredoc to complete.
+ * 
+ * Alloc union u_data, then set rd data.
+ */
 void	parse_rd_file(t_token *token)
 {
 	if (!token || (token->type != T_REDIR_IN
@@ -36,6 +41,14 @@ void	parse_rd_file(t_token *token)
 	set_rd(token);
 }
 
+/** @brief set_rd - Alloc and fill redirect data.
+ * 
+ * @param token the t_token of type redir to complete.
+ * 
+ * Alloc rd file struct.
+ * Get the next token str, set it as current redir filename.
+ * Free the next WORD token.
+ */
 static void	set_rd(t_token *token)
 {
 	t_token	*tmp;

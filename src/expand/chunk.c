@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 15:29:48 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:21:39 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
 static int	skip_until_next_trigger(char *str, int *i);
 
+/** add_remains_until_next_trigger - Add non expandable string to expand retval.
+ * @param new The string pointer to add the remains to.
+ * @param str the remains after expand.
+ * @param i the string cursor.
+ * 
+ * Add in the string builder any non expandable string.
+ *
+ * @returns 1 if error, 0 otherwise.
+ */
 int	add_remains_until_next_trigger(char **new, char *str, int *i)
 {
 	char	*remain;
@@ -45,7 +54,12 @@ int	add_remains_until_next_trigger(char **new, char *str, int *i)
 	return (free(tmp), free(remain), 0);
 }
 
-//recupere le prochain chunk quote ou pas
+/** @brief get_next_chunk - Get the next quoted or unquoted expandable chunk.
+ * 
+ * @param str: The string to be read.
+ *
+ * @returns the chunk (str) to expand.
+ */
 char	*get_next_chunk(char *str)
 {
 	int		i;
@@ -69,8 +83,12 @@ char	*get_next_chunk(char *str)
 	return (chunk);
 }
 
-/* ressort le chunk trimed de ses quotes
-avec ses variables remplacees par leur valeur */
+/** expand_chunk - expand the given chunk.
+ * @param str The string to expand.
+ * @param ms The minishell structure.
+ * 
+ * @returns the expanded chunk to add to the string builder.
+ */
 char	*expand_chunk(char *str, t_ms *ms)
 {
 	char	*new;
@@ -100,14 +118,14 @@ char	*expand_chunk(char *str, t_ms *ms)
 	return (new);
 }
 
-/** skip_until_next_trigger - Move forward in a string until precised character.
+/** skip_until_next_trigger - Move forward in a string until stop character.
  * @str: The string to be read.
  * @i: The current index read.
  * 
  * This function browse the given string,
- * if it finds a $
+ * and breaks if a $ or ~ is found.
  *
- * Returns: 
+ * @returns the number of char skipped.
  */
 static int	skip_until_next_trigger(char *str, int *i)
 {

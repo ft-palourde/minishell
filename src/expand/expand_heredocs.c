@@ -6,12 +6,23 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:19:06 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 14:41:07 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:29:31 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/** @brief hd_var_expand - Expands a variable in the given string.
+ * @param str The string containing the variable to expand.
+ * @param env The grid of environment variables.
+ * 
+ * This function checks if the string starts with a '$' character,
+ * extracts the variable name, retrieves its value, and constructs
+ * a new string with the expanded value.
+ *
+ * @returns A newly allocated string with the expanded variable,
+ * or NULL on failure.
+ */
 char	*hd_var_expand(char *str, t_ms *ms)
 {
 	char	*var_value;
@@ -31,6 +42,14 @@ char	*hd_var_expand(char *str, t_ms *ms)
 	return (var_value);
 }
 
+/** @brief hd_add_var_to_new - update the expanded string to build in hd.
+ * 
+ * @param new the string to add expanded variables to.
+ * @param str the string to expand.
+ * @param i the line cursor to update.
+ * @param ms the minishell structure.
+ *  
+ */
 void	hd_add_var_to_new(char **new, char *str, t_ms *ms)
 {
 	char	*tmp;
@@ -43,6 +62,10 @@ void	hd_add_var_to_new(char **new, char *str, t_ms *ms)
 	free(var);
 }
 
+/** @brief add_quote_to_new - Add quotes at beginning and end of hd content.
+ * @param quote the specific quote char (simple or double)
+ * @param new the final string to build.
+ */
 int	add_quote_to_new(char quote, char **new)
 {
 	char	*tmp;
@@ -61,6 +84,12 @@ int	add_quote_to_new(char quote, char **new)
 	return (1);
 }
 
+/** hd_expand_chunk - expand the given chunk in heredoc case.
+ * @param str The string to expand.
+ * @param ms The minishell structure.
+ * 
+ * @returns the expanded chunk to add to the string builder.
+ */
 char	*hd_expand_chunk(char *str, t_ms *ms)
 {
 	char	*new;
@@ -90,6 +119,13 @@ char	*hd_expand_chunk(char *str, t_ms *ms)
 	return (new);
 }
 
+/** @brief hd_expand - Browse and expand each argument of given cmd.
+ * 
+ * @param str The str to expand.
+ * @param ms The minishell structure.
+ * 
+ * @returns the expanded string or NULL if malloc failed.
+ */
 char	*hd_expand(t_ms *ms, char *str)
 {
 	char	*new;

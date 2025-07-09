@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 12:50:55 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:04:32 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ char	*var_name_to_value(char *name, t_ms *ms);
 char	*var_expand(char *str, int *j, t_ms *ms);
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 
+/** @brief var_getter - Get the value of a variable to expand.
+ * @param ms the minishell structure.
+ * @param str: The string containing the variable name to expand.
+ * @param env: The grid of environment variables.
+ * 
+ * @returns The value of the variable or NULL if not found.
+ */
 char	*var_getter(t_ms *ms, char *str, int *j, int i)
 {
 	char	*var_value;
@@ -33,15 +40,15 @@ char	*var_getter(t_ms *ms, char *str, int *j, int i)
 	return (free(var_name), var_value);
 }
 
-/** var_expand - Expands a variable in the given string.
- * @str: The string containing the variable to expand.
- * @env: The grid of environment variables.
+/** @brief var_expand - Expands a variable in the given string.
+ * @param str The string containing the variable to expand.
+ * @param env The grid of environment variables.
  * 
  * This function checks if the string starts with a '$' character,
  * extracts the variable name, retrieves its value, and constructs
  * a new string with the expanded value.
  *
- * Returns: A newly allocated string with the expanded variable,
+ * @returns A newly allocated string with the expanded variable,
  * or NULL on failure.
  */
 char	*var_expand(char *str, int *j, t_ms *ms)
@@ -104,6 +111,14 @@ char	*var_name_to_value(char *name, t_ms *ms)
 	return (value);
 }
 
+/** @brief add_var_to_new - update the expanded string to build.
+ * 
+ * @param new the string to add expanded variables to.
+ * @param str the string to expand.
+ * @param i the line cursor to update.
+ * @param ms the minishell structure.
+ *  
+ */
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 {
 	char	*tmp;
@@ -121,10 +136,12 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	free(var);
 }
 
-/** ft_get_pid - 
+/** @brief ft_get_pid - Get the PID of current process.
  * 
- * Return : the PID
-*/
+ * Checks in /proc/[pid]/ to get the PID.
+ * 
+ * @returns the current PID or NULL if error.
+ */
 char	*ft_get_pid(void)
 {
 	int		fd;

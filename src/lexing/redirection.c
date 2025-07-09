@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:01 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/14 17:55:14 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:14:35 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	free_redir(t_rd *rd);
 
+/** free_redir
+ * @param rd the redirection to free.
+ * 
+ * Free the given t_rd rd, file or heredoc.
+ */
 void	free_redir(t_rd *rd)
 {
 	if (!rd)

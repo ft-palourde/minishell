@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:27:45 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/02 17:44:01 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:37:45 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
 int				check_lim(char	*lim);
-unsigned char	wait_child(pid_t cpid);
 void			abort_heredoc(t_ms *ms, int *fd);
 
 /** fill_new_hd - get heredoc content
@@ -91,35 +90,10 @@ int	check_lim(char	*lim)
 	return (expand);
 }
 
-/* 
-macros de lib wait :
-WIFEXITED == si termine correctement
-WEXITSTATUS == code de retour 
-WIFSIGNALED == interrompu par signal
-WTERMSIG == retourne le signal le cas echeant
-*/
-unsigned char	wait_child(pid_t cpid)
-{
-	int	status;
-
-	if (waitpid(cpid, &status, 0) == -1)
-	{
-		perror("minishell");
-		return (1);
-	}
-	ft_putstr_fd("toto\n", 2);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-	{
-		g_sig = WTERMSIG(status);
-		return (128 + g_sig);
-	}
-	if (WIFSTOPPED(status))
-		return (WSTOPSIG(status));
-	return (0);
-}
-
+/** @brief abort_heredoc - On SIGINT, abort the heredoc process.
+ * @param ms: the minishell struct
+ * @param fd_out: the fd array to close.
+ */
 void	abort_heredoc(t_ms *ms, int *fd_out)
 {
 	write(1, "\n", 1);
