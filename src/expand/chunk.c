@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 11:16:22 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:29:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_next_chunk(char *str)
 	{
 		while (str[i])
 		{
-			if ((str[i] == '\'' || str[i] == '\"') && !is_escaped(str, i))
+			if ((str[i] == '\'' || str[i] == '\"'))
 				break ;
 			i++;
 		}
