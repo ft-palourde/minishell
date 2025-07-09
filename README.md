@@ -13,9 +13,8 @@
 
 
 ## *******************\/\/🇫🇷 Version francaise 🇫🇷\/\/******************* ##
-## 							(english below)								 ##
+## 						               	(english below)	            							 ##
 ## ********************************************************************* ##
->>>>>>> Stashed changes
 
 **Minishell** est un projet réalisé en binôme dans le cadre d’un exercice de programmation en C.  
 L’objectif est d’implémenter un shell minimaliste en C, qui se comporte de manière similaire au shell POSIX `bash`.
@@ -152,18 +151,18 @@ Cela garantit que :
 
 ## ex2 `<< LIM cat | grep "toto" | wc -l > out1 > out2 > out3` 
 
-##                    [ T_PIPE ]
-##                    /       \
-##            [ T_PIPE ]       [T_CMD wc]
-##            /       \              |
-##    [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
-## 		|							("out1")
-##  [T_HEREDOC <<]							\
-## 									[T_REDIR_OUT >]
-## 										("out2")
-##                                           	\
-## 	                                  	[T_REDIR_OUT >]
-## 											("out3")
+##                   [ T_PIPE ]
+##                   /        \
+##           [ T_PIPE ]       [T_CMD wc]
+##           /       \                \
+##   [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
+## 		|					                    	("out1")
+## [T_HEREDOC <<]			              			\
+##								                  	[T_REDIR_OUT >]
+##									                    	("out2")
+##                                          	\
+##	                                  	[T_REDIR_OUT >]
+##								                     			("out3")
 
 --------------------------------------------------------------------
 
@@ -217,7 +216,7 @@ Les redirections sont toujours traitées avant l'exécution d'une commande :
 
 
 ## *******************\/\/ 🇬🇧 ENGLISH VERSION 🇬🇧 \/\/******************* ##
-## 					    	(chatgpt translated)						 ##
+## 					            	                      		               			 ##
 ## ********************************************************************* ##
 
 
@@ -350,17 +349,17 @@ Cela garantit que :
 ## ex2 `<< LIM cat | grep "toto" | wc -l > out1 > out2 > out3`
 
 ##                   [ T_PIPE ]
-##                   /       \
+##                   /        \
 ##           [ T_PIPE ]       [T_CMD wc]
-##           /       \              |
+##           /       \                \
 ##   [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
-## 		|							("out1")
-## [T_HEREDOC <<]							\
-##									[T_REDIR_OUT >]
-##										("out2")
+## 		|					                    	("out1")
+## [T_HEREDOC <<]			              			\
+##								                  	[T_REDIR_OUT >]
+##									                    	("out2")
 ##                                          	\
 ##	                                  	[T_REDIR_OUT >]
-##											("out3")
+##								                     			("out3")
 
 
 --------------------------------------------------------------------
