@@ -57,6 +57,7 @@ int	add_quote_to_new(char quote, char **new)
 	free(tmp);
 	if (!*new)
 		perror("minishell");
+	free(c);
 	return (1);
 }
 

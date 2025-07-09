@@ -99,7 +99,7 @@ void			set_hd_sig_behavior(void);
 
 ///////// BUILT-INS /////////
 
-int				bi_cd(char **env, char *path);
+int				bi_cd(char **env, char *path, t_ms *ms);
 int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);

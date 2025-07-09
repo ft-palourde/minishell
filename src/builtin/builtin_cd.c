@@ -24,12 +24,46 @@ int	errors_cd(char *path)
 	ft_putstr_fd("cd : ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
+	{
 		ft_putstr_fd(" No such file or directory\n", 2);
+	}
 	else if (errno == EACCES)
 		ft_putstr_fd(" Permission denied\n", 2);
 	else
 		ft_putstr_fd(" Failed to change directory\n", 2);
 	return (1);
+}
+
+/** move_dir
+ * @env: ms->env
+ * @path: destination path given in input
+ * 
+ * moves the user to the path given or to home if no path
+ *
+ * Returns: 1 on error, 0 else
+ */
+int	move_dir(char *path, t_ms *ms)
+{
+	int	ret;
+	int	empty;
+
+	ret = 0;
+	empty = 0;
+	if (!path)
+	{
+		empty = 1;
+		if (!var_exists(ms->env, "HOME"))
+			return (ft_putendl_fd("HOME not set", 2), 0);
+		path = var_name_to_value("HOME", ms);
+		if (!path)
+			return (0);
+	}
+	ret = chdir((const char *)path);
+	if (ret)
+		errors_cd(path);
+	if (empty)
+		free(path);
+	return (ret);
 }
 
 /** bi_cd - Built-in command cd
@@ -40,25 +74,23 @@ int	errors_cd(char *path)
  *
  * Returns: 1 on error, 0 else
  */
-int	bi_cd(char **env, char *path)
+int	bi_cd(char **env, char *path, t_ms *ms)
 {
 	char	*new_path;
 	int		i;
 	int		ret;
 
 	i = 0;
-	if (!path)
-		return (1);
-	ret = chdir((const char *)path);
+	ret = move_dir(path, ms);
 	if (ret)
-		return (errors_cd(path));
+		return (ret);
 	while (env[i] && !ft_strncmp("PWD=", env[i], 4))
 		i++;
 	if (!env[i])
 		return (1);
 	new_path = ft_get_pwd(1);
 	if (!new_path)
-		return (perror("minishell"), 1);
+		return (1);
 	free(env[i]);
 	env[i] = new_path;
 	return (0);
