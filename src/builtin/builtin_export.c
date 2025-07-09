@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:56:05 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:58:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int	bi_export(char ***env, char **arg)
 			free(to_unset);
 			*env = export(*env, arg[i]);
 		}
-		else if (!var_exists(*env, arg[i]))
+		else if (var_exists(*env, arg[i]) == 0)
 			*env = export(*env, arg[i]);
 		i++;
 	}

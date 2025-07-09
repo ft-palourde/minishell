@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:31:41 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/07 14:17:14 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:58:38 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ char	*get_var_name(char *var)
 	char	*name;
 
 	i = 0;
-	while (var[i] != '=')
+	while (var[i] && var[i] != '=')
 		i++;
+	if (!var[i])
+		return (NULL);
 	name = ft_strndup(var, i);
 	if (!name)
 		return (perror("minishell"), NULL);
