@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 12:40:55 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:50:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 		return (expand_path(str, ms, (*j) == 1));
 	if (str[i] && str[i] == '?')
 	{
+		(*j)++;
 		if (!sig_comp(-1))
 			return (ft_itoa((unsigned char)(128 + g_sig)));
 		g_sig = -1;

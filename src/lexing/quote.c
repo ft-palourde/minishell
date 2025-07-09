@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 11:01:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:28:40 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	get_quoted_len(char quote, char *input)
 	quoted_len = 1;
 	while (input[quoted_len])
 	{
-		if (input[quoted_len] == quote && !is_escaped(input, quoted_len))
+		if (input[quoted_len] == quote)
 			break ;
 		quoted_len++;
 	}
