@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 17:12:08 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:34:54 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ int				exec_redir(t_token *token, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
 int				check_lim(char	*lim);
-unsigned char	wait_child(pid_t cpid);
 void			abort_heredoc(t_ms *ms, int *fd);
 
 void			reset_dup(int in_fd, int out_fd, t_ms *ms);
@@ -162,9 +161,9 @@ int				is_redir(t_token_type type);
 int				add_fd(int fd, t_ms *ms);
 int				add_pfd(int *pfd, t_ms *ms);
 void			close_fds(t_ms *ms);
-void			clear_all(t_ms *ms);
 void			clean_fds(int *fd);
 void			clean_pfds(int	**pfd);
+
 //////// CLEANER /////////
 
 void			free_split(char **split);
