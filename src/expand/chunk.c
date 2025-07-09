@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 17:21:31 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:21:39 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
 static int	skip_until_next_trigger(char *str, int *i);
 
-/** add_remains_until_next_trigger - .
+/** add_remains_until_next_trigger - Add non expandable string to expand retval.
  * @param new The string pointer to add the remains to.
- * @param str
- * @param i
+ * @param str the remains after expand.
+ * @param i the string cursor.
  * 
- * This
+ * Add in the string builder any non expandable string.
  *
  * @returns 1 if error, 0 otherwise.
  */
@@ -83,16 +83,11 @@ char	*get_next_chunk(char *str)
 	return (chunk);
 }
 
-/* ressort le chunk trimed de ses quotes
-avec ses variables remplacees par leur valeur */
-/** skip_until_next_trigger - Move forward in a string until stop character.
- * @str: The string to be read.
- * @i: The current index read.
+/** expand_chunk - expand the given chunk.
+ * @param str The string to expand.
+ * @param ms The minishell structure.
  * 
- * This function browse the given string,
- * and breaks if a $ or ~ is found.
- *
- * @returns the number of char skipped.
+ * @returns the expanded chunk to add to the string builder.
  */
 char	*expand_chunk(char *str, t_ms *ms)
 {
