@@ -6,33 +6,37 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:33:45 by rcochran          #+#    #+#             */
-/*   Updated: 2025/06/13 15:33:45 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:42:41 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_path(char *str, t_ms *ms);
+char	*expand_path(char *str, t_ms *ms, int exp);
 
-char	*expand_path(char *str, t_ms *ms)
+char	*expand_path(char *str, t_ms *ms, int exp)
 {
 	char	*home;
 	char	*expanded_path;
 
 	if (!str || str[0] != '~')
 		return (NULL);
-	home = var_name_to_value("HOME", ms);
-	if (!home)
-		return (NULL);
-	if (str[1] == '\0')
+	if ((!str[1] || str[1] == '/') && exp == 1)
+	{
+		home = var_name_to_value("HOME", ms);
+		if (!home)
+			return (NULL);
 		expanded_path = ft_strdup(home);
-	else if (str[1] == '/')
-		expanded_path = ft_strjoin(home, str + 1);
+		if (!expanded_path)
+			return (NULL);
+		free(home);
+		return (expanded_path);
+	}
 	else
 	{
-		free(home);
-		return (NULL);
+		expanded_path = ft_strdup("~");
+		if (!expanded_path)
+			return (NULL);
+		return (expanded_path);
 	}
-	free(home);
-	return (expanded_path);
 }

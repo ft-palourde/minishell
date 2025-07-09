@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 16:51:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:40:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*var_getter(t_ms *ms, char *str, int *j, int i)
 	{
 		i++;
 		(*j)++;
-	}	
+	}
 	var_name = ft_substr(str, 1, i - 1);
 	if (!var_name)
 		return (NULL);
@@ -53,7 +53,7 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	i = 1;
 	(*j)++;
 	if (str[0] == '~')
-		return (expand_path(str, ms));
+		return (expand_path(str, ms, (*j) == 1));
 	if (str[i] && str[i] == '?')
 	{
 		if (!sig_comp(-1))
@@ -118,11 +118,8 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	*new = ft_strjoin(*new, var);
 	free(tmp);
 	free(var);
-	if (str[*i])
-		(*i)++;
 }
 
-// TODO recoder get pid
 /** ft_get_pid - 
  * 
  * Return : the PID
