@@ -1,16 +1,21 @@
-                                           
-------------------------------------------------------------------------------
 
-ÀÀÀÀÀ       ÀÀ†    ÀÀ        ÀÀÀÀÀÀÀÀÀ    ÀÀ    üÀ  ÀÀÀÀÀ    ÀÀÀÀ›     ÀÀÀÀÀÀÀ
-ããããããã†  ããããããã  ãã      ãã         ãã  ãã    ±ã  ããããããã  ããããããã   ããããããã
-FF    FF FF    FF  FF     FF õFFFFFFFF FF FF    zF  FF    FF FF    FF  FF
-OO   rOO OO    OO  OO     O OO       OO O OO    =O  OO   OOY OO    OO  OOOOO
-ÍÍÍÍÍÍÍ  ÍÍÍÍÍÍÍÍ  ÍÍ      ÍÍ  ÍÍÍÍÍ` ÍÍ  ÍÍ    ÍÍ ­ÍÍÍÍÍÍ   ÍÍ   «ÍÍ  ÍÍ
-¤¤       ¤¤    ¤¤  ¤¤¤¤¤¤¤¤  ¤¤¤   ¤¤¤    ¤¤¤¤¤¤¤¤  ¤¤  ¤¤   ¤¤¤¤¤¤¤   ¤¤¤¤¤¤¤
-::       ::    ::  ::::::::     :::         ::::    ::   ::  :::::     :::::::
+ ------------------------------------------------------------------------------ 
 
---------------      a mini shell by RCochran & TCoeffet     ------------------
+ ÀÀÀÀÀ       ÀÀ†    ÀÀ        ÀÀÀÀÀÀÀÀÀ    ÀÀ    üÀ  ÀÀÀÀÀ    ÀÀÀÀ›     ÀÀÀÀÀÀÀ 
+ ããããããã†  ããããããã  ãã      ãã         ãã  ãã    ±ã  ããããããã  ããããããã   ããããããã 
+ FF    FF FF    FF  FF     FF õFFFFFFFF FF FF    zF  FF    FF FF    FF  FF	  
+ OO   rOO OO    OO  OO     O OO       OO O OO    =O  OO   OOY OO    OO  OOOOO   
+ ÍÍÍÍÍÍÍ  ÍÍÍÍÍÍÍÍ  ÍÍ      ÍÍ  ÍÍÍÍÍ` ÍÍ  ÍÍ    ÍÍ  ­ÍÍÍÍÍÍ   ÍÍ   «ÍÍ  ÍÍ	   
+ ¤¤       ¤¤    ¤¤  ¤¤¤¤¤¤¤¤  ¤¤¤   ¤¤¤    ¤¤¤¤¤¤¤¤  ¤¤  ¤¤   ¤¤¤¤¤¤¤   ¤¤¤¤¤¤¤ 
+ ::       ::    ::  ::::::::     :::         ::::    ::   ::  :::::     ::::::: 
 
+ --------------      a mini shell by RCochran & TCoeffet     ------------------ 
+
+
+## *******************\/\/🇫🇷 Version francaise 🇫🇷\/\/******************* ##
+## 							(english below)								 ##
+## ********************************************************************* ##
+>>>>>>> Stashed changes
 
 **Minishell** est un projet réalisé en binôme dans le cadre d’un exercice de programmation en C.  
 L’objectif est d’implémenter un shell minimaliste en C, qui se comporte de manière similaire au shell POSIX `bash`.
@@ -132,12 +137,12 @@ Pour executer les commandes on recupere la liste des tokens crees au parsing et 
 
 ## ex1 `cat file.txt < in.txt | grep hello > out.txt`
 
-`           [T_PIPE]
-`          /        \
-`   [T_CMD cat]     [T_CMD grep]
-`        |               |
-`   [T_REDIR_IN]     [T_REDIR_OUT]
-`      ("in.txt")       ("out.txt")
+##           [ T_PIPE ]
+##           /        \
+##    [T_CMD cat]     [T_CMD grep]
+##         |               |
+##   [ T_REDIR_IN ]   [ T_REDIR_OUT ]
+##       ("in.txt")       ("out.txt")
 
 Cela garantit que :
 
@@ -145,20 +150,20 @@ Cela garantit que :
 -    L’exécution des pipes respecte bien l’ordre et l’isolement des contextes
 
 
-## ex2 `<< LIM cat | grep "toto" | wc -l > out1 > out2 > out3`
+## ex2 `<< LIM cat | grep "toto" | wc -l > out1 > out2 > out3` 
 
-`                    [T_PIPE]
-`                   /       \
-`            [T_PIPE]       [T_CMD wc]
-`           /       \              |
-`   [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
-`		|							("out1")
-` [T_HEREDOC <<]							\
-`									[T_REDIR_OUT >]
-`										("out2")
-`                                          	\
-`	                                  	[T_REDIR_OUT >]
-`											("out3")
+##                    [ T_PIPE ]
+##                    /       \
+##            [ T_PIPE ]       [T_CMD wc]
+##            /       \              |
+##    [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
+## 		|							("out1")
+##  [T_HEREDOC <<]							\
+## 									[T_REDIR_OUT >]
+## 										("out2")
+##                                           	\
+## 	                                  	[T_REDIR_OUT >]
+## 											("out3")
 
 --------------------------------------------------------------------
 
@@ -211,4 +216,192 @@ Les redirections sont toujours traitées avant l'exécution d'une commande :
 --------------------------------------------------------------------
 
 
+## *******************\/\/ 🇬🇧 ENGLISH VERSION 🇬🇧 \/\/******************* ##
+## 					    	(chatgpt translated)						 ##
+## ********************************************************************* ##
 
+
+
+**Minishell** is a project developed in pairs as part of a C programming exercise.  
+The goal is to implement a minimalist shell in C that behaves similarly to the POSIX `bash` shell.
+
+The program uses the C language, a homemade `libft`, and the `termios` and `readline` libraries to handle user input and interactive features. A `Makefile` is provided for easy compilation.
+
+--------------------------------------------------------------------
+
+### Compilation
+
+The project is compiled using `make`:
+
+### Execution
+
+Run with:  
+`./minishell`  
+No options or arguments are required.
+
+### Platform
+
+The project was developed and tested on Linux Ubuntu 22.04.
+
+--------------------------------------------------------------------
+
+## Features
+
+Minishell implements a basic set of functionalities to replicate the behavior of a POSIX shell.
+
+### Built-in commands
+
+The following built-ins are supported:
+
+- `cd`: change directory
+- `echo`: display a message to the terminal
+- `export`: set an environment variable
+- `unset`: remove an environment variable
+- `env`: display the environment variables
+- `exit`: exit the shell
+- `pwd`: print the current working directory
+
+### Supported features
+
+- **Redirections**: `>`, `>>`, `<`
+- **Pipes**: execution of chained commands using `|`
+- **Environment variable expansion**: with `$VAR`, including `$?` for exit codes
+- **Quotes**: support for single `'` and double `"` quotes
+- **External commands**: execution of any command found in the `$PATH`
+- **Signals**: support for `Ctrl+C` (SIGINT) and `Ctrl+D` (EOF)
+
+### Known limitations
+
+Some advanced features are not implemented:
+
+- **Wildcards**: pattern matching with `*` or `?` is not supported
+- **Subshells**: expressions in parentheses `( )` are not handled
+- **Logical operators**: `&&`, `||` and precedence with parentheses are not supported — their behavior is undefined
+
+--------------------------------------------------------------------
+
+##### Parsing & Syntax Analysis
+
+The input command line is processed in multiple steps before being executed:
+
+### 1. Lexing
+
+The **lexer** scans the raw input string to identify two major families of elements:
+
+- **Words (`T_WORD`)**: strings representing commands and arguments
+- **Operators**: shell control symbols, categorized by type:
+  - `T_PIPE` (`|`)
+  - `T_REDIR_IN` (`<`)
+  - `T_REDIR_OUT` (`>`)
+  - `T_APPEND` (`>>`)
+  - `T_HEREDOC` (`<<`)
+  - `T_AND_IF` (`&&`)
+  - `T_OR_IF` (`||`)
+  - `T_UNKNOWN`: for errors or unsupported cases
+
+Each identified element is represented by a **token**, with a `t_token_type` and its textual content.
+
+### 2. Tokenization
+
+After lexing, a **tokenization phase** structures the tokens to prepare for execution:
+
+- Sequences of `T_WORD` are grouped into **commands (`T_CMD`)** with their arguments
+- Metacharacters are preserved to help construct the syntax tree
+- Quotes (`'`, `"`) are processed at this stage to preserve literal strings (without yet performing expansions)
+
+### 3. Expansion
+
+**Environment variable expansion** (e.g., `$HOME`, `$?`) is **not performed during lexing**, but is **deferred until execution**.  
+This allows for precise handling of variables in quotes and redirections.
+
+---
+
+Example:
+
+Input:  
+`echo "Hello $USER" | grep Hello > out.txt`
+
+Token output:
+
+`[T_CMD "echo"], [T_WORD "Hello $USER"], [T_PIPE "|"],`  
+`[T_CMD "grep"], [T_WORD "Hello"], [T_REDIR_OUT ">"], [T_WORD "out.txt"]`
+
+--------------------------------------------------------------------
+
+##### BINARY TREE
+
+To execute the command, we build a binary tree from the parsed tokens:
+
+## ex1 `cat file.txt < in.txt | grep hello > out.txt`
+
+##          [ T_PIPE ]
+##          /        \
+##   [T_CMD cat]     [T_CMD grep]
+##        |               |
+##  [ T_REDIR_IN ]   [ T_REDIR_OUT ]
+##      ("in.txt")       ("out.txt")
+
+Cela garantit que :
+
+-    Les redirections sont liées directement à leur commande
+-    L’exécution des pipes respecte bien l’ordre et l’isolement des contextes
+
+
+## ex2 `<< LIM cat | grep "toto" | wc -l > out1 > out2 > out3`
+
+##                   [ T_PIPE ]
+##                   /       \
+##           [ T_PIPE ]       [T_CMD wc]
+##           /       \              |
+##   [T_CMD cat]   [T_CMD grep]   [T_REDIR_OUT >]
+## 		|							("out1")
+## [T_HEREDOC <<]							\
+##									[T_REDIR_OUT >]
+##										("out2")
+##                                          	\
+##	                                  	[T_REDIR_OUT >]
+##											("out3")
+
+
+--------------------------------------------------------------------
+
+##### EXECUTION
+
+### Tree traversal
+
+Execution is handled by a recursive function called `exec_tree`.
+
+The tree is traversed in **depth-first (postfix)** order:
+
+1. If the node is a pipe `(T_PIPE)`, `exec_pipe` is called  
+2. If the node is a redirection (`T_REDIR_IN`, `T_REDIR_OUT`, `T_APPEND`), it is processed with `exec_redir`  
+3. If the node is a heredoc `(T_HEREDOC)`, a temporary file is created and stored in `ms->file_in`  
+4. The left (`root->left`) and right (`root->right`) branches are executed recursively  
+5. If the node is a command `(T_CMD)` and no redirection error occurred (`open_failed`), the function `exec_cmd` is called  
+
+### Redirection management
+
+Redirections are **handled before command execution**:
+
+- File descriptors are opened and temporarily redirected
+- All open descriptors are stored and **properly closed** after command execution
+- If an opening fails (e.g., missing file), a flag `open_failed` prevents command execution
+
+### Built-ins vs external commands
+
+- Built-ins (like `cd`, `export`, `exit`, etc.) are executed **in the main process** if they are **not** inside a pipeline
+- If they are part of a pipe, they are executed in a **child process via `fork`**
+- This mimics the expected POSIX shell behavior (e.g., a `cd` in a pipe does not affect the parent shell)
+
+### Error handling
+
+- Execution errors are handled using `waitpid`, which retrieves the exit status or signal from the child process
+- The return value is stored in a special variable (`$?`) and can be reused in later commands
+- Signals like `Ctrl+C (SIGINT)` or `Ctrl+\ (SIGQUIT)` are caught and processed to avoid crashing the shell or to display clear messages
+
+--------------------------------------------------------------------
+
+
+
+
+🐚 
