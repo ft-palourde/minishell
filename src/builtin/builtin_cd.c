@@ -84,7 +84,7 @@ int	bi_cd(char **env, char *path, t_ms *ms)
 	ret = move_dir(path, ms);
 	if (ret)
 		return (ret);
-	while (env[i] && !ft_strncmp("PWD=", env[i], 4))
+	while (env[i] && ft_strncmp("PWD=", env[i], 4))
 		i++;
 	if (!env[i])
 		return (1);
