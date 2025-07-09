@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/24 19:04:34 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:58:06 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	bi_cd(char **env, char *path, t_ms *ms)
 	ret = move_dir(path, ms);
 	if (ret)
 		return (ret);
-	while (env[i] && !ft_strncmp("PWD=", env[i], 4))
+	while (env[i] && ft_strncmp("PWD=", env[i], 4))
 		i++;
 	if (!env[i])
 		return (1);
