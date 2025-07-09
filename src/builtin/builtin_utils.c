@@ -65,7 +65,12 @@ char	*get_var_name(char *var)
 	while (var[i] && var[i] != '=')
 		i++;
 	if (!var[i])
-		return (NULL);
+	{
+		name = ft_strjoin(var, "=");
+		if (!name)
+			return (perror("minishell"), NULL);
+		return (name);
+	}
 	name = ft_strndup(var, i);
 	if (!name)
 		return (perror("minishell"), NULL);
