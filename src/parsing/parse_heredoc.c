@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:29:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:50 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:50:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 void		parse_heredoc(t_token *token);
 static void	set_hd(t_token *token);
 
+/** @brief parse_heredoc - Alloc and fill heredoc data.
+ * 
+ * @param token the t_token of type heredoc to complete.
+ * 
+ * Alloc union u_data, then set rd data.
+ */
 void	parse_heredoc(t_token *token)
 {
 	if (!token || token->type != T_HEREDOC)
@@ -33,6 +39,13 @@ void	parse_heredoc(t_token *token)
 	return ;
 }
 
+/** @brief set_hd - Fills token rd data with heredoc data.
+ * 
+ * @param token the t_token of type HEREDOC to complete.
+ * 
+ * Set the next token str as heredoc limiter.
+ * Free the next token.
+ */
 static void	set_hd(t_token *token)
 {
 	t_token	*tmp;

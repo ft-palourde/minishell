@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 16:08:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:10:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@ t_token_type	get_operator_type(char *input);
 int				operator_len(t_token_type type);
 bool			is_operator(char c);
 
+/** @brief handle_operator - Set the current Operator Token.
+ * @param input current read string.
+ * @param tokens the list of tokens to add the new token to.
+ *
+ * Get the operator type.
+ * Malloc a new token, initiate it with the string as token->str.
+ * Then add it to the token list.
+ * 
+ * @returns (int) len : the length of the input set as token.
+ */
 int	handle_operator(char *input, t_token **tokens)
 {
 	t_token_type	type;
@@ -38,16 +48,21 @@ int	handle_operator(char *input, t_token **tokens)
 	return (len);
 }
 
-/** is_operator - Read a char and return if it is an operator.
- * @c: The char read compared to operator symbols.
+/** @brief is_operator - Read a char and return if it is an operator.
+ * @param c The char read compared to operator symbols.
  *
- * Returns: An int as boolean, 1 true, 0 false.
+ * @returns An int as boolean, 1 true, 0 false.
  */
 bool	is_operator(char c)
 {
 	return (c == '|' || c == '&' || c == '<' || c == '>');
 }
 
+/** @brief get_operator_type - Read and returns the type of given input.
+ * @param input The string read compared to operator symbols.
+ *
+ * @returns t_token_type The type of given input.
+ */
 t_token_type	get_operator_type(char *input)
 {
 	if (!ft_strncmp(input, "&&", 2))
@@ -67,6 +82,11 @@ t_token_type	get_operator_type(char *input)
 	return (T_UNKNOWN);
 }
 
+/** @brief operator_len - Give the operator length.
+ * @param type The type of the token to observe.
+ *
+ * @returns the length (int) of the operator.
+ */
 int	operator_len(t_token_type type)
 {
 	if (type == T_AND_IF || type == T_OR_IF

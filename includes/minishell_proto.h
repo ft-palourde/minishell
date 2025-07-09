@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 12:40:51 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ bool			is_operator(char c);
 /* QUOTES */
 
 int				is_quote(char c);
-int				handle_quote(char *input, t_token **tokens);
 void			free_tokens(t_token *tokens);
-int				is_backslash(char c);
-int				is_escaped(char *input, int index);
 void			free_cmd(t_cmd *cmd);
 void			free_redir(t_rd *rd);
 int				unclosed_quote(t_token *token);

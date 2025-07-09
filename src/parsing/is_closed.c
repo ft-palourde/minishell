@@ -6,22 +6,24 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 15:29:15 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:29:38 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		unclosed_quote(t_token *token);
-int		check_quote_error(char *str, char c);
 int		is_closed(char *str, char c);
 void	unclosed_quote_loop(t_token *cursor,
 			int *in_double_quote, int *in_single_quote);
 
-/*
-checks if the quote, double quote or parenthesis has a closing occurence
-returns the number of char read if found, 0 otherwise
-*/
+/** @brief is_closed - Check if then where there is a closing occurence.
+ * 
+ * @param str the input to read until closing quote or null byte.
+ * @param c the quote set as limiter.
+ *  
+ * @returns returns the number of char read if found, 0 otherwise
+ */
 int	is_closed(char *str, char c)
 {
 	int		i;
@@ -48,9 +50,12 @@ int	is_closed(char *str, char c)
 	return (0);
 }
 
-/* 
-check for each node of type word if its str contains quote error
-*/
+/** @brief unclosed_quote - check if the given string contains a quote error.
+ * 
+ * @param str the token->str of a word token.
+ *  
+ * @returns returns 1 if error, 0 otherwise.
+ */
 int	unclosed_quote(t_token *token)
 {
 	t_token	*cursor;
@@ -75,6 +80,14 @@ int	unclosed_quote(t_token *token)
 	return (0);
 }
 
+/** @brief unclosed_quote_loop - check if the token string contains quote error.
+ * 
+ * @param cursor current token to check
+ * @param in_double_quote double quote error boolean
+ * @param in_single_quote single quote error boolean
+ *  
+ * Update the 2 given booleans in parent function.
+ */
 void	unclosed_quote_loop(t_token *cursor,
 	int *in_double_quote, int *in_single_quote)
 {
@@ -91,32 +104,4 @@ void	unclosed_quote_loop(t_token *cursor,
 			(*in_double_quote) = !(*in_double_quote);
 		i++;
 	}
-}
-
-/* 
-counts unescaped quotes of same type
-*/
-int	check_quote_error(char *str, char c)
-{
-	int		i;
-	int		nb_quote;
-	int		is_quoted;
-	char	other_quote;
-
-	is_quoted = 0;
-	i = 0;
-	nb_quote = 0;
-	if (c == '\'')
-		other_quote = '"';
-	else
-		other_quote = '\'';
-	while (str[i])
-	{
-		if (str[i] == other_quote)
-			is_quoted = !is_quoted;
-		if (!is_quoted && str[i] == c)
-			nb_quote++;
-		i++;
-	}
-	return (nb_quote % 2);
 }

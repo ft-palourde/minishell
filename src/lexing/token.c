@@ -6,12 +6,14 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/04 11:13:04 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:40:02 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_token	*constr_new_token(t_token_type type, char *str);
+void	add_to_tokens(t_token *new_token, t_token **tokens);
 void	free_token(t_token *token);
 void	free_tokens(t_token *tokens);
 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 13:36:07 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:10:23 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@ static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
 static	void	handle_cursor(t_token *cursor);
 
-/* ************************************************************************** */
-
+/** @brief parse - .
+ * 
+ * @param input the readline input.
+ * 
+ * Get an initialized t_token list with lexer().
+ * If there is any syntax error, it stops here and leave properly.
+ * If the list is correct, it is reworked to complete each token data.
+ */
 t_token	*parse(char *input)
 {
 	t_token	*cursor;
@@ -43,6 +49,12 @@ t_token	*parse(char *input)
 	return (tokens);
 }
 
+/** @brief parse_heredoc - Alloc and fill heredoc data.
+ * 
+ * @param token the t_token of type heredoc to complete.
+ * 
+ * Alloc union u_data, then set rd data.
+ */
 static	void	handle_cursor(t_token *cursor)
 {
 	if (!cursor)
@@ -60,9 +72,12 @@ static	void	handle_cursor(t_token *cursor)
 		parse_cmd(cursor);
 }
 
-/* 
-returns 1 if there is a syntax error, 0 otherwise
-*/
+/** @brief check_syntax_error - Triggers syntax check functions.
+ * 
+ * @param token the list of t_token head.
+ * 
+ * @returns 1 if syntax error, 0 otherwise
+ */
 int	check_syntax_error(t_token *tokens)
 {
 	t_token	*cursor;
@@ -80,7 +95,7 @@ int	check_syntax_error(t_token *tokens)
 	{
 		if (cursor->type == T_PIPE && (!cursor->next
 				|| cursor->next->type == T_PIPE))
-			return (ft_putstr_fd("unexpected token `|'\n", 2), 1);
+			return (ft_putstr_fd("error : unexpected token `|'\n", 2), 1);
 		if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 			|| cursor->type == T_APPEND || cursor->type == T_HEREDOC)
 		{
@@ -92,6 +107,12 @@ int	check_syntax_error(t_token *tokens)
 	return (0);
 }
 
+/** @brief invalid_first_token - Check if there is a logic token on start.
+ * 
+ * @param token the t_token head.
+ * 
+ * @returns 1 if error, 0 otherwise
+ */
 static	int	invalid_first_token(t_token *tokens)
 {
 	if (!tokens)
@@ -102,6 +123,12 @@ static	int	invalid_first_token(t_token *tokens)
 	return (0);
 }
 
+/** @brief invalid_last_token - Check if there is a logic token at the end.
+ * 
+ * @param token the t_token head.
+ * 
+ * @returns 1 if error, 0 otherwise
+ */
 static	int	invalid_last_token(t_token *tokens)
 {
 	t_token	*cursor;
