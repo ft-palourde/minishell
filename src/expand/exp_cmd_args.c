@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 18:43:28 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:13:41 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 void	expand_cmd_args(t_cmd **cmd, t_ms *ms);
 
+/** @brief expand_cmd_args - Browse and expand each argument of given cmd.
+ * 
+ * @param cmd The cmd whose arguments must be expanded.
+ * @param ms The minishell structure.
+ * 
+ * @returns HOME var value or NULL.
+ */
 void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 {
 	int		i;
