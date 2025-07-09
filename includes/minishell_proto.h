@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 16:12:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:12:08 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void			free_tokens(t_token *tokens);
 void			free_cmd(t_cmd *cmd);
 void			free_redir(t_rd *rd);
 int				unclosed_quote(t_token *token);
-int				check_quote_error(char *str, char c);
 
 /* WORD */
 
