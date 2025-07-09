@@ -179,7 +179,7 @@ int	bi_export(char ***env, char **arg)
 			free(to_unset);
 			*env = export(*env, arg[i]);
 		}
-		else if (var_exists(*env, arg[i]) <= 0)
+		else if (var_exists(*env, arg[i]) == 0)
 			*env = export(*env, arg[i]);
 		i++;
 	}
