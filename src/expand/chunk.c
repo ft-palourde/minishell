@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 21:05:47 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:19:59 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
-// static int	skip_until_next_trigger(char *str, int *i);
+static char	*prepare_chunk(char *str, int *quote_type);
+static char	*expand_variables(char *str, t_ms *ms);
+int			add_remains_until_next_trigger(char **new, char *str, int *i);
 
 /** add_remains_until_next_trigger - Add non expandable string to expand retval.
  * @param new The string pointer to add the remains to.
@@ -89,43 +91,65 @@ char	*get_next_chunk(char *str)
  * 
  * @returns the expanded chunk to add to the string builder.
  */
-char	*expand_chunk(char *str, t_ms *ms)
+static char	*prepare_chunk(char *str, int *quote_type)
 {
 	char	*new;
-	int		quote_type;
-	int		i;
 	char	*trim;
-	char	*expanded_chunk;
 
-	expanded_chunk = NULL;
-	i = 0;
-	quote_type = check_quote_type(str[0]);
-	if (quote_type == 1 || quote_type == 2)
+	new = NULL;
+	trim = NULL;
+	*quote_type = check_quote_type(str[0]);
+	if (*quote_type == 1 || *quote_type == 2)
 		new = ft_strndup(str + 1, ft_strlen(str) - 2);
 	else
 		new = ft_strdup(str);
 	if (!new)
 		return (NULL);
-	if (quote_type == 2)
+	if (*quote_type == 2)
 	{
 		trim = ft_strtrim(new, "\"");
 		if (!trim)
-			return (NULL);
+			return (free(new), NULL);
 		free(new);
 		new = trim;
 	}
-	if (quote_type == 1)
-		return (new);
-	expanded_chunk = ft_strdup("");
-	if (!expanded_chunk)
+	return (new);
+}
+
+static char	*expand_variables(char *str, t_ms *ms)
+{
+	char	*new;
+	int		i;
+
+	new = NULL;
+	i = 0;
+	new = ft_strdup("");
+	if (!new)
 		return (NULL);
-	while (new[i])
+	while (str[i])
 	{
-		if (new[i] == '$' || new[i] == '~')
-			add_var_to_new(&expanded_chunk, new, &i, ms);
-		if (add_remains_until_next_trigger(&expanded_chunk, new, &i))
-			return (perror("minishell"), NULL);
+		if (str[i] == '$' || str[i] == '~')
+			add_var_to_new(&new, str, &i, ms);
+		if (add_remains_until_next_trigger(&new, str, &i))
+			return (perror("minishell"), free(new), NULL);
 	}
-	free(new);
-	return (expanded_chunk);
+	return (new);
+}
+
+char	*expand_chunk(char *str, t_ms *ms)
+{
+	char	*prepared;
+	char	*expanded;
+	int		quote_type;
+
+	prepared = NULL;
+	expanded = NULL;
+	prepared = prepare_chunk(str, &quote_type);
+	if (!prepared)
+		return (NULL);
+	if (quote_type == 1)
+		return (prepared);
+	expanded = expand_variables(prepared, ms);
+	free(prepared);
+	return (expanded);
 }
