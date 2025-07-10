@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:14:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:10:12 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:50:22 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 char	*get_var_value(char *var);
 int		check_quote_type(char c);
 
-/** @brief get_var_value - Get the value of a var in the env.
- * @param var The string containing the variable name and its value.
- * 
+/**
+ * @brief Extract the value from an environment variable string.
  *
- * @returns the variable value found after the = sign or NULL if error.
+ * @param var Environment variable string (format: VAR=value).
+ * @return A newly allocated string containing the value, or NULL on error.
  */
 char	*get_var_value(char *var)
 {
@@ -35,10 +35,11 @@ char	*get_var_value(char *var)
 	return (value);
 }
 
-/** @brief check_quote_type - check if it is a single, double or no quote.
- * @param c The char to read.
- * 
- * @returns 1 if simple quote, 2 if double quote, 0 otherwise.
+/**
+ * @brief Determine the type of a quote character.
+ *
+ * @param c Character to analyze.
+ * @return 1 for single quote ('), 2 for double quote ("), 0 for others.
  */
 int	check_quote_type(char c)
 {
