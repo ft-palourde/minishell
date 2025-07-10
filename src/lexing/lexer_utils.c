@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:44:34 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 14:47:38 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:37:01 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 int				is_space(char c);
 
-/** is_space - Compares a char to whitespaces.
- * @c: char read.
- * 
- * Check if the read char is a white space.
- * 
- * Returns: 1 if true, 0 if false.
+/**
+ * @brief Check if the given character is a whitespace character.
+ *
+ * @param c The character to check.
+ * @return int 1 if the character is a whitespace, 0 otherwise.
  */
 int	is_space(char c)
 {

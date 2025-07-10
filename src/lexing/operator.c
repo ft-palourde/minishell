@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:54 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 13:40:14 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:39:17 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@ t_token_type	get_operator_type(char *input);
 int				operator_len(t_token_type type);
 bool			is_operator(char c);
 
-/** @brief handle_operator - Set the current Operator Token.
- * @param input current read string.
- * @param tokens the list of tokens to add the new token to.
+/**
+ * @brief Handle an operator token and add it to the token list.
  *
- * Get the operator type.
- * Malloc a new token, initiate it with the string as token->str.
- * Then add it to the token list.
- * 
- * @returns (int) len : the length of the input set as token.
+ * @param input Current position in the input string.
+ * @param tokens Pointer to the token list.
+ * @return int Length of the operator token, or 0 on error.
  */
 int	handle_operator(char *input, t_token **tokens)
 {
@@ -48,20 +45,22 @@ int	handle_operator(char *input, t_token **tokens)
 	return (len);
 }
 
-/** @brief is_operator - Read a char and return if it is an operator.
- * @param c The char read compared to operator symbols.
+/**
+ * @brief Check if the given character is a shell operator.
  *
- * @returns An int as boolean, 1 true, 0 false.
+ * @param c The character to check.
+ * @return true if it is an operator, false otherwise.
  */
 bool	is_operator(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-/** @brief get_operator_type - Read and returns the type of given input.
- * @param input The string read compared to operator symbols.
+/**
+ * @brief Determine the type of an operator token.
  *
- * @returns t_token_type The type of given input.
+ * @param input Pointer to the current position in the input string.
+ * @return t_token_type The type of the operator token.
  */
 t_token_type	get_operator_type(char *input)
 {
@@ -78,10 +77,11 @@ t_token_type	get_operator_type(char *input)
 	return (T_UNKNOWN);
 }
 
-/** @brief operator_len - Give the operator length.
- * @param type The type of the token to observe.
+/**
+ * @brief Get the length of an operator token based on its type.
  *
- * @returns the length (int) of the operator.
+ * @param type The token type.
+ * @return int The length of the operator token.
  */
 int	operator_len(t_token_type type)
 {
