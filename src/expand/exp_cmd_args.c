@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:13:41 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:39:12 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 		tmp = str_expand(cmd_to_expand->args[i], ms);
 		if (!tmp)
 			return (perror("minishell"));
-		free(cmd_to_expand->args[i]);
 		sdup = ft_strdup(tmp);
 		if (!sdup)
 			return (free(tmp), perror("minishell"));
+		free(cmd_to_expand->args[i]);
 		cmd_to_expand->args[i] = sdup;
 		free(tmp);
 		i++;
