@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 15:32:02 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:28:05 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,6 @@ int	handle_word(char *input, t_token **tokens)
 	if (!new)
 		return (free(str), perror("minishell"), 0);
 	free(str);
-	if (!new)
-		return (0);
 	ft_memset(&new->data, 0, sizeof(new->data));
 	add_to_tokens(new, tokens);
 	return (len);

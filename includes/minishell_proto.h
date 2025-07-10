@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 18:34:54 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:02:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
 t_token			*parse(char *input);
-void			parse_cmd(t_token *token);
+int				parse_cmd(t_token *token);
 
 /* PARSE UTILS */
-void			parse_rd_file(t_token *token);
-void			parse_heredoc(t_token *token);
+int				parse_rd_file(t_token *token);
+int				parse_heredoc(t_token *token);
 int				is_word(t_token *token);
 int				is_closed(char *str, char c);
 

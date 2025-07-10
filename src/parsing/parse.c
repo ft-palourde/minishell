@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:23 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:07:18 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token		*parse(char *input);
 static int	check_syntax_error(t_token *tokens);
 static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
-static	void	handle_cursor(t_token *cursor);
+static	int	handle_cursor(t_token *cursor);
 
 /** @brief parse - .
  * 
@@ -41,35 +41,38 @@ t_token	*parse(char *input)
 	cursor = tokens;
 	while (cursor)
 	{
-		handle_cursor(cursor);
-		if (!cursor)
+		if (handle_cursor(cursor))
 			return (free_tokens(tokens), NULL);
 		cursor = cursor->next;
 	}
 	return (tokens);
 }
 
-/** @brief parse_heredoc - Alloc and fill heredoc data.
+/** @brief handle_cursor - Set the correct type to the token.
  * 
- * @param token the t_token of type heredoc to complete.
+ * @param cursor the current token read.
  * 
- * Alloc union u_data, then set rd data.
+ * Switch case between different types of redir.
  */
-static	void	handle_cursor(t_token *cursor)
+static	int	handle_cursor(t_token *cursor)
 {
+	int	err;
+
+	err = 0;
 	if (!cursor)
-		return ;
+		return (1);
 	if (cursor->type == T_REDIR_IN || cursor->type == T_REDIR_OUT
 		|| cursor->type == T_APPEND)
-		parse_rd_file(cursor);
+		err = parse_rd_file(cursor);
 	else if (cursor->type == T_HEREDOC)
-		parse_heredoc(cursor);
+		err = parse_heredoc(cursor);
 	else if (cursor->type == T_PIPE)
 		cursor->data = NULL;
 	else if (cursor->type == T_AND_IF || cursor->type == T_OR_IF)
 		cursor->data = NULL;
 	else if (cursor->type == T_WORD)
-		parse_cmd(cursor);
+		err = parse_cmd(cursor);
+	return (err);
 }
 
 /** @brief check_syntax_error - Triggers syntax check functions.
