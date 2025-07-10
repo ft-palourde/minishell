@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:03 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:02:15 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:07:01 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*expand_loop(t_ms *ms, char *str, char **new, int *i)
 	}
 	return (*new);
 }
+
 /**
  * @brief Expand all variables and special characters in a string.
  *

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:00:27 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:07:34 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*var_expand(char *str, int *j, t_ms *ms);
 char	*var_name_to_value(char *name, t_ms *ms);
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 char	*ft_get_pid(void);
-
 
 /**
  * @brief var_getter - Retrieves the value of an environment variable.
@@ -62,6 +61,7 @@ char	*var_getter(t_ms *ms, char *str, int *j, int i)
 	var_value = var_name_to_value(var_name, ms);
 	return (free(var_name), var_value);
 }
+
 /**
  * @brief Expand a variable or special character in the string.
  *

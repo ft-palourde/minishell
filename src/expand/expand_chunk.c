@@ -6,11 +6,17 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 21:52:00 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:06:41 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			add_remains_until_next_trigger(char **new, char *str, int *i);
+char		*get_next_chunk(char *str);
+char		*expand_chunk(char *str, t_ms *ms);
+static char	*prepare_chunk(char *str, int *quote_type);
+static char	*expand_variables(char *str, t_ms *ms);
 
 /**
  * @brief Copy characters until the next expansion trigger ($ or ~).
@@ -20,30 +26,6 @@
  * @param i Pointer to cursor index (updated).
  * @return 0 on success, 1 on allocation error.
  */
-int	add_remains_until_next_trigger(char **new, char *str, int *i);
-
-/**
- * @brief Extract the next chunk from the string.
- *
- * A chunk is either a quoted string or a sequence without quotes.
- *
- * @param str The string to analyze.
- * @return A newly allocated string containing the next chunk.
- */
-char	*get_next_chunk(char *str);
-
-/**
- * @brief Expand a single chunk of the string (with respect to quotes).
- *
- * - Removes quotes if needed.
- * - Expands variables if allowed.
- *
- * @param str The chunk to expand.
- * @param ms The minishell structure.
- * @return A newly allocated string containing the expanded chunk.
- */
-char	*expand_chunk(char *str, t_ms *ms);
-
 int	add_remains_until_next_trigger(char **new, char *str, int *i)
 {
 	char	*remain;
@@ -73,6 +55,14 @@ int	add_remains_until_next_trigger(char **new, char *str, int *i)
 	return (free(tmp), free(remain), 0);
 }
 
+/**
+ * @brief Extract the next chunk from the string.
+ *
+ * A chunk is either a quoted string or a sequence without quotes.
+ *
+ * @param str The string to analyze.
+ * @return A newly allocated string containing the next chunk.
+ */
 char	*get_next_chunk(char *str)
 {
 	int		i;
@@ -96,6 +86,22 @@ char	*get_next_chunk(char *str)
 	return (chunk);
 }
 
+/**
+ * @brief Prepares a string chunk by removing surrounding quotes if necessary.
+ *
+ * This function checks whether the given string starts with a quote
+ * (single or double). If it does, it duplicates the string without
+ * the surrounding quotes. Additionally, if the string is enclosed by
+ * double quotes, it trims the internal double quotes as well.
+ *
+ * @param str The input string to process.
+ * @param quote_type Pointer to an integer where the quote type will be stored:
+ *                   - 0: no quotes
+ *                   - 1: single quote ('\'')
+ *                   - 2: double quote ('\"')
+ * @return A newly allocated string with quotes removed if necessary,
+ *         or NULL on allocation failure.
+ */
 static char	*prepare_chunk(char *str, int *quote_type)
 {
 	char	*new;
@@ -121,6 +127,19 @@ static char	*prepare_chunk(char *str, int *quote_type)
 	return (new);
 }
 
+/**
+ * @brief Expands environment variables and tilde in the given string.
+ *
+ * This function scans the input string for variables marked by '$' or '~',
+ * replaces them with their corresponding values, and appends the remaining
+ * parts of the string. The function allocates a new string containing the
+ * expanded result.
+ *
+ * @param str The input string to process.
+ * @param ms Pointer to the minishell context, containing environment variables.
+ * @return A newly allocated string with variables expanded,
+ *         or NULL on allocation failure or internal error.
+ */
 static char	*expand_variables(char *str, t_ms *ms)
 {
 	char	*new;
@@ -142,16 +161,14 @@ static char	*expand_variables(char *str, t_ms *ms)
 }
 
 /**
- * @brief Main function to expand a string in the minishell.
+ * @brief Expand a single chunk of the string (with respect to quotes).
  *
- * This function performs the full expansion process:
- * 1. It processes quotes to determine whether to allow variable expansion.
- * 2. If allowed, it expands environment variables.
+ * - Removes quotes if needed.
+ * - Expands variables if allowed.
  *
- * @param str The input string to expand.
- * @param ms Pointer to the minishell state containing environment variables.
- *
- * @return A new expanded string, or NULL on error.
+ * @param str The chunk to expand.
+ * @param ms The minishell structure.
+ * @return A newly allocated string containing the expanded chunk.
  */
 char	*expand_chunk(char *str, t_ms *ms)
 {

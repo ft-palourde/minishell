@@ -6,22 +6,26 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:19:06 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 18:29:31 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:10:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/** @brief hd_var_expand - Expands a variable in the given string.
- * @param str The string containing the variable to expand.
- * @param env The grid of environment variables.
- * 
- * This function checks if the string starts with a '$' character,
- * extracts the variable name, retrieves its value, and constructs
- * a new string with the expanded value.
+char	*hd_var_expand(char *str, t_ms *ms);
+void	hd_add_var_to_new(char **new, char *str, t_ms *ms);
+int		add_quote_to_new(char quote, char **new);
+char	*hd_expand_chunk(char *str, t_ms *ms);
+char	*hd_expand(t_ms *ms, char *str);
+
+/**
+ * @brief Expand variables inside heredoc content.
  *
- * @returns A newly allocated string with the expanded variable,
- * or NULL on failure.
+ * Supports variable expansion with `$`.
+ *
+ * @param str The string containing a variable to expand.
+ * @param ms The minishell structure.
+ * @return A newly allocated string with the expanded variable.
  */
 char	*hd_var_expand(char *str, t_ms *ms)
 {
@@ -42,13 +46,12 @@ char	*hd_var_expand(char *str, t_ms *ms)
 	return (var_value);
 }
 
-/** @brief hd_add_var_to_new - update the expanded string to build in hd.
- * 
- * @param new the string to add expanded variables to.
- * @param str the string to expand.
- * @param i the line cursor to update.
- * @param ms the minishell structure.
- *  
+/**
+ * @brief Append an expanded variable to the heredoc string.
+ *
+ * @param new Pointer to the resulting heredoc string (modified).
+ * @param str The string to expand.
+ * @param ms The minishell structure.
  */
 void	hd_add_var_to_new(char **new, char *str, t_ms *ms)
 {
@@ -62,9 +65,12 @@ void	hd_add_var_to_new(char **new, char *str, t_ms *ms)
 	free(var);
 }
 
-/** @brief add_quote_to_new - Add quotes at beginning and end of hd content.
- * @param quote the specific quote char (simple or double)
- * @param new the final string to build.
+/**
+ * @brief Add surrounding quotes to a heredoc string.
+ *
+ * @param quote Quote character to add.
+ * @param new Pointer to the string (modified).
+ * @return Always returns 1.
  */
 int	add_quote_to_new(char quote, char **new)
 {
@@ -84,11 +90,12 @@ int	add_quote_to_new(char quote, char **new)
 	return (1);
 }
 
-/** hd_expand_chunk - expand the given chunk in heredoc case.
- * @param str The string to expand.
+/**
+ * @brief Expand a chunk of heredoc content.
+ *
+ * @param str The chunk to expand.
  * @param ms The minishell structure.
- * 
- * @returns the expanded chunk to add to the string builder.
+ * @return A newly allocated string with the expanded chunk.
  */
 char	*hd_expand_chunk(char *str, t_ms *ms)
 {
@@ -119,12 +126,14 @@ char	*hd_expand_chunk(char *str, t_ms *ms)
 	return (new);
 }
 
-/** @brief hd_expand - Browse and expand each argument of given cmd.
- * 
- * @param str The str to expand.
+/**
+ * @brief Expand the entire heredoc string.
+ *
+ * Processes variable expansions within the heredoc.
+ *
  * @param ms The minishell structure.
- * 
- * @returns the expanded string or NULL if malloc failed.
+ * @param str The string to expand.
+ * @return A newly allocated string with the expansions applied.
  */
 char	*hd_expand(t_ms *ms, char *str)
 {

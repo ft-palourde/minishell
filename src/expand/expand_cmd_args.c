@@ -6,11 +6,13 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 21:52:02 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:03:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expand_cmd_args(t_cmd **cmd, t_ms *ms);
 
 /**
  * @brief Expand all arguments of a command.
@@ -20,9 +22,6 @@
  * @param cmd Pointer to the command to expand.
  * @param ms The minishell structure.
  */
-void	expand_cmd_args(t_cmd **cmd, t_ms *ms);
-
-
 void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 {
 	int		i;
