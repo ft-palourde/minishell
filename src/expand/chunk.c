@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:21:39 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:27:51 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*get_next_chunk(char *str);
 char		*expand_chunk(char *str, t_ms *ms);
-static int	skip_until_next_trigger(char *str, int *i);
+// static int	skip_until_next_trigger(char *str, int *i);
 
 /** add_remains_until_next_trigger - Add non expandable string to expand retval.
  * @param new The string pointer to add the remains to.
@@ -94,49 +94,37 @@ char	*expand_chunk(char *str, t_ms *ms)
 	char	*new;
 	int		quote_type;
 	int		i;
+	char	*trim;
+	char	*expanded_chunk;
 
+	expanded_chunk = NULL;
 	i = 0;
 	quote_type = check_quote_type(str[0]);
-	if (quote_type == 1)
-		return (ft_strndup(str + 1, ft_strlen(str) - 2));
-	new = ft_strdup("");
-	skip_until_next_trigger(str, &i);
-	if (i - quote_type / 2)
+	if (quote_type == 1 || quote_type == 2)
+		new = ft_strndup(str + 1, ft_strlen(str) - 2);
+	else
+		new = ft_strdup(str);
+	if (!new)
+		return (NULL);
+	if (quote_type == 2)
 	{
+		trim = ft_strtrim(new, "\"");
+		if (!trim)
+			return (NULL);
 		free(new);
-		new = ft_strndup(str + quote_type / 2, i - quote_type);
-		if (!new)
+		new = trim;
+	}
+	if (quote_type == 1)
+		return (new);
+	expanded_chunk = ft_strdup("");
+	if (!expanded_chunk)
+		return (NULL);
+	while (new[i])
+	{
+		if (new[i] == '$' || new[i] == '~')
+			add_var_to_new(&expanded_chunk, new, &i, ms);
+		if (add_remains_until_next_trigger(&expanded_chunk, new, &i))
 			return (perror("minishell"), NULL);
 	}
-	while (str[i])
-	{
-		if (str[i] == '$' || str[i] == '~')
-			add_var_to_new(&new, str, &i, ms);
-		if (add_remains_until_next_trigger(&new, str, &i))
-			return (perror("minishell"), NULL);
-	}
-	return (new);
-}
-
-/** skip_until_next_trigger - Move forward in a string until stop character.
- * @str: The string to be read.
- * @i: The current index read.
- * 
- * This function browse the given string,
- * and breaks if a $ or ~ is found.
- *
- * @returns the number of char skipped.
- */
-static int	skip_until_next_trigger(char *str, int *i)
-{
-	int	skip;
-
-	skip = 0;
-	(*i) += (str[*i] == '$' && (*i) != 0);
-	while (str[*i] && str[*i] != '$' && str[*i] != '~')
-	{
-		skip++;
-		(*i)++;
-	}
-	return (skip);
+	return (expanded_chunk);
 }

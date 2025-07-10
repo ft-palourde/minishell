@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:04:32 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:29:30 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ char	*var_getter(t_ms *ms, char *str, int *j, int i)
 	char	*var_value;
 	char	*var_name;
 
+	if (ft_isdigit(str[i]))
+	{
+		(*j)++;
+		var_value = var_name_to_value(NULL, ms);
+		return (var_value);
+	}
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 	{
 		i++;
@@ -61,6 +67,8 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	(*j)++;
 	if (str[0] == '~')
 		return (expand_path(str, ms, (*j) == 1));
+	if (!str[i])
+		return (ft_strdup(str));
 	if (str[i] && str[i] == '?')
 	{
 		(*j)++;
@@ -70,7 +78,10 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 		return (ft_itoa(ms->retval));
 	}
 	if (str[i] && str[i] == '$')
+	{
+		(*j)++;
 		return (ft_get_pid());
+	}
 	return (var_getter(ms, str, j, i));
 }
 
