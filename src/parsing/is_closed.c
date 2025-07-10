@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 16:29:38 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:15:31 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	is_closed(char *str, char c)
 int	unclosed_quote(t_token *token)
 {
 	t_token	*cursor;
-	int		i;
 	int		in_single_quote;
 	int		in_double_quote;
 
@@ -68,7 +67,6 @@ int	unclosed_quote(t_token *token)
 	{
 		if (cursor->type == T_WORD)
 		{
-			i = 0;
 			in_single_quote = 0;
 			in_double_quote = 0;
 			unclosed_quote_loop(cursor, &in_double_quote, &in_single_quote);
