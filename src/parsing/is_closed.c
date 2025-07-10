@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:53:52 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:04:48 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	unclosed_quote_loop(t_token *cursor,
  * @param str String to parse.
  * @param c Character to check for closure.
  * 
- * @return Number of characters read to find the closing character, or 0 if not closed.
+ * @return Number of characters read to find the closing character,
+ *  or 0 if not closed.
  */
 int	is_closed(char *str, char c)
 {

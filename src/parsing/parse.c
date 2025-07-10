@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:59:39 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:04:20 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,15 @@ static	int	invalid_first_token(t_token *tokens)
 /**
  * @brief Check if the last token is an invalid logic or redirection token.
  * 
- * This function traverses the token list to find the last token and verifies if it is
- * a logic operator (`|`, `&&`, `||`) or a redirection operator (`<`, `>`, `>>`, `<<`).
+ * This function traverses the token list to find the last token 
+ * and verifies if it is a logic operator (`|`, `&&`, `||`)
+ * or a redirection operator (`<`, `>`, `>>`, `<<`).
  * Ending a command line with such tokens is considered a syntax error.
  * 
  * @param tokens Pointer to the head of the token linked list.
  * 
- * @return 1 if the last token is an invalid logic or redirection token, 0 otherwise.
+ * @return 1 if the last token is an invalid logic or redirection token, 
+ * 0 otherwise.
  */
 static	int	invalid_last_token(t_token *tokens)
 {
