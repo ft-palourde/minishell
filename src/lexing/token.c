@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 18:28:25 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:48:16 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	new_token->type = type;
 	dup = ft_strdup(str);
 	if (!dup)
 		return (free_token(new_token), NULL);
+	new_token->type = type;
 	new_token->str = dup;
 	new_token->next = NULL;
 	new_token->in_fd = STDIN_FILENO;

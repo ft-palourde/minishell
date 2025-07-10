@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 17:27:51 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:53:27 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ char	*expand_chunk(char *str, t_ms *ms)
 		if (add_remains_until_next_trigger(&expanded_chunk, new, &i))
 			return (perror("minishell"), NULL);
 	}
+	free(new);
 	return (expanded_chunk);
 }
