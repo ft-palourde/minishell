@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:59:06 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 21:15:31 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:53:52 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ int		is_closed(char *str, char c);
 void	unclosed_quote_loop(t_token *cursor,
 			int *in_double_quote, int *in_single_quote);
 
-/** @brief is_closed - Check if then where there is a closing occurence.
+/**
+ * @brief Check if a closing character exists, considering quotes.
  * 
- * @param str the input to read until closing quote or null byte.
- * @param c the quote set as limiter.
- *  
- * @returns returns the number of char read if found, 0 otherwise
+ * @param str String to parse.
+ * @param c Character to check for closure.
+ * 
+ * @return Number of characters read to find the closing character, or 0 if not closed.
  */
 int	is_closed(char *str, char c)
 {
@@ -50,11 +51,12 @@ int	is_closed(char *str, char c)
 	return (0);
 }
 
-/** @brief unclosed_quote - check if the given string contains a quote error.
+/**
+ * @brief Check if a token list contains unclosed quotes.
  * 
- * @param str the token->str of a word token.
- *  
- * @returns returns 1 if error, 0 otherwise.
+ * @param token Head of the token list.
+ * 
+ * @return 1 if unclosed quotes are found, 0 otherwise.
  */
 int	unclosed_quote(t_token *token)
 {
@@ -78,13 +80,14 @@ int	unclosed_quote(t_token *token)
 	return (0);
 }
 
-/** @brief unclosed_quote_loop - check if the token string contains quote error.
+/**
+ * @brief Helper function to detect unclosed quotes inside a token string.
  * 
- * @param cursor current token to check
- * @param in_double_quote double quote error boolean
- * @param in_single_quote single quote error boolean
- *  
- * Update the 2 given booleans in parent function.
+ * @param cursor Current token being analyzed.
+ * @param in_double_quote Pointer to double quote flag.
+ * @param in_single_quote Pointer to single quote flag.
+ * 
+ * This function updates the quote flags according to the content of the string.
  */
 void	unclosed_quote_loop(t_token *cursor,
 	int *in_double_quote, int *in_single_quote)

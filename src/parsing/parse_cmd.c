@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:25:12 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 18:20:09 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:55:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,12 @@ int			get_arg_count(t_token *token);
 static int	set_cmd_args(t_token *token);
 int			merge_word_tokens(t_token *token, int i);
 
-/* 
-allocate a new t_cmd struct and fill it with the command and its arguments
-the command is the first word in the token list
-the arguments are the words that follow the command
-the command is stored in token->data->cmd->args[0]
-if the command is a builtin, is_builtin is set to true
-*/
-
-/** @brief parse_cmd - alloc the union and initiate cmd in current token.
+/**
+ * @brief Parse a command token, allocate its data and set its arguments.
  * 
- * @param token the current token to set as CMD.
+ * @param token Token to parse and convert to CMD type.
  * 
- * Set its boolean is_builtin.
- * Fills the cmd args.
- * Changes WORD type to CMD.
+ * @return 0 on success, 1 on failure.
  */
 int	parse_cmd(t_token *token)
 {
@@ -58,11 +49,12 @@ int	parse_cmd(t_token *token)
 	return (0);
 }
 
-/** @brief is_builtin_cmd - check if the given command is a builtin.
+/**
+ * @brief Check if a command is a shell builtin.
  * 
- * @param cmd the command to compare with builtins.
- *  
- * @returns returns 1 if true, 0 otherwise.
+ * @param cmd Command string to check.
+ * 
+ * @return true if it's a builtin, false otherwise.
  */
 static bool	is_builtin_cmd(const char *cmd)
 {
@@ -72,14 +64,12 @@ static bool	is_builtin_cmd(const char *cmd)
 		|| !ft_strcmp(cmd, "exit"));
 }
 
-/* 
-returns the number of arguments in the command, including the command itself
-*/
-/** @brief get_arg_count - Counts the number of WORD token after a CMD.
+/**
+ * @brief Count the number of consecutive WORD tokens (arguments).
  * 
- * @param token the current CMD.
- *  
- * @returns the number of args to merge (int).
+ * @param token Current token.
+ * 
+ * @return Number of argument tokens.
  */
 int	get_arg_count(t_token *token)
 {
@@ -94,12 +84,12 @@ int	get_arg_count(t_token *token)
 	return (count);
 }
 
-/** @brief set_cmd_args - Alloc and fill cmd args.
+/**
+ * @brief Set command arguments by allocating and copying tokens.
  * 
- * @param token the t_token of type CMD to complete.
+ * @param token Token to populate with command arguments.
  * 
- * Get the count of args to set, alloc the cmd args array.
- * Then merge the next args tokens in the current cmd token.
+ * @return 0 on success, 1 on failure.
  */
 static int	set_cmd_args(t_token *token)
 {
@@ -120,11 +110,13 @@ static int	set_cmd_args(t_token *token)
 	return (0);
 }
 
-/** @brief merge_word_tokens - merge the next word tokens as cmd args.
+/**
+ * @brief Merge consecutive WORD tokens into command arguments.
  * 
- * @param token the cmd token.
- * Set each next word token->str as current cmd token args, 
- * and free each next word token set as args.
+ * @param token Command token to populate.
+ * @param i Index counter for arguments (usually starts at 0).
+ * 
+ * @return 0 on success, 1 on failure.
  */
 int	merge_word_tokens(t_token *token, int i)
 {

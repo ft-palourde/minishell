@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:29:44 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 18:05:19 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:56:28 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int			parse_rd_file(t_token *token);
 static int	set_rd(t_token *token);
 
-/** @brief parse_rd_file - Alloc and fill rd data.
+/**
+ * @brief Parse a redirection token, allocate its data and set its file.
  * 
- * @param token the t_token of type rd to complete.
+ * @param token Redirection token to parse.
  * 
- * Alloc union u_data, then set rd data.
+ * @return 0 on success, 1 on failure.
  */
 int	parse_rd_file(t_token *token)
 {
@@ -41,13 +42,12 @@ int	parse_rd_file(t_token *token)
 	return (set_rd(token));
 }
 
-/** @brief set_rd - Alloc and fill redirect data.
+/**
+ * @brief Set the redirection file from the next token.
  * 
- * @param token the t_token of type redir to complete.
+ * @param token Redirection token to complete.
  * 
- * Alloc rd file struct.
- * Get the next token str, set it as current redir filename.
- * Free the next WORD token.
+ * @return 0 on success, 1 on failure.
  */
 static int	set_rd(t_token *token)
 {

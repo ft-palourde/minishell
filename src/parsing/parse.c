@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:14:14 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 18:07:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:59:39 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ static	int	invalid_first_token(t_token *tokens);
 static	int	invalid_last_token(t_token *tokens);
 static	int	handle_cursor(t_token *cursor);
 
-/** @brief parse - .
+/**
+ * @brief Parse the input string into a token list and check syntax errors.
  * 
- * @param input the readline input.
+ * @param input Input string to parse.
  * 
- * Get an initialized t_token list with lexer().
- * If there is any syntax error, it stops here and leave properly.
- * If the list is correct, it is reworked to complete each token data.
+ * @return Pointer to the head of the token list, or NULL on error.
  */
 t_token	*parse(char *input)
 {
@@ -48,11 +47,12 @@ t_token	*parse(char *input)
 	return (tokens);
 }
 
-/** @brief handle_cursor - Set the correct type to the token.
+/**
+ * @brief Handle a token during parsing, dispatching according to its type.
  * 
- * @param cursor the current token read.
+ * @param cursor Current token to handle.
  * 
- * Switch case between different types of redir.
+ * @return 0 on success, 1 on failure.
  */
 static	int	handle_cursor(t_token *cursor)
 {
@@ -75,11 +75,12 @@ static	int	handle_cursor(t_token *cursor)
 	return (err);
 }
 
-/** @brief check_syntax_error - Triggers syntax check functions.
+/**
+ * @brief Check the token list for syntax errors.
  * 
- * @param token the list of t_token head.
+ * @param tokens Head of the token list.
  * 
- * @returns 1 if syntax error, 0 otherwise
+ * @return 1 if syntax error detected, 0 otherwise.
  */
 int	check_syntax_error(t_token *tokens)
 {
@@ -110,11 +111,16 @@ int	check_syntax_error(t_token *tokens)
 	return (0);
 }
 
-/** @brief invalid_first_token - Check if there is a logic token on start.
+/** 
+ * @brief Check if the first token is an invalid logic operator.
  * 
- * @param token the t_token head.
+ * This function checks whether the first token in the list is a logical operator
+ * that cannot start a command line, such as a pipe (`|`), logical AND (`&&`),
+ * or logical OR (`||`). Starting with these tokens is considered a syntax error.
  * 
- * @returns 1 if error, 0 otherwise
+ * @param tokens Pointer to the head of the token linked list.
+ * 
+ * @return 1 if the first token is an invalid logic token, 0 otherwise.
  */
 static	int	invalid_first_token(t_token *tokens)
 {
@@ -126,11 +132,16 @@ static	int	invalid_first_token(t_token *tokens)
 	return (0);
 }
 
-/** @brief invalid_last_token - Check if there is a logic token at the end.
+/**
+ * @brief Check if the last token is an invalid logic or redirection token.
  * 
- * @param token the t_token head.
+ * This function traverses the token list to find the last token and verifies if it is
+ * a logic operator (`|`, `&&`, `||`) or a redirection operator (`<`, `>`, `>>`, `<<`).
+ * Ending a command line with such tokens is considered a syntax error.
  * 
- * @returns 1 if error, 0 otherwise
+ * @param tokens Pointer to the head of the token linked list.
+ * 
+ * @return 1 if the last token is an invalid logic or redirection token, 0 otherwise.
  */
 static	int	invalid_last_token(t_token *tokens)
 {

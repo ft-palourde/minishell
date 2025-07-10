@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:09:19 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 14:50:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:56:40 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int		is_word(t_token *token);
 
-/** is_word - Compares a token type to T_WORD.
- * @token: the token to check the type to.
+/**
+ * @brief Check if a token is of type T_WORD.
  * 
- * Check if the given token's type is T_WORD.
+ * @param token Token to check.
  * 
- * Returns: 1 if true, 0 if false.
+ * @return 1 if token is a word, 0 otherwise.
  */
 int	is_word(t_token *token)
 {
