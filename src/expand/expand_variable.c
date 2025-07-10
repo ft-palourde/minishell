@@ -6,55 +6,18 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 21:51:57 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:00:27 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Get the value of a variable from its name.
- *
- * Searches the environment for the given variable name and returns its value.
- *
- * @param name The name of the variable (can be NULL for special cases).
- * @param ms The minishell structure containing the environment.
- * @return A newly allocated string with the variable value, or NULL on error.
- */
-char	*var_name_to_value(char *name, t_ms *ms);
-
-/**
- * @brief Expand a variable or special character in the string.
- *
- * Supports environment variables, `$?` (exit code), `$$` (PID), and `~` (home).
- *
- * @param str The string to expand (starting at '$' or '~').
- * @param j Pointer to cursor position in the original string (updated).
- * @param ms The minishell structure.
- * @return A newly allocated string containing the expanded value.
- */
+char	*var_getter(t_ms *ms, char *str, int *j, int i);
 char	*var_expand(char *str, int *j, t_ms *ms);
-
-/**
- * @brief Append an expanded variable to the resulting string.
- *
- * Expands the variable at the current position and appends it to *new.
- *
- * @param new Pointer to the resulting string (modified).
- * @param str The string containing variables to expand.
- * @param i Pointer to cursor position in str (updated).
- * @param ms The minishell structure.
- */
+char	*var_name_to_value(char *name, t_ms *ms);
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms);
-
-/**
- * @brief Get the current process PID as a string.
- *
- * Reads /proc/self/stat to retrieve the PID.
- *
- * @return A newly allocated string with the PID, or NULL on error.
- */
 char	*ft_get_pid(void);
+
 
 /**
  * @brief var_getter - Retrieves the value of an environment variable.
@@ -77,8 +40,6 @@ char	*ft_get_pid(void);
  * or an empty string if the variable does not exist. Returns NULL in
  * case of memory allocation failure.
  */
-char	*var_getter(t_ms *ms, char *str, int *j, int i);
-
 char	*var_getter(t_ms *ms, char *str, int *j, int i)
 {
 	char	*var_value;
@@ -101,7 +62,16 @@ char	*var_getter(t_ms *ms, char *str, int *j, int i)
 	var_value = var_name_to_value(var_name, ms);
 	return (free(var_name), var_value);
 }
-
+/**
+ * @brief Expand a variable or special character in the string.
+ *
+ * Supports environment variables, `$?` (exit code), `$$` (PID), and `~` (home).
+ *
+ * @param str The string to expand (starting at '$' or '~').
+ * @param j Pointer to cursor position in the original string (updated).
+ * @param ms The minishell structure.
+ * @return A newly allocated string containing the expanded value.
+ */
 char	*var_expand(char *str, int *j, t_ms *ms)
 {
 	int		i;
@@ -130,6 +100,15 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	return (var_getter(ms, str, j, i));
 }
 
+/**
+ * @brief Get the value of a variable from its name.
+ *
+ * Searches the environment for the given variable name and returns its value.
+ *
+ * @param name The name of the variable (can be NULL for special cases).
+ * @param ms The minishell structure containing the environment.
+ * @return A newly allocated string with the variable value, or NULL on error.
+ */
 char	*var_name_to_value(char *name, t_ms *ms)
 {
 	int		i;
@@ -156,6 +135,16 @@ char	*var_name_to_value(char *name, t_ms *ms)
 	return (value);
 }
 
+/**
+ * @brief Append an expanded variable to the resulting string.
+ *
+ * Expands the variable at the current position and appends it to *new.
+ *
+ * @param new Pointer to the resulting string (modified).
+ * @param str The string containing variables to expand.
+ * @param i Pointer to cursor position in str (updated).
+ * @param ms The minishell structure.
+ */
 void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 {
 	char	*tmp;
@@ -173,6 +162,13 @@ void	add_var_to_new(char **new, char *str, int *i, t_ms *ms)
 	free(var);
 }
 
+/**
+ * @brief Get the current process PID as a string.
+ *
+ * Reads /proc/self/stat to retrieve the PID.
+ *
+ * @return A newly allocated string with the PID, or NULL on error.
+ */
 char	*ft_get_pid(void)
 {
 	int		fd;
