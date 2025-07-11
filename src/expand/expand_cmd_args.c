@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/11 14:21:30 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:09:58 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,3 +135,26 @@ void	insert_arg_at(char ***args, int pos, const char *new_arg)
 	*args = new_args;
 }
 
+/* bool    ft_is_splitable(char *value)
+{
+    int        i;
+    bool    sp_quote;
+    bool    db_quote;
+
+    if (ft_strchr(value, ' ') == NULL || ft_strchr(value, '|') != NULL)
+        return (false);
+    sp_quote = false;
+    db_quote = false;
+    i = 0;
+    while (value[i])
+    {
+        if (value[i] == '\'' && !db_quote)
+            sp_quote = !sp_quote;
+        else if (value[i] == '\"' && !sp_quote)
+            db_quote = !db_quote;
+        if (value[i] == ' ' && (!sp_quote && !db_quote))
+            return (true);
+        i++;
+    }
+    return (false);
+} */
