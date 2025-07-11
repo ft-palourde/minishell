@@ -162,6 +162,8 @@ int	is_var(char *var)
 		i++;
 	while (var[i])
 	{
+		if (!has_sign && (!ft_isalnum(var[i]) && var[i] != '_'))
+			return (0);
 		if (var[i] == '=')
 			has_sign = 1;
 		else
