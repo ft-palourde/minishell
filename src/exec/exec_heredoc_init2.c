@@ -35,10 +35,15 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || g_sig == SIGINT)
+		if (!line)
 		{
-			abort_heredoc(ms, fd);
-			exit(130);
+			if (g_sig == SIGINT)
+			{
+				abort_heredoc(ms, fd);
+				exit(130);
+			}
+			else
+				break ;
 		}
 		if (!ft_strncmp(line, lim, ft_strlen(lim))
 			&& ft_strlen(line) == ft_strlen(lim))

@@ -22,22 +22,27 @@
 int	print_export(char **env)
 {
 	int		i;
-	char	*name;
-	char	*value;
+	int		j;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
-		name = get_var_name(env[i]);
-		if (!name)
-			return (1);
-		value = get_var_value(env[i]);
-		if (!value)
-			return (free(name), 1);
-		printf("export %s=\"%s\"\n", name, value);
-		free(name);
-		free(value);
-		i++;
+		j = 0;
+		ft_putstr_fd("export ", STDOUT_FILENO);
+		while (env[i][j] && env[i][j] != '=')
+		{
+			write(STDOUT_FILENO, &env[i][j], 1);
+			j++;
+		}
+		if (!env[i][j])
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			continue ;
+		}
+		write(STDOUT_FILENO, "=\"", 2);
+		while (env[i][++j])
+			write(STDOUT_FILENO, &env[i][j], 1);
+		write(STDOUT_FILENO, "\"\n", 2);
 	}
 	reverse_cascade_free(env, split_len(env));
 	return (0);
@@ -48,7 +53,7 @@ int	print_export(char **env)
  * 
  * sort a copy of the env and displays it on STDOUT
  *
- * Returns: 0
+ * Returns: 1 on malloc fail or 0
  */
 int	display_sort(char **env)
 {
@@ -110,44 +115,6 @@ char	*check_var(char *var)
 	return (new_var);
 }
 
-/** export - add a variable
- * @env: ms->env
- * @var: environnement variable to set
- * 
- * realloc the environnement with one more string to copy the new variable to
- *
- * Returns: the new env 
- * or the old env if malloc failed or the variable cant be set
- */
-static char	**export(char **env, char *var)
-{
-	int		env_len;
-	int		i;
-	char	**new_env;
-	char	*new_var;
-
-	new_var = check_var(var);
-	if (!new_var)
-		return (env);
-	env_len = split_len(env);
-	new_env = ft_calloc(env_len + 2, sizeof(char *));
-	if (!new_env)
-		return (perror("minishell"), env);
-	i = 0;
-	while (env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		if (!new_env[i])
-			return (perror ("malloc"), reverse_cascade_free(new_env, i), env);
-		i++;
-	}
-	new_env[i] = ft_strdup(new_var);
-	free(new_var);
-	if (!new_env[i])
-		return (reverse_cascade_free(new_env, i), perror("minishell"), env);
-	return (reverse_cascade_free(env, i - 1), new_env);
-}
-
 int	var_is_legal(char *var_name)
 {
 	int	i;
@@ -199,7 +166,7 @@ int	xprt_get_var_name(char *var, char **var_name)
 	return (has_sign);
 }
 
-int	is_set(char *var_name, char **env, int has_content)
+int	xprt_is_set(char *var_name, char **env, int has_content)
 {
 	int	len;
 	int	i;
@@ -209,42 +176,62 @@ int	is_set(char *var_name, char **env, int has_content)
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], var_name, len))
-			if (env[i][len + 1] && env[i][len + 1] == '=')
+			if ((env[i][len] && env[i][len] == '=') || !env[i][len])
 				return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-int	xprt_replace(char *var_name, char *var_content, char **env, int i)
+int	xprt_replace(char *var_name, char *var_content, t_ms *ms, int i)
 {
 	char	*new_var;
 
 	new_var = ft_strjoin(var_name, var_content);
+	free(var_content);
 	if (!new_var)
 		return (perror("Minishell"), 1);
-	free(env[i]);
-	env[i] = new_var;
+	free(ms->env[i]);
+	ms->env[i] = new_var;
 	return (0);
 }
 
-int	xprt_set(char *var_name, char *var_content, char **env, int has_content)
+int	xprt_set(char *var_name, char *var_content, t_ms *ms, int has_content)
 {
+	char	*new_var;
 	char	**new_env;
 	int		len;
+	int		i;
 
-	len = split_len(env) + 1;
-	new_env = ft_realloc(env, len + 1);
+	i = 0;
+	if (has_content)
+	{
+		new_var = ft_strjoin(var_name, var_content);
+		free(var_content);
+	}
+	else
+		new_var = ft_strdup(var_name);
+	if (!new_var)
+		return (perror("Minishell"), 1);
+	len = split_len(ms->env);
+	new_env = ft_calloc((len + 2), sizeof(char *));
 	if (!new_env)
 		return (perror("Minishell"), 1);
-	
-
-	//creer une copie de l'env avec une place en plus
+	while (ms->env[i])
+	{
+		new_env[i] = ms->env[i];
+		i++;
+	}
+	new_env[len] = new_var;
+	free(ms->env);
+	ms->env = new_env;
+	return (0);
+	// creer une copie de l'env avec une place en plus
 	// si content : strjoin var_name et content
 	// ajouter var_name a la fin
 }
 
-int	export_loop(char *arg, char ***env)
+int	xprt_loop(char *arg, t_ms *ms)
 {
 	int		has_content;
 	int		env_index;
@@ -258,14 +245,18 @@ int	export_loop(char *arg, char ***env)
 		return (free(var_name), 1);
 	if (has_content && xprt_get_var_content(arg, &var_content))
 		return (free(var_name), 1);
-	env_index = is_set(var_name, *env, has_content);
-	if (env_index)
-		if (has_content && xprt_replace(var_name, var_content, *env, env_index))
-			return (free(var_name), free(var_content), 1);
+	env_index = xprt_is_set(var_name, ms->env, has_content);
+	if (env_index != -1)
+	{
+		if (has_content && xprt_replace(var_name, var_content, ms, env_index))
+			return (free(var_name), 1);
+	}
 	else
-		if (xprt_set(var_name, var_content, *env, has_content))
+	{
+		if (xprt_set(var_name, var_content, ms, has_content))
 			return (free(var_name), free(var_content), 1);
-	return (free(var_name), free(var_content), 1);
+	}
+	return (free(var_name), 1);
 }
 
 /** bi_export - Builtin export
@@ -278,21 +269,20 @@ int	export_loop(char *arg, char ***env)
  *
  * Returns: 1 on malloc failed, 0 else
  */
-int	bi_export(char ***env, char **arg)
+int	bi_export(t_ms *ms, char **arg)
 {
 	int		i;
-	char	*to_unset;
 
 	i = 0;
 	if (!arg || !arg[0])
 	{
-		if (display_sort(set_env(*env)))
+		if (display_sort(set_env(ms->env)))
 			return (1);
 		return (0);
 	}
 	while (arg[i])
 	{
-		export_loop(arg[i], env);
+		xprt_loop(arg[i], ms);
 		i++;
 	}
 	return (0);
