@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/11 14:00:05 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:21:30 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 		}
 		insert_expanded(&cmd_to_expand->args, &i, sdup);
 		free(tmp);
+		i++;
 	}
 	return ;
 }
@@ -57,8 +58,10 @@ void	insert_expanded(char ***args, int *i, char *exp_arg)
 	char	**split_args;
 	int		count;
 	int		j;
+	int		is_quoted;
 
-	if (check_quote_type((*args)[*i][0]))
+	is_quoted = check_quote_type((*args)[*i][0]);
+	if (is_quoted)
 	{
 		free((*args)[*i]);
 		(*args)[*i] = exp_arg;
@@ -96,10 +99,11 @@ void	insert_expanded(char ***args, int *i, char *exp_arg)
 
 void	insert_arg_at(char ***args, int pos, const char *new_arg)
 {
-	int		count = 0;
+	int		count;
 	int		j;
 	char	**new_args;
 
+	count = 0;
 	while ((*args)[count])
 		count++;
 	new_args = malloc(sizeof(char *) * (count + 2));
