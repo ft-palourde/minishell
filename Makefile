@@ -6,7 +6,7 @@
 #    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/07/09 18:55:55 by rcochran         ###   ########.fr        #
+#    Updated: 2025/07/10 21:55:46 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,13 +58,13 @@ FILES		= 	builtin/builtin_cd\
 				exec/exec_redir\
 				exec/exec_tree\
 				exec/exec_utils\
-				expand/chunk \
-				expand/exp_cmd_args \
+				expand/expand_chunk \
+				expand/expand_cmd_args \
 				expand/expand_heredocs \
 				expand/expand_path \
 				expand/expand_str \
 				expand/expand_utils \
-				expand/variable \
+				expand/expand_variable \
 				lexing/lexer_utils \
 				lexing/lexer \
 				lexing/operator \

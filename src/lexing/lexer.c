@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:26:25 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 15:32:02 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:38:24 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@ t_token	*fill_tokens(char *input, int i, t_token *tokens);
 int		extract_word_len(const char *input);
 int		handle_word(char *input, t_token **tokens);
 
-/** lexer - Divide given input into separated tokens.
- * @input: readline output.
- * 
- * Create a new t_token list.
- * For each token :
- * - set its token->type
- * - set its token->str
- * 
- * Returns: The t_token list.
+/**
+ * @brief Tokenize the given input string.
+ *
+ * @param input The string to tokenize (usually from readline).
+ * @return t_token* A linked list of tokens, or NULL on error.
  */
 t_token	*lexer(char *input)
 {
@@ -42,20 +38,13 @@ t_token	*lexer(char *input)
 	return (tokens);
 }
 
-/** fill_tokens - Fill the given tokens list.
- * @input: readline output.
- * @i: current index of the cursor.
- * @tokens: the token list to add each new token to.
- * 
- * Reads the string at the current index and skip the whitespaces.
- * 
- * Depending on the case, trigger a function either 
- * to manage an operator or to manage a word.
- * A new token is created in those functions.
- * 
- * Then the current index is increased by the length of the new created token.
- * 
- * Returns: The updated t_token list, or NULL if an error occurs.
+/**
+ * @brief Fill the token list by parsing the input string.
+ *
+ * @param input The string to tokenize.
+ * @param i Current position in the input string.
+ * @param tokens Pointer to the current token list.
+ * @return t_token* Updated token list, or NULL on error.
  */
 t_token	*fill_tokens(char *input, int i, t_token *tokens)
 {
@@ -85,12 +74,14 @@ t_token	*fill_tokens(char *input, int i, t_token *tokens)
 	return (tokens);
 }
 
-/** extract_word_len - Get the word length.
- * @input: current pointer on the given string from readline prompt.
+/**
+ * @brief Calculate the length of the next word token.
  *
- * The "word" is defined between unquoted operator and spaces.
- * 
- * Returns: The length (int) of the "word" token.
+ * A "word" is defined as a sequence of characters until a space or operator,
+ * considering quoted substrings as part of the word.
+ *
+ * @param input Pointer to the current position in the input string.
+ * @return int Length of the word token.
  */
 int	extract_word_len(const char *input)
 {
@@ -114,15 +105,12 @@ int	extract_word_len(const char *input)
 	return (i);
 }
 
-/** handle_word - Set the current input as WORD Token.
- * @input: current read string.
- * @tokens: the list of tokens to add the new token to.
+/**
+ * @brief Create a word token and add it to the token list.
  *
- * Get the length of the word.
- * Malloc a new token, initiate it with the string as token->str.
- * Then add it to the token list.
- * 
- * Returns: the length (int) of the input set as word.
+ * @param input The current position in the input string.
+ * @param tokens Pointer to the token list.
+ * @return int Length of the word token added, or 0 on error.
  */
 int	handle_word(char *input, t_token **tokens)
 {
@@ -138,8 +126,6 @@ int	handle_word(char *input, t_token **tokens)
 	if (!new)
 		return (free(str), perror("minishell"), 0);
 	free(str);
-	if (!new)
-		return (0);
 	ft_memset(&new->data, 0, sizeof(new->data));
 	add_to_tokens(new, tokens);
 	return (len);

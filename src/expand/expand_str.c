@@ -6,25 +6,25 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:03 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 17:31:10 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:07:01 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*expand_loop(t_ms *ms, char *str, char **new, int *i);
 char	*str_expand(char *str, t_ms *ms);
 
-/** expand_loop - .
+/**
+ * @brief Internal loop for string expansion.
+ *
+ * Processes the string chunk by chunk and appends expanded parts.
+ *
  * @param ms The minishell structure.
  * @param str The string to expand.
- * @param new The array to add the expansion to.
- * @param i The line cursor.
- * 
- * Divide the string into several chunks.
- * Expand each chunk.
- * Add each result to the string builder.
- *
- * @returns the string.
+ * @param new Pointer to the expanded string being built.
+ * @param i Pointer to current index in str (updated).
+ * @return Pointer to the expanded string.
  */
 char	*expand_loop(t_ms *ms, char *str, char **new, int *i)
 {
@@ -52,15 +52,14 @@ char	*expand_loop(t_ms *ms, char *str, char **new, int *i)
 	return (*new);
 }
 
-/** @brief str_expand - Replace each expandable variable by its value.
- * 
+/**
+ * @brief Expand all variables and special characters in a string.
+ *
+ * Performs variable and path expansions over the entire string.
+ *
  * @param str The string to expand.
  * @param ms The minishell structure.
- * 
- * Create a new string, divide the string into several chunks.
- * Expand each chunk then add the result to the string.
- *
- * @returns the new string with expanded values.
+ * @return A newly allocated string with all expansions applied.
  */
 char	*str_expand(char *str, t_ms *ms)
 {

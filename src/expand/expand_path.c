@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:33:45 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 17:43:57 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:48:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 char	*expand_path(char *str, t_ms *ms, int exp);
 
-/** @brief expand_path - Get the HOME value in env.
- * 
- * @param str The string to expand.
+/**
+ * @brief Expand tilde (`~`) to the home directory.
+ *
+ * Handles cases like `~` and `~/...`.
+ *
+ * @param str The string to expand (starting with '~').
  * @param ms The minishell structure.
- * @param exp boolean
- * 
- * If the boolean is 0 return NULL, else get the HOME var value.
- * 
- * @returns HOME var value or NULL.
+ * @param exp Boolean flag (1 = expand, 0 = don't expand).
+ * @return A newly allocated string with the expanded path or NULL on error.
  */
 char	*expand_path(char *str, t_ms *ms, int exp)
 {

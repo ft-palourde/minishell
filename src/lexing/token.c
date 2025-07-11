@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 15:40:02 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:34:44 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	add_to_tokens(t_token *new_token, t_token **tokens);
 void	free_token(t_token *token);
 void	free_tokens(t_token *tokens);
 
+/**
+ * @brief Construct a new token object.
+ * 
+ * @param type The type of the token.
+ * @param str The string value of the token.
+ * 
+ * @return A pointer to the newly allocated t_token, or NULL on error.
+ */
 t_token	*constr_new_token(t_token_type type, char *str)
 {
 	t_token	*new_token;
@@ -27,10 +35,10 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	new_token->type = type;
 	dup = ft_strdup(str);
 	if (!dup)
 		return (free_token(new_token), NULL);
+	new_token->type = type;
 	new_token->str = dup;
 	new_token->next = NULL;
 	new_token->in_fd = STDIN_FILENO;
@@ -39,6 +47,12 @@ t_token	*constr_new_token(t_token_type type, char *str)
 	return (new_token);
 }
 
+/**
+ * @brief Add a new token to the end of the tokens list.
+ * 
+ * @param new_token The token to add.
+ * @param tokens Pointer to the head of the tokens list.
+ */
 void	add_to_tokens(t_token *new_token, t_token **tokens)
 {
 	t_token	*tmp;
@@ -54,6 +68,11 @@ void	add_to_tokens(t_token *new_token, t_token **tokens)
 	}
 }
 
+/**
+ * @brief Free a single token.
+ * 
+ * @param token The token to free.
+ */
 void	free_token(t_token *token)
 {
 	if (token)
@@ -77,6 +96,11 @@ void	free_token(t_token *token)
 	return ;
 }
 
+/**
+ * @brief Free the entire list of tokens.
+ * 
+ * @param head Pointer to the head of the tokens list.
+ */
 void	free_tokens(t_token *head)
 {
 	t_token	*cursor;

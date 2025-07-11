@@ -6,47 +6,47 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:29:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 16:50:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:56:07 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		parse_heredoc(t_token *token);
-static void	set_hd(t_token *token);
+int			parse_heredoc(t_token *token);
+static int	set_hd(t_token *token);
 
-/** @brief parse_heredoc - Alloc and fill heredoc data.
+/**
+ * @brief Parse a heredoc token, allocate its data and set its limiter.
  * 
- * @param token the t_token of type heredoc to complete.
+ * @param token Heredoc token to parse.
  * 
- * Alloc union u_data, then set rd data.
+ * @return 0 on success, 1 on failure.
  */
-void	parse_heredoc(t_token *token)
+int	parse_heredoc(t_token *token)
 {
 	if (!token || token->type != T_HEREDOC)
-		return ;
+		return (1);
 	token->data = malloc(sizeof(union u_data));
 	if (!token->data)
-		return ;
+		return (1);
 	token->data->rd = malloc(sizeof(t_rd));
 	if (!token->data->rd)
 	{
 		free(token->data);
 		token->data = NULL;
-		return ;
+		return (1);
 	}
-	set_hd(token);
-	return ;
+	return (set_hd(token));
 }
 
-/** @brief set_hd - Fills token rd data with heredoc data.
+/**
+ * @brief Set the heredoc limiter from the next token.
  * 
- * @param token the t_token of type HEREDOC to complete.
+ * @param token Heredoc token to complete.
  * 
- * Set the next token str as heredoc limiter.
- * Free the next token.
+ * @return 0 on success, 1 on failure.
  */
-static void	set_hd(t_token *token)
+static int	set_hd(t_token *token)
 {
 	t_token	*tmp;
 
@@ -55,16 +55,17 @@ static void	set_hd(t_token *token)
 	{
 		free(token->data->rd);
 		token->data->rd = NULL;
-		return ;
+		return (1);
 	}
 	token->data->rd->heredoc->lim = ft_strdup(token->next->str);
-	if (!token->data->rd->file->filename)
+	if (!token->data->rd->heredoc->lim)
 	{
 		free(token->data->rd);
 		token->data->rd = NULL;
-		return ;
+		return (1);
 	}
 	tmp = token->next;
 	token->next = token->next->next;
 	free_token(tmp);
+	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_cmd_args.c                                     :+:      :+:    :+:   */
+/*   expand_cmd_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:13:41 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:03:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	expand_cmd_args(t_cmd **cmd, t_ms *ms);
 
-/** @brief expand_cmd_args - Browse and expand each argument of given cmd.
- * 
- * @param cmd The cmd whose arguments must be expanded.
+/**
+ * @brief Expand all arguments of a command.
+ *
+ * Applies variable expansion to each argument in the command.
+ *
+ * @param cmd Pointer to the command to expand.
  * @param ms The minishell structure.
- * 
- * @returns HOME var value or NULL.
  */
 void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 {
@@ -39,10 +40,10 @@ void	expand_cmd_args(t_cmd **cmd, t_ms *ms)
 		tmp = str_expand(cmd_to_expand->args[i], ms);
 		if (!tmp)
 			return (perror("minishell"));
-		free(cmd_to_expand->args[i]);
 		sdup = ft_strdup(tmp);
 		if (!sdup)
 			return (free(tmp), perror("minishell"));
+		free(cmd_to_expand->args[i]);
 		cmd_to_expand->args[i] = sdup;
 		free(tmp);
 		i++;

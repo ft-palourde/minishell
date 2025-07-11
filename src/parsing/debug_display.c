@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_display.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:11:50 by rcochran          #+#    #+#             */
-/*   Updated: 2025/05/26 17:40:44 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:54:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void		debug_display_token_args(t_token *tokens);
 void		debug_display_token_cmd(t_token *token, char *type_str);
 void		debug_display_token_rd(t_token *token, char *type_str);
 
+/**
+ * @brief Display a list of tokens and their types for debugging.
+ * 
+ * @param tokens Head of the token list.
+ */
 void	display_tokens(t_token *tokens)
 {
 	t_token	*cursor;
@@ -37,6 +42,13 @@ void	display_tokens(t_token *tokens)
 	}
 }
 
+/**
+ * @brief Helper function to get a string representation of a token type.
+ * 
+ * @param token Token to analyze.
+ * 
+ * @return String corresponding to the token type.
+ */
 static char	*get_token_type_str(t_token *token)
 {
 	if (token->type == T_WORD)
@@ -61,6 +73,11 @@ static char	*get_token_type_str(t_token *token)
 		return ("UNKNOWN");
 }
 
+/**
+ * @brief Debug function to display tokens with their arguments and redirections.
+ * 
+ * @param tokens Head of the token list.
+ */
 void	debug_display_token_args(t_token *tokens)
 {
 	t_token	*cursor;
@@ -89,6 +106,12 @@ void	debug_display_token_args(t_token *tokens)
 	}
 }
 
+/**
+ * @brief Display the arguments of a command token for debugging.
+ * 
+ * @param token Command token.
+ * @param type_str String representation of the token type.
+ */
 void	debug_display_token_cmd(t_token *token, char *type_str)
 {
 	int	i;
@@ -106,6 +129,12 @@ void	debug_display_token_cmd(t_token *token, char *type_str)
 	return ;
 }
 
+/**
+ * @brief Display the details of a redirection token for debugging.
+ * 
+ * @param token Redirection token.
+ * @param type_str String representation of the token type.
+ */
 void	debug_display_token_rd(t_token *token, char *type_str)
 {
 	if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:10:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 16:12:22 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:39:38 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,26 @@
 int		is_quote(char c);
 int		get_quoted_len(char quote, char *str);
 
-/** is_quote - Read a char and return if it is a quote char.
- * @c: The char read compared to simple and double quote.
+/**
+ * @brief Check if the character is a quote character.
  *
- * Returns: An int as boolean, 1 true, 0 false.
+ * @param c The character to check.
+ * @return int 1 if it is a quote, 0 otherwise.
  */
 int	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }
 
-/** get_quoted_len - Get the len of the str between 2 same and unescaped quotes.
- * @quote: quote set as limiter.
- * @input: str to read until limiter.
- * 
- * Returns: The len (int) of the part between same quote type.
+/**
+ * @brief Get the length of the substring enclosed by the given quote character.
+ *
+ * This function assumes the starting quote is already matched and counts
+ * characters until the closing quote of the same type.
+ *
+ * @param quote The quote character used as a delimiter.
+ * @param input The string to parse.
+ * @return int The length of the quoted substring, including the closing quote.
  */
 int	get_quoted_len(char quote, char *input)
 {
