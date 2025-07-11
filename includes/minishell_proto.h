@@ -112,6 +112,7 @@ char			*get_var_name(char *var);
 int				var_exists(char **env, char *var);
 int				var_is_empty(char *var);
 int				is_var(char *var);
+int				var_is_legal(char *var_name);
 
 int				split_len(char **split);
 

@@ -58,6 +58,8 @@ int	move_dir(char *path, t_ms *ms)
 		if (!path)
 			return (0);
 	}
+	if (!path[0])
+		return (0);
 	ret = chdir((const char *)path);
 	if (ret)
 		errors_cd(path);

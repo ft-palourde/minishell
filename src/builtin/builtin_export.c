@@ -84,53 +84,6 @@ int	display_sort(char **env)
 	return (print_export(env));
 }
 
-/** check_var - checks if the variable is well formated
- * @var: environnement variable to set
- * 
- * checks if the variable contains an '=' sign and add it if needed
- *
- * Returns: NULL on malloc failed or the mallocd variable
- */
-char	*check_var(char *var)
-{
-	int		i;
-	char	*new_var;
-
-	new_var = 0;
-	if (!var)
-		return (NULL);
-	i = 0;
-	while (var[i] && var[i] != '=')
-		i++;
-	if (var[i] != '=')
-	{
-		new_var = ft_strjoin(var, "=");
-		if (!new_var)
-			return (perror("minishell"), NULL);
-	}
-	else
-		new_var = ft_strdup(var);
-	if (!i || (new_var && !new_var[i]))
-		return (free(new_var), NULL);
-	return (new_var);
-}
-
-int	var_is_legal(char *var_name)
-{
-	int	i;
-
-	i = 0;
-	if (!var_name || !ft_isalpha(var_name[0]))
-		return (0);
-	while (var_name[i] && var_name[i] != '=')
-	{
-		if (!ft_isalnum(var_name[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	xprt_get_var_content(char *var, char **var_content)
 {
 	int	i;

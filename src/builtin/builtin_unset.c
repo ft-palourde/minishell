@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+int	var_is_legal(char *var_name)
+{
+	int	i;
+
+	i = 0;
+	if (!var_name || !ft_isalpha(var_name[0]))
+		return (0);
+	while (var_name[i] && var_name[i] != '=')
+	{
+		if (!ft_isalnum(var_name[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 /** delete_resort - delete the variable and sort back the env
  * @env: ms->env
  * @pos: the position of the variable to remove in the environnement
