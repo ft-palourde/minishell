@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 18:41:21 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:23:16 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
 /** cmd_is_empty - check if the given cmd is empty 
  * @token: the t_token of T_CMD type
@@ -89,28 +90,30 @@ int	exec_builtin(t_token *token, t_ms *ms)
  *
  * Returns: void
  */
-static void	command_failed(t_token *token, t_ms *ms)
+unsigned char	command_failed(t_token *token)
 {
-	int	retval;
+	unsigned char	retval;
+	struct stat		stt;
 
-	retval = 0;
-	if (!is_builtin(token))
+	stat(token->data->cmd->path, &stt);
+	if (is_builtin(token))
+		return (0);
+	retval = 126;
+	ft_putstr_fd("Minishell: ", 2);
+	if (access(token->data->cmd->path, X_OK) && !is_absolute(token->data->cmd->path))
 	{
-		ft_putstr_fd("Minishell: ", 2);
-		if (access(token->data->cmd->path, X_OK))
-		{
-			perror(token->data->cmd->args[0]);
-			retval = 127;
-		}
-		else
-		{
-			ft_putstr_fd(token->data->cmd->args[0], 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			retval = 126;
-		}
+		ft_putstr_fd("command not found : ", 2);
+		ft_putendl_fd(token->data->cmd->args[0], 2);
+		retval = 127;
 	}
-	ms_full_clean(ms);
-	exit(retval);
+	else if (S_ISDIR(stt.st_mode))
+	{
+		ft_putstr_fd(token->data->cmd->args[0], 2);
+		ft_putstr_fd(": is a directory\n", 2);
+	}
+	else
+		perror(token->data->cmd->args[0]);
+	return (retval);
 }
 
 /** exec_child - executes the cmd in the child process
@@ -145,11 +148,10 @@ static void	exec_child(t_token *token, t_ms *ms)
 		free(ms);
 		exit(retval);
 	}
-	else
-	{
-		execve(cmd->path, cmd->args, ms->env);
-		command_failed(token, ms);
-	}
+	execve(cmd->path, cmd->args, ms->env);
+	retval = command_failed(token);
+	ms_full_clean(ms);
+	exit(retval);
 }
 
 /** exec_cmd - execute the cmd node in the binary tree

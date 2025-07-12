@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
+#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/07/10 21:55:46 by rcochran         ###   ########.fr        #
+#    Updated: 2025/07/12 17:59:57 by tcoeffet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_env\
 				builtin/builtin_exit\
 				builtin/builtin_export\
+				builtin/builtin_export_utils\
 				builtin/builtin_pwd\
 				builtin/builtin_unset\
 				builtin/builtin_utils\
