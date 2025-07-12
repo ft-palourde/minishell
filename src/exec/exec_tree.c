@@ -54,6 +54,11 @@ int	exec_tree(t_tree *root, t_ms *ms)
 		ms->file_in = root->token->data->rd->heredoc->fd[0];
 	exec_tree(root->left, ms);
 	exec_tree(root->right, ms);
+	if (ms->open_failed)
+	{
+		ms->retval = 1;
+		return (0);
+	}
 	if (root->token->type == T_CMD && !ms->open_failed)
 		exec_cmd(root, ms);
 	return (0);
