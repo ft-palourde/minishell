@@ -25,15 +25,12 @@ static int	exit_arg_is_num(char *str)
 	int	i;
 
 	i = 0;
-	if (!str[0])
+	if (!str || !str[0])
 		return (0);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-		{
-			ft_putendl_fd("minishell : exit : numeric argument required", 2);
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -42,21 +39,36 @@ static int	exit_arg_is_num(char *str)
 /** bi_exit - exit the shell
  * @ms: minishell struct
  * 
- * sets ms->exit to 1 to stop calling cmds in main()
+ * set the variable ms->exit to order the program to quit,
+ * and sets the right return value in ms->
  * 
  * returns : 0
  */
 int	bi_exit(t_ms *ms, char **arg)
 {
+	int	arg_count;
+	int	arg_is_num;
+
+	arg_is_num = exit_arg_is_num(arg[1]);
+	arg_count = split_len(arg);
 	ms->exit = ms->retval;
-	if (arg && arg[1])
+	if (arg && arg[1] && arg_is_num)
 	{
-		if (exit_arg_is_num(arg[1]))
-			ms->exit = ft_atoi(arg[1]);
-		else
-			ms->exit = 2;
+		if (arg_count > 2)
+		{
+			ft_putendl_fd("minishell : exit : too many arguments", 2);
+			ms->exit = -1;
+			ms->retval = 1;
+			return (1);
+		}
+		ms->exit = ft_atoi(arg[1]);
 	}
-	else if (g_sig == SIGINT)
+	else if (arg && arg[1])
+	{
+		ms->exit = 2;
+		ft_putendl_fd("minishell : exit : numeric argument required", 2);
+	}
+	if (g_sig == SIGINT)
 		ms->exit = 130;
 	return (0);
 }
