@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/10 18:02:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:18:40 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ int				bi_exit(t_ms *ms, char **arg);
 int				bi_export(t_ms *ms, char **args);
 
 char			*ft_get_pwd(int prefix);
+
+int				xprt_get_var_name(char *var, char **var_name);
+int				xprt_get_var_content(char *var, char **var_content);
+int				xprt_is_set(char *var_name, char **env, int has_content);
+int				xprt_replace(char *v_name, char *v_content, t_ms *ms, int i);
+char			*xprt_build_var(char *var_name, char *var_content, int content);
 
 int				unset(char **env, char *var);
 
