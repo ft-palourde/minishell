@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:16 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 19:06:14 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:26:12 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	bi_unset(char **env, char **arg)
 	i = 0;
 	while (arg[i])
 	{
-		unset(env, arg[i]);
+		if (var_is_legal(arg[i]))
+			unset(env, arg[i]);
 		i++;
 	}
 	return (0);

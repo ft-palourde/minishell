@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/12 18:23:16 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:26 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ unsigned char	command_failed(t_token *token)
 		return (0);
 	retval = 126;
 	ft_putstr_fd("Minishell: ", 2);
-	if (access(token->data->cmd->path, X_OK) && !is_absolute(token->data->cmd->path))
+	if (access(token->data->cmd->path, X_OK) && \
+		!is_absolute(token->data->cmd->path))
 	{
 		ft_putstr_fd("command not found : ", 2);
 		ft_putendl_fd(token->data->cmd->args[0], 2);
