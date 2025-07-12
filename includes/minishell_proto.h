@@ -146,7 +146,7 @@ void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
-int				exec_redir(t_token *token, t_ms *ms);
+int				exec_redir(t_tree *node, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
 int				check_lim(char	*lim);

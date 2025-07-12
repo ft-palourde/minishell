@@ -27,12 +27,17 @@ int	exec_pipe(t_tree *node, t_ms *ms)
 	pfd = ft_calloc(2, sizeof(int));
 	if (!pfd || pipe(pfd) == -1)
 		return (perror("minishell"), 1);
+	if (add_pfd(pfd, ms) || add_fd(pfd[0], ms) || add_fd(pfd[1], ms))
+		return (close(pfd[0]), close(pfd[1]), free(pfd), 1);
 	if (node->parent && node->parent->token->type == T_PIPE)
 		node->right->token->out_fd = node->token->out_fd;
-	node->left->token->out_fd = pfd[1];
-	node->right->token->in_fd = pfd[0];
-	add_pfd(pfd, ms);
-	add_fd(pfd[0], ms);
-	add_fd(pfd[1], ms);
+	if (node->left->token->type == T_CMD)
+		node->left->token->out_fd = pfd[1];
+	else
+		close(pfd[1]);
+	if (node->right->token->type == T_CMD)
+		node->right->token->in_fd = pfd[0];
+	else
+		close(pfd[0]);
 	return (0);
 }
