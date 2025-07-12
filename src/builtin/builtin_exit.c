@@ -40,9 +40,10 @@ static int	exit_arg_is_num(char *str)
  * @ms: minishell struct
  * 
  * set the variable ms->exit to order the program to quit,
- * and sets the right return value in ms->
+ * and sets the right return value in ms->exit depending on the
+ * arguments given. 
  * 
- * returns : 0
+ * returns : 1 on argument error or 0 if exit is done
  */
 int	bi_exit(t_ms *ms, char **arg)
 {
