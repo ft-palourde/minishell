@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:39:29 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:46:45 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ static int	exit_arg_is_num(char *str)
 int	bi_exit(t_ms *ms, char **arg)
 {
 	int	arg_count;
-	int	arg_is_num;
 
-	arg_is_num = exit_arg_is_num(arg[1]);
-	arg_count = split_len(arg);
 	ms->exit = ms->retval;
-	if (arg && arg[1] && arg_is_num)
+	if (arg && arg[1] && exit_arg_is_num(arg[1]))
 	{
+		arg_count = split_len(arg);
 		if (arg_count > 2)
 		{
 			ft_putendl_fd("minishell : exit : too many arguments", 2);

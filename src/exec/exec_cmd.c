@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/12 18:36:26 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:10:05 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	cmd_is_empty(t_token *token)
 			return (1);
 		while (cmd[i])
 		{
-			if (ft_isalnum(cmd[i]))
+			if (!(cmd[i] == ' ' || cmd[i] == '\n' || cmd[i] == '\v'
+					|| cmd[i] == '\r' || cmd[i] == '\f' || cmd[i] == '\t'))
 				return (0);
 			i++;
 		}
@@ -100,20 +101,22 @@ unsigned char	command_failed(t_token *token)
 		return (0);
 	retval = 126;
 	ft_putstr_fd("Minishell: ", 2);
-	if (access(token->data->cmd->path, X_OK) && \
-		!is_absolute(token->data->cmd->path))
+	if (is_absolute(token->data->cmd->path))
+	{
+		if (S_ISDIR(stt.st_mode))
+		{
+			ft_putstr_fd(token->data->cmd->args[0], 2);
+			ft_putstr_fd(": is a directory\n", 2);
+		}
+		else if (access(token->data->cmd->path, X_OK))
+			perror(token->data->cmd->args[0]);
+	}
+	else
 	{
 		ft_putstr_fd("command not found : ", 2);
 		ft_putendl_fd(token->data->cmd->args[0], 2);
 		retval = 127;
 	}
-	else if (S_ISDIR(stt.st_mode))
-	{
-		ft_putstr_fd(token->data->cmd->args[0], 2);
-		ft_putstr_fd(": is a directory\n", 2);
-	}
-	else
-		perror(token->data->cmd->args[0]);
 	return (retval);
 }
 
