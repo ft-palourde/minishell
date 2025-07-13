@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:53 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:08:22 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:36:16 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	exec_pipe(t_tree *node, t_ms *ms)
 		return (close(pfd[0]), close(pfd[1]), free(pfd), 1);
 	if (node->parent && node->parent->token->type == T_PIPE)
 		node->right->token->out_fd = node->token->out_fd;
-	if (node->left->token->type == T_CMD)
+	if (node->left->token->type == T_CMD || \
+		node->left->token->type == T_PIPE)
 		node->left->token->out_fd = pfd[1];
 	else
 		close(pfd[1]);

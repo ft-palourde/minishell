@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:24:51 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/04 11:26:48 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:49:42 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,9 @@ int	init_cmd(t_tree *node, t_ms *ms)
 		if (!cmd->path)
 			return (perror("minishell"), 1);
 	}
-	if (ms->file_in != STDIN_FILENO)
+	if (ms->file_in != STDIN_FILENO && ms->file_in != -1)
 		node->token->in_fd = ms->file_in;
-	if (ms->file_out != STDOUT_FILENO)
+	if (ms->file_out != STDOUT_FILENO && ms->file_out != -1)
 		node->token->out_fd = ms->file_out;
 	return (0);
 }

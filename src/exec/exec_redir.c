@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 13:47:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:16:50 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	open_failed(char *path, t_ms *ms)
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": can't access file.\n", STDERR_FILENO);
 		ms->open_failed = 1;
+		if (ms->file_out == -1)
+			ms->open_failed = -1;
 		return (1);
 	}
 	return (0);

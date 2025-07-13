@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:23:44 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 17:21:50 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:04:02 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	dup_handler(t_token *token, t_ms *ms)
 {
 	(void)token;
 	(void)ms;
-	if (ms->file_in != STDIN_FILENO)
+	if (ms->file_in != STDIN_FILENO && ms->file_in != -1)
 		dup2(ms->file_in, STDIN_FILENO);
 	else if (token->in_fd != STDIN_FILENO)
 		dup2(token->in_fd, STDIN_FILENO);
-	if (ms->file_out != STDOUT_FILENO)
+	if (ms->file_out != STDOUT_FILENO && ms->file_out != -1)
 		dup2(ms->file_out, STDOUT_FILENO);
 	else if (token->out_fd != STDOUT_FILENO)
 		dup2(token->out_fd, STDOUT_FILENO);
