@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 17:31:17 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:08:51 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,23 @@ unsigned char	command_failed(t_token *token)
 {
 	struct stat		stt;
 
+	stt.st_mode = 0;
 	stat(token->data->cmd->path, &stt);
-	if (is_builtin(token))
-		return (0);
 	ft_putstr_fd("Minishell: ", 2);
 	if (is_absolute(token->data->cmd->path))
 	{
 		if (S_ISDIR(stt.st_mode))
 		{
-			ft_putstr_fd(token->data->cmd->args[0], 2);
+			ft_putstr_fd(token->data->cmd->path, 2);
 			ft_putstr_fd(": Is a directory\n", 2);
 		}
 		else if (access(token->data->cmd->path, X_OK))
-			perror(token->data->cmd->args[0]);
+			perror(token->data->cmd->path);
 	}
 	else
 	{
-		ft_putstr_fd("command not found : ", 2);
-		ft_putendl_fd(token->data->cmd->args[0], 2);
+		ft_putstr_fd(token->data->cmd->path, 2);
+		ft_putendl_fd(": command not found", 2);
 	}
 	if (is_absolute(token->data->cmd->path) && \
 		!access(token->data->cmd->path, F_OK))
@@ -143,18 +142,13 @@ static void	exec_child(t_token *token, t_ms *ms)
 	dup_handler(token, ms);
 	close_fds(ms);
 	if (is_bi)
-	{
 		retval = exec_builtin(token, ms);
-		ms_cleaner(ms);
-		reverse_cascade_free(ms->env, split_len(ms->env));
-		free(ms->prompt);
-		free(ms->term);
-		free(ms);
-		exit(retval);
+	else
+	{	
+		execve(cmd->path, cmd->args, ms->env);
+		retval = command_failed(token);
 	}
-	execve(cmd->path, cmd->args, ms->env);
-	retval = command_failed(token);
-	ms_full_clean(ms);
+		ms_full_clean(ms);
 	exit(retval);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 15:11:47 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:09:55 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	bi_cd(char **env, char **args, t_ms *ms)
 	int		ret;
 
 	i = 0;
-	if (args[2])
+	if (args && args[1] && args[2])
 	{
 		ft_putendl_fd("Minishell : cd : too many arguments", 2);
 		return (1);
