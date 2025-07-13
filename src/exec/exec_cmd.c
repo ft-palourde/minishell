@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 17:22:03 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:31:17 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,11 @@ int	exec_builtin(t_token *token, t_ms *ms)
  */
 unsigned char	command_failed(t_token *token)
 {
-//	unsigned char	retval;
 	struct stat		stt;
 
 	stat(token->data->cmd->path, &stt);
 	if (is_builtin(token))
 		return (0);
-	//retval = 126;
 	ft_putstr_fd("Minishell: ", 2);
 	if (is_absolute(token->data->cmd->path))
 	{
@@ -115,12 +113,11 @@ unsigned char	command_failed(t_token *token)
 	{
 		ft_putstr_fd("command not found : ", 2);
 		ft_putendl_fd(token->data->cmd->args[0], 2);
-	//	retval = 127;
 	}
-	if (is_absolute(token->data->cmd->path) && !access(token->data->cmd->path, F_OK))
+	if (is_absolute(token->data->cmd->path) && \
+		!access(token->data->cmd->path, F_OK))
 		return (126);
 	return (127);
-//	return (retval);
 }
 
 /** exec_child - executes the cmd in the child process

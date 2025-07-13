@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:06 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 16:27:40 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:30:44 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	bi_env(char **env)
 	while (env[i])
 	{
 		if (is_set(env[i]))
-		ft_putendl_fd(env[i], STDOUT_FILENO);
-			// printf("%s\n", env[i]);
+			ft_putendl_fd(env[i], STDOUT_FILENO);
 		i++;
 	}
 	return (0);
