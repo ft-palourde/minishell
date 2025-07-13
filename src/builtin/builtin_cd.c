@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:00 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 18:58:06 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:11:47 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ int	errors_cd(char *path)
 	ft_putstr_fd("cd : ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
-	{
-		ft_putstr_fd(" No such file or directory\n", 2);
-	}
+		ft_putstr_fd(": No such file or directory\n", 2);
 	else if (errno == EACCES)
-		ft_putstr_fd(" Permission denied\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	else
-		ft_putstr_fd(" Failed to change directory\n", 2);
+		ft_putstr_fd(": Failed to change directory\n", 2);
 	return (1);
 }
 
@@ -62,7 +60,10 @@ int	move_dir(char *path, t_ms *ms)
 		return (0);
 	ret = chdir((const char *)path);
 	if (ret)
+	{
 		errors_cd(path);
+		ret = 1;
+	}
 	if (empty)
 		free(path);
 	return (ret);
@@ -76,14 +77,19 @@ int	move_dir(char *path, t_ms *ms)
  *
  * Returns: 1 on error, 0 else
  */
-int	bi_cd(char **env, char *path, t_ms *ms)
+int	bi_cd(char **env, char **args, t_ms *ms)
 {
 	char	*new_path;
 	int		i;
 	int		ret;
 
 	i = 0;
-	ret = move_dir(path, ms);
+	if (args[2])
+	{
+		ft_putendl_fd("Minishell : cd : too many arguments", 2);
+		return (1);
+	}
+	ret = move_dir(args[1], ms);
 	if (ret)
 		return (ret);
 	while (env[i] && ft_strncmp("PWD=", env[i], 4))

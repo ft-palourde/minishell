@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 13:46:45 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:09:25 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	exit_arg_is_num(char *str)
 	i = 0;
 	if (!str || !str[0])
 		return (0);
+	if (str[0] == '+' || str[0] == '-')
+		i++;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))

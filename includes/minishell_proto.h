@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/12 17:18:40 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:07:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void			set_hd_sig_behavior(void);
 
 ///////// BUILT-INS /////////
 
-int				bi_cd(char **env, char *path, t_ms *ms);
+int				bi_cd(char **env, char **args, t_ms *ms);
 int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);

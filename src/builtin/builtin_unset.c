@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:16 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/12 18:26:12 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:57:44 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,30 @@
 int	var_is_legal(char *var_name)
 {
 	int	i;
+	int	legal;
 
 	i = 0;
+	legal = 1;
 	if (!var_name || !ft_isalpha(var_name[0]))
-		return (0);
-	while (var_name[i] && var_name[i] != '=')
+		legal--;
+	while (legal && var_name[i] && var_name[i] != '=')
 	{
 		if (!ft_isalnum(var_name[i]))
-			return (0);
+			legal--;
 		i++;
 	}
-	return (1);
+	if (!legal)
+	{
+		i = 0;
+		ft_putstr_fd("Minishell : ", 2);
+		while (var_name[i] && var_name[i] != '=')
+		{
+			write(2, &var_name[i], 1);
+			i++;
+		}
+		ft_putendl_fd(" : not a valid identifier", 2);
+	}
+	return (legal);
 }
 
 /** delete_resort - delete the variable and sort back the env

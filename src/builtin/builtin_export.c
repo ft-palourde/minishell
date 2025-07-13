@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/12 17:43:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:00:08 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	xprt_loop(char *arg, t_ms *ms)
 		if (xprt_set(var_name, var_content, ms, has_content))
 			return (free(var_name), free(var_content), 1);
 	}
-	return (free(var_name), 1);
+	return (free(var_name), 0);
 }
 
 /** bi_export - Builtin export
@@ -177,7 +177,9 @@ int	xprt_loop(char *arg, t_ms *ms)
 int	bi_export(t_ms *ms, char **arg)
 {
 	int		i;
+	int		retval;
 
+	retval = 0;
 	i = 0;
 	if (!arg || !arg[0])
 	{
@@ -187,8 +189,8 @@ int	bi_export(t_ms *ms, char **arg)
 	}
 	while (arg[i])
 	{
-		xprt_loop(arg[i], ms);
+		retval = xprt_loop(arg[i], ms);
 		i++;
 	}
-	return (0);
+	return (retval);
 }

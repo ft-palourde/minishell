@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 13:10:05 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:06:29 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	builtin = token->data->cmd->is_builtin;
 	dup_handler(token, ms);
 	if (builtin == B_CD)
-		retval = bi_cd(ms->env, token->data->cmd->args[1], ms);
+		retval = bi_cd(ms->env, token->data->cmd->args, ms);
 	if (builtin == B_ECHO)
 		retval = bi_echo(token->data->cmd->args + 1);
 	if (builtin == B_ENV)

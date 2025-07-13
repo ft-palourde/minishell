@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/08 11:08:01 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:55:59 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,6 @@ int	main(int ac, char **av, char **env)
 	if (ms->exit != -1)
 		retval = ms->exit;
 	ms_full_clean(ms);
-	ft_putendl_fd("exit", 2);
+	ft_putendl_fd("exit", 1);
 	return (retval);
 }
