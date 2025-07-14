@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:18:42 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:06:41 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:01:34 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,8 @@ char	*get_next_chunk(char *str)
 static char	*prepare_chunk(char *str, int *quote_type)
 {
 	char	*new;
-	char	*trim;
 
 	new = NULL;
-	trim = NULL;
 	*quote_type = check_quote_type(str[0]);
 	if (*quote_type == 1 || *quote_type == 2)
 		new = ft_strndup(str + 1, ft_strlen(str) - 2);
@@ -116,14 +114,6 @@ static char	*prepare_chunk(char *str, int *quote_type)
 		new = ft_strdup(str);
 	if (!new)
 		return (NULL);
-	if (*quote_type == 2)
-	{
-		trim = ft_strtrim(new, "\"");
-		if (!trim)
-			return (free(new), NULL);
-		free(new);
-		new = trim;
-	}
 	return (new);
 }
 
@@ -178,6 +168,7 @@ char	*expand_chunk(char *str, t_ms *ms)
 
 	prepared = NULL;
 	expanded = NULL;
+	quote_type = 0;
 	prepared = prepare_chunk(str, &quote_type);
 	if (!prepared)
 		return (NULL);
