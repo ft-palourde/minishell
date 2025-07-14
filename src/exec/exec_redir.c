@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:55 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 13:47:58 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:16:50 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	open_failed(char *path, t_ms *ms)
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": can't access file.\n", STDERR_FILENO);
 		ms->open_failed = 1;
+		if (ms->file_out == -1)
+			ms->open_failed = -1;
 		return (1);
 	}
 	return (0);
@@ -52,6 +54,17 @@ void	set_ms_fd(int in, int out, t_ms *ms)
 		ms->file_out = out;
 }
 
+int	rd_has_cmd(t_tree *node)
+{
+	while (node->parent && node->parent->token->type != T_PIPE)
+	{
+		if (node->parent->token->type == T_CMD)
+			return (1);
+		node = node->parent;
+	}
+	return (0);
+}
+
 /** exec_redir - execute a redir node
  * @node: current tree node carrying a redir type token
  * @ms: minishell struct
@@ -62,7 +75,7 @@ void	set_ms_fd(int in, int out, t_ms *ms)
  *
  * Returns: 1 on malloc failed, 0 else
  */
-int	exec_redir(t_token *token, t_ms *ms)
+int	exec_redir(t_tree *node, t_ms *ms)
 {
 	char	*path;
 	int		out;
@@ -72,14 +85,16 @@ int	exec_redir(t_token *token, t_ms *ms)
 	out = STDOUT_FILENO;
 	if (ms->open_failed)
 		return (1);
-	path = str_expand(token->data->rd->file->filename, ms);
+	if (!rd_has_cmd(node))
+		return (0);
+	path = str_expand(node->token->data->rd->file->filename, ms);
 	if (!path)
 		return (1);
-	if (token->type == T_REDIR_IN)
+	if (node->token->type == T_REDIR_IN)
 		in = open(path, O_RDONLY, 0644);
-	else if (token->type == T_APPEND)
+	else if (node->token->type == T_APPEND)
 		out = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (token->type == T_REDIR_OUT)
+	else if (node->token->type == T_REDIR_OUT)
 		out = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	set_ms_fd(in, out, ms);
 	if (open_failed(path, ms) || \

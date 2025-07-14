@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/10 18:02:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:07:06 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,21 @@ void			set_hd_sig_behavior(void);
 
 ///////// BUILT-INS /////////
 
-int				bi_cd(char **env, char *path, t_ms *ms);
+int				bi_cd(char **env, char **args, t_ms *ms);
 int				bi_echo(char **arg);
 int				bi_env(char **env);
 int				bi_pwd(void);
 int				bi_unset(char **env, char **var);
 int				bi_exit(t_ms *ms, char **arg);
-int				bi_export(char ***env, char **args);
+int				bi_export(t_ms *ms, char **args);
 
 char			*ft_get_pwd(int prefix);
+
+int				xprt_get_var_name(char *var, char **var_name);
+int				xprt_get_var_content(char *var, char **var_content);
+int				xprt_is_set(char *var_name, char **env, int has_content);
+int				xprt_replace(char *v_name, char *v_content, t_ms *ms, int i);
+char			*xprt_build_var(char *var_name, char *var_content, int content);
 
 int				unset(char **env, char *var);
 
@@ -112,6 +118,7 @@ char			*get_var_name(char *var);
 int				var_exists(char **env, char *var);
 int				var_is_empty(char *var);
 int				is_var(char *var);
+int				var_is_legal(char *var_name);
 
 int				split_len(char **split);
 
@@ -145,7 +152,7 @@ void			exec_cmd(t_tree *node, t_ms *ms);
 int				exec_tree(t_tree *root, t_ms *ms);
 int				exec_init(t_ms *ms);
 int				exec_pipe(t_tree *node, t_ms *ms);
-int				exec_redir(t_token *token, t_ms *ms);
+int				exec_redir(t_tree *node, t_ms *ms);
 int				get_heredocs_pfd(t_ms *ms);
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
 int				check_lim(char	*lim);
