@@ -6,11 +6,40 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:16 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 19:06:14 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:57:44 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	var_is_legal(char *var_name)
+{
+	int	i;
+	int	legal;
+
+	i = 0;
+	legal = 1;
+	if (!var_name || !ft_isalpha(var_name[0]))
+		legal--;
+	while (legal && var_name[i] && var_name[i] != '=')
+	{
+		if (!ft_isalnum(var_name[i]))
+			legal--;
+		i++;
+	}
+	if (!legal)
+	{
+		i = 0;
+		ft_putstr_fd("Minishell : ", 2);
+		while (var_name[i] && var_name[i] != '=')
+		{
+			write(2, &var_name[i], 1);
+			i++;
+		}
+		ft_putendl_fd(" : not a valid identifier", 2);
+	}
+	return (legal);
+}
 
 /** delete_resort - delete the variable and sort back the env
  * @env: ms->env
@@ -73,7 +102,8 @@ int	bi_unset(char **env, char **arg)
 	i = 0;
 	while (arg[i])
 	{
-		unset(env, arg[i]);
+		if (var_is_legal(arg[i]))
+			unset(env, arg[i]);
 		i++;
 	}
 	return (0);

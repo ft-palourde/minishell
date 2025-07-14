@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/08 18:41:21 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:08:51 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
 /** cmd_is_empty - check if the given cmd is empty 
  * @token: the t_token of T_CMD type
@@ -34,7 +35,8 @@ int	cmd_is_empty(t_token *token)
 			return (1);
 		while (cmd[i])
 		{
-			if (ft_isalnum(cmd[i]))
+			if (!(cmd[i] == ' ' || cmd[i] == '\n' || cmd[i] == '\v'
+					|| cmd[i] == '\r' || cmd[i] == '\f' || cmd[i] == '\t'))
 				return (0);
 			i++;
 		}
@@ -61,7 +63,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	builtin = token->data->cmd->is_builtin;
 	dup_handler(token, ms);
 	if (builtin == B_CD)
-		retval = bi_cd(ms->env, token->data->cmd->args[1], ms);
+		retval = bi_cd(ms->env, token->data->cmd->args, ms);
 	if (builtin == B_ECHO)
 		retval = bi_echo(token->data->cmd->args + 1);
 	if (builtin == B_ENV)
@@ -69,7 +71,7 @@ int	exec_builtin(t_token *token, t_ms *ms)
 	if (builtin == B_EXIT)
 		retval = bi_exit(ms, token->data->cmd->args);
 	if (builtin == B_EXPORT)
-		retval = bi_export(&ms->env, token->data->cmd->args + 1);
+		retval = bi_export(ms, token->data->cmd->args + 1);
 	if (builtin == B_PWD)
 		retval = bi_pwd();
 	if (builtin == B_UNSET)
@@ -89,28 +91,32 @@ int	exec_builtin(t_token *token, t_ms *ms)
  *
  * Returns: void
  */
-static void	command_failed(t_token *token, t_ms *ms)
+unsigned char	command_failed(t_token *token)
 {
-	int	retval;
+	struct stat		stt;
 
-	retval = 0;
-	if (!is_builtin(token))
+	stt.st_mode = 0;
+	stat(token->data->cmd->path, &stt);
+	ft_putstr_fd("Minishell: ", 2);
+	if (is_absolute(token->data->cmd->path))
 	{
-		ft_putstr_fd("Minishell: ", 2);
-		if (access(token->data->cmd->path, X_OK))
+		if (S_ISDIR(stt.st_mode))
 		{
-			perror(token->data->cmd->args[0]);
-			retval = 127;
+			ft_putstr_fd(token->data->cmd->path, 2);
+			ft_putstr_fd(": Is a directory\n", 2);
 		}
-		else
-		{
-			ft_putstr_fd(token->data->cmd->args[0], 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			retval = 126;
-		}
+		else if (access(token->data->cmd->path, X_OK))
+			perror(token->data->cmd->path);
 	}
-	ms_full_clean(ms);
-	exit(retval);
+	else
+	{
+		ft_putstr_fd(token->data->cmd->path, 2);
+		ft_putendl_fd(": command not found", 2);
+	}
+	if (is_absolute(token->data->cmd->path) && \
+		!access(token->data->cmd->path, F_OK))
+		return (126);
+	return (127);
 }
 
 /** exec_child - executes the cmd in the child process
@@ -136,20 +142,14 @@ static void	exec_child(t_token *token, t_ms *ms)
 	dup_handler(token, ms);
 	close_fds(ms);
 	if (is_bi)
-	{
 		retval = exec_builtin(token, ms);
-		ms_cleaner(ms);
-		reverse_cascade_free(ms->env, split_len(ms->env));
-		free(ms->prompt);
-		free(ms->term);
-		free(ms);
-		exit(retval);
-	}
 	else
-	{
+	{	
 		execve(cmd->path, cmd->args, ms->env);
-		command_failed(token, ms);
+		retval = command_failed(token);
 	}
+		ms_full_clean(ms);
+	exit(retval);
 }
 
 /** exec_cmd - execute the cmd node in the binary tree

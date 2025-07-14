@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:08 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/22 18:39:29 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:09:25 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ static int	exit_arg_is_num(char *str)
 	int	i;
 
 	i = 0;
-	if (!str[0])
+	if (!str || !str[0])
 		return (0);
+	if (str[0] == '+' || str[0] == '-')
+		i++;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-		{
-			ft_putendl_fd("minishell : exit : numeric argument required", 2);
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -42,21 +41,35 @@ static int	exit_arg_is_num(char *str)
 /** bi_exit - exit the shell
  * @ms: minishell struct
  * 
- * sets ms->exit to 1 to stop calling cmds in main()
+ * set the variable ms->exit to order the program to quit,
+ * and sets the right return value in ms->exit depending on the
+ * arguments given. 
  * 
- * returns : 0
+ * returns : 1 on argument error or 0 if exit is done
  */
 int	bi_exit(t_ms *ms, char **arg)
 {
+	int	arg_count;
+
 	ms->exit = ms->retval;
-	if (arg && arg[1])
+	if (arg && arg[1] && exit_arg_is_num(arg[1]))
 	{
-		if (exit_arg_is_num(arg[1]))
-			ms->exit = ft_atoi(arg[1]);
-		else
-			ms->exit = 2;
+		arg_count = split_len(arg);
+		if (arg_count > 2)
+		{
+			ft_putendl_fd("minishell : exit : too many arguments", 2);
+			ms->exit = -1;
+			ms->retval = 1;
+			return (1);
+		}
+		ms->exit = ft_atoi(arg[1]);
 	}
-	else if (g_sig == SIGINT)
+	else if (arg && arg[1])
+	{
+		ms->exit = 2;
+		ft_putendl_fd("minishell : exit : numeric argument required", 2);
+	}
+	if (g_sig == SIGINT)
 		ms->exit = 130;
 	return (0);
 }

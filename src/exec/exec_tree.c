@@ -6,7 +6,7 @@
 /*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:24:47 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/06/25 14:41:20 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:58:43 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,21 @@ int	exec_tree(t_tree *root, t_ms *ms)
 	if (root->token->type == T_PIPE)
 		exec_pipe(root, ms);
 	if (is_redir(root->token->type))
-		exec_redir(root->token, ms);
+		exec_redir(root, ms);
 	if (root->token->type == T_HEREDOC)
 		ms->file_in = root->token->data->rd->heredoc->fd[0];
 	exec_tree(root->left, ms);
+	if (root->token->type == T_PIPE)
+		ms->open_failed = 0;
 	exec_tree(root->right, ms);
-	if (root->token->type == T_CMD && !ms->open_failed)
-		exec_cmd(root, ms);
+	if (ms->open_failed)
+		ms->retval = 1;
+	if (root->token->type == T_CMD)
+	{
+		if (!ms->open_failed)
+			exec_cmd(root, ms);
+		else if (root->token->out_fd != STDOUT_FILENO)
+			close(root->token->out_fd);
+	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:11 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/09 18:58:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/13 15:00:08 by tcoeffet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,40 @@
 int	print_export(char **env)
 {
 	int		i;
-	char	*name;
-	char	*value;
+	int		j;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
-		name = get_var_name(env[i]);
-		if (!name)
-			return (1);
-		value = get_var_value(env[i]);
-		if (!value)
-			return (free(name), 1);
-		printf("export %s=\"%s\"\n", name, value);
-		free(name);
-		free(value);
-		i++;
+		j = 0;
+		ft_putstr_fd("export ", STDOUT_FILENO);
+		while (env[i][j] && env[i][j] != '=')
+		{
+			write(STDOUT_FILENO, &env[i][j], 1);
+			j++;
+		}
+		if (!env[i][j])
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			continue ;
+		}
+		write(STDOUT_FILENO, "=\"", 2);
+		while (env[i][++j])
+			write(STDOUT_FILENO, &env[i][j], 1);
+		write(STDOUT_FILENO, "\"\n", 2);
 	}
 	reverse_cascade_free(env, split_len(env));
 	return (0);
 }
 
-/** display_sort - display env in alphabetic order
- * @env: a copy of ms->env
- * 
- * sort a copy of the env and displays it on STDOUT
+/**
+ * @brief sorts the environnement and displays it
  *
- * Returns: 0
+ * makes a copy of the environnement and then sorts it in alphabetical 
+ * order of its variable name before displaying it in the terminal
+ *
+ * @param env an array of strings containing all the environnement variables
+ * @return 1 if the copy failed, 0 else
  */
 int	display_sort(char **env)
 {
@@ -79,109 +86,111 @@ int	display_sort(char **env)
 	return (print_export(env));
 }
 
-/** check_var - checks if the variable is well formated
- * @var: environnement variable to set
- * 
- * checks if the variable contains an '=' sign and add it if needed
+/**
+ * @brief set a new variable in the environnement
  *
- * Returns: NULL on malloc failed or the mallocd variable
+ * make a copy of the environnement with an extra space,
+ * then build a string to add in it and put it at the end
+ *
+ * @param var_name the name of the variable to expand with or without = sign
+ * @param var_content the content of the variable to expand
+ * @param ms The minishell structure.
+ * @param has_content a boolean showing if there is a content in the argument
+ * @return 1 on malloc fail, 0 else
  */
-char	*check_var(char *var)
+int	xprt_set(char *var_name, char *var_content, t_ms *ms, int has_content)
 {
-	int		i;
 	char	*new_var;
+	char	**new_env;
+	int		len;
+	int		i;
 
-	new_var = 0;
-	if (!var)
-		return (NULL);
 	i = 0;
-	while (var[i] && var[i] != '=')
-		i++;
-	if (var[i] != '=')
+	new_var = xprt_build_var(var_name, var_content, has_content);
+	if (!new_var)
+		return (perror("Minishell"), 1);
+	len = split_len(ms->env);
+	new_env = ft_calloc((len + 2), sizeof(char *));
+	if (!new_env)
+		return (perror("Minishell"), 1);
+	while (ms->env[i])
 	{
-		new_var = ft_strjoin(var, "=");
-		if (!new_var)
-			return (perror("minishell"), NULL);
+		new_env[i] = ms->env[i];
+		i++;
 	}
-	else
-		new_var = ft_strdup(var);
-	if (!i || (new_var && !new_var[i]))
-		return (free(new_var), NULL);
-	return (new_var);
+	new_env[len] = new_var;
+	free(ms->env);
+	ms->env = new_env;
+	return (0);
 }
 
-/** export - add a variable
- * @env: ms->env
- * @var: environnement variable to set
- * 
- * realloc the environnement with one more string to copy the new variable to
+/**
+ * @brief main loop to execute export with one argument
  *
- * Returns: the new env 
- * or the old env if malloc failed or the variable cant be set
+ * checks if there is anything to add and if the variable already exists to
+ * set it in the right way. If the variable doesnt exist, create a copy of
+ * the environement with an extra space to put the variable
+ *
+ * @param arg the argument of export to add to the environnement
+ * @param ms The minishell structure.
+ * @return 1 on error, 0 else.
  */
-static char	**export(char **env, char *var)
+int	xprt_loop(char *arg, t_ms *ms)
 {
-	int		env_len;
-	int		i;
-	char	**new_env;
-	char	*new_var;
+	int		has_content;
+	int		env_index;
+	char	*var_name;
+	char	*var_content;
 
-	new_var = check_var(var);
-	if (!new_var)
-		return (env);
-	env_len = split_len(env);
-	new_env = ft_calloc(env_len + 2, sizeof(char *));
-	if (!new_env)
-		return (perror("minishell"), env);
-	i = 0;
-	while (env[i])
+	has_content = xprt_get_var_name(arg, &var_name);
+	if (!var_name)
+		return (1);
+	if (!var_is_legal(var_name))
+		return (free(var_name), 1);
+	if (has_content && xprt_get_var_content(arg, &var_content))
+		return (free(var_name), 1);
+	env_index = xprt_is_set(var_name, ms->env, has_content);
+	if (env_index != -1)
 	{
-		new_env[i] = ft_strdup(env[i]);
-		if (!new_env[i])
-			return (perror ("malloc"), reverse_cascade_free(new_env, i), env);
-		i++;
+		if (has_content && xprt_replace(var_name, var_content, ms, env_index))
+			return (free(var_name), 1);
 	}
-	new_env[i] = ft_strdup(new_var);
-	free(new_var);
-	if (!new_env[i])
-		return (reverse_cascade_free(new_env, i), perror("minishell"), env);
-	return (reverse_cascade_free(env, i - 1), new_env);
+	else
+	{
+		if (xprt_set(var_name, var_content, ms, has_content))
+			return (free(var_name), free(var_content), 1);
+	}
+	return (free(var_name), 0);
 }
 
 /** bi_export - Builtin export
  * @env: ms->env
  * @arg: arguments given in input
  * 
- * add a new variable to the environnement or truncate it if it already exists.
- * if export is called without argument, displays all the variable in 
- * alphabetical order
+ * add a new variable to the environnement, it can be declared but
+ * not set if there is no = sign in it.
+ * If no argument is given export only displays all the variables
+ * in alphabetical order
  *
  * Returns: 1 on malloc failed, 0 else
  */
-int	bi_export(char ***env, char **arg)
+int	bi_export(t_ms *ms, char **arg)
 {
 	int		i;
-	char	*to_unset;
+	int		retval;
 
+	retval = 0;
 	i = 0;
 	if (!arg || !arg[0])
 	{
-		if (display_sort(set_env(*env)))
+		if (display_sort(set_env(ms->env)))
 			return (1);
 		return (0);
 	}
 	while (arg[i])
 	{
-		if (is_var(arg[i]))
-		{
-			to_unset = get_var_name(arg[i]);
-			unset(*env, to_unset);
-			free(to_unset);
-			*env = export(*env, arg[i]);
-		}
-		else if (!var_exists(*env, arg[i]))
-			*env = export(*env, arg[i]);
+		retval = xprt_loop(arg[i], ms);
 		i++;
 	}
-	return (0);
+	return (retval);
 }
