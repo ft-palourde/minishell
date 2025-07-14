@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:09:19 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/14 20:22:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:30:26 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	clean_arg_tokens(t_token *token)
 				|| token->type == T_HEREDOC || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND))
 		{
-			prev = token;
+			prev = token->next;
 			token = token->next->next;
 		}
 		if (token && token->type == T_WORD && i > 0)
@@ -53,7 +53,7 @@ void	clean_arg_tokens(t_token *token)
 			prev->next = token->next;
 			tmp = token->next;
 			free_token(token);
-			token = prev->next;
+			token = tmp;
 		}
 		else
 		{
