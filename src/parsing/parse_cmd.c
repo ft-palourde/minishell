@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:25:12 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/14 18:17:12 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:45:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	get_arg_count(t_token *token)
 				|| token->type == T_HEREDOC || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND))
 		{
-			token = token->next->next;
+			if (token->next)
+				token = token->next->next;
 		}
 		else
 		{
@@ -113,8 +114,10 @@ static int	set_cmd_args(t_token *token)
 	token->data->cmd->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!token->data->cmd->args)
 		return (1);
+	token->data->cmd->args[arg_count] = NULL;
 	if (merge_word_tokens(token, i))
 		return (1);
+	clean_arg_tokens(token);
 	return (0);
 }
 
@@ -129,17 +132,11 @@ static int	set_cmd_args(t_token *token)
 int	merge_word_tokens(t_token *token, int i)
 {
 	t_token	*cursor;
-	t_token	*to_free;
-	t_token	*last_rd;
 	char	*dup;
-	int		next_is_set;
 
-	last_rd = NULL;
-	next_is_set = 0;
 	if (!token || token->type != T_WORD)
 		return (1);
 	cursor = token;
-	i = 0;
 	while (cursor && cursor->type != T_PIPE)
 	{
 		if (!token->data->cmd->args)
@@ -150,25 +147,13 @@ int	merge_word_tokens(t_token *token, int i)
 			if (!dup)
 				return (1);
 			token->data->cmd->args[i] = dup;
-			to_free = cursor;
-			cursor = cursor->next;
-			if (i > 0)
-				free_token(to_free);
 			i++;
+			cursor = cursor->next;
 		}
-		else if (cursor && (cursor->type == T_REDIR_IN || cursor->type == T_HEREDOC || cursor->type == T_REDIR_OUT || cursor->type == T_APPEND))
-		{
-			if (!next_is_set)
-				token->next = cursor;
-			last_rd = cursor;
-			next_is_set = 1;
+		else if (cursor && (cursor->type == T_REDIR_IN
+				|| cursor->type == T_HEREDOC || cursor->type == T_REDIR_OUT
+				|| cursor->type == T_APPEND))
 			cursor = cursor->next->next;
-		}
 	}
-	token->data->cmd->args[i] = NULL;
-	if (!next_is_set)
-		token->next = cursor;
-	if (last_rd)
-		last_rd->next->next = cursor;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/14 16:45:28 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:21:17 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int				parse_heredoc(t_token *token);
 int				is_word(t_token *token);
 int				is_closed(char *str, char c);
 bool			is_builtin_cmd(const char *cmd);
+void			clean_arg_tokens(t_token *token);
 
 /* EXPAND */
 
