@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:49:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:07:34 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:57:31 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*var_expand(char *str, int *j, t_ms *ms)
 	(*j)++;
 	if (str[0] == '~')
 		return (expand_path(str, ms, (*j) == 1));
-	if (!str[i])
+	if (!str[i] || is_space(str[i]))
 		return (ft_strdup(str));
 	if (str[i] && str[i] == '?')
 	{
