@@ -63,6 +63,7 @@ FILES		= 	builtin/builtin_cd\
 				expand/expand_cmd_args \
 				expand/expand_heredocs \
 				expand/expand_path \
+				expand/expand_split \
 				expand/expand_str \
 				expand/expand_utils \
 				expand/expand_variable \

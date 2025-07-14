@@ -152,7 +152,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 	t_cmd	*cmd;
 
 	cmd = node->token->data->cmd;
-	expand_cmd_args(&cmd, ms);
+	expand_cmd_args(cmd, ms);
 	if (!is_builtin(node->token))
 	{
 		if (is_absolute(cmd->args[0]))
