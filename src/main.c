@@ -91,6 +91,17 @@ void	reset_ms_struct(t_ms *ms)
 	tcgetattr(STDIN_FILENO, ms->term);
 }
 
+char	*get_input(void)
+{
+	char	*input;
+
+	if (isatty(STDIN_FILENO))
+		input = readline("Minishell :");
+	else
+		input = get_next_line(STDIN_FILENO);
+	return (input);
+}
+
 /** minishell_loop
  * @ms: the minishell struct
  * @retval: a pointer to the return value variable
@@ -109,7 +120,7 @@ void	minishell_loop(t_ms *ms, int *retval)
 	{
 		ms_signal_listener();
 		reset_ms_struct(ms);
-		input = readline(ms->prompt);
+		input = get_input();
 		if (!input)
 		{
 			bi_exit(ms, NULL);
