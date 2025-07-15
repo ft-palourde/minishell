@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/14 19:21:17 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:43:20 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void			sort_tokens(t_ms *ms);
 
 int				init_cmd(t_tree *node, t_ms *ms);
 void			reset_ms_files(t_ms *ms);
+void			init_cmd_inout(t_ms *ms, t_tree *node);
 
 int				add_pid(int pid, t_ms *ms);
 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:24:51 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/14 16:44:18 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 09:43:56 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,6 @@ int	init_cmd(t_tree *node, t_ms *ms)
 		if (!cmd->path)
 			return (perror("minishell"), 1);
 	}
-	if (ms->file_in != STDIN_FILENO && ms->file_in != -1)
-		node->token->in_fd = ms->file_in;
-	if (ms->file_out != STDOUT_FILENO && ms->file_out != -1)
-		node->token->out_fd = ms->file_out;
+	init_cmd_inout(ms, node);
 	return (0);
 }

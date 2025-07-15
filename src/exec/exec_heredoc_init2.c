@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:27:45 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/09 18:37:45 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:09:37 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void			fill_new_hd(t_ms *ms, int *fd, char *lim, int expand);
 int				check_lim(char	*lim);
 void			abort_heredoc(t_ms *ms, int *fd);
+int				matching_lim(char *line, char *lim);
+void			handle_null_line(t_ms *ms, int *fd);
 
 /** fill_new_hd - get heredoc content
  * @token: the t_token of T_HEREDOC type
@@ -37,16 +39,10 @@ void	fill_new_hd(t_ms *ms, int *fd, char *lim, int expand)
 		line = readline("> ");
 		if (!line)
 		{
-			if (g_sig == SIGINT)
-			{
-				abort_heredoc(ms, fd);
-				exit(130);
-			}
-			else
-				break ;
+			handle_null_line(ms, fd);
+			break ;
 		}
-		if (!ft_strncmp(line, lim, ft_strlen(lim))
-			&& ft_strlen(line) == ft_strlen(lim))
+		if (matching_lim(line, lim))
 			break ;
 		if (expand)
 		{
@@ -111,4 +107,19 @@ void	abort_heredoc(t_ms *ms, int *fd_out)
 	close(ms->ms_stdin);
 	close(ms->ms_stdout);
 	ms_full_clean(ms);
+}
+
+void	handle_null_line(t_ms *ms, int *fd)
+{
+	if (g_sig == SIGINT)
+	{
+		abort_heredoc(ms, fd);
+		exit(130);
+	}
+}
+
+int	matching_lim(char *line, char *lim)
+{
+	return (!ft_strncmp(line, lim, ft_strlen(lim))
+		&& ft_strlen(line) == ft_strlen(lim));
 }
