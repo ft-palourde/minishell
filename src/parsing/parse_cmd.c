@@ -6,14 +6,14 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:25:12 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:55:47 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:45:47 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int			parse_cmd(t_token *token);
-static bool	is_builtin_cmd(const char *cmd);
+bool		is_builtin_cmd(const char *cmd);
 int			get_arg_count(t_token *token);
 static int	set_cmd_args(t_token *token);
 int			merge_word_tokens(t_token *token, int i);
@@ -35,7 +35,6 @@ int	parse_cmd(t_token *token)
 	token->data->cmd = new_cmd();
 	if (!token->data->cmd)
 		return (1);
-	token->data->cmd->is_builtin = is_builtin_cmd(token->str);
 	if (set_cmd_args(token))
 		return (1);
 	if (!token)
@@ -56,7 +55,7 @@ int	parse_cmd(t_token *token)
  * 
  * @return true if it's a builtin, false otherwise.
  */
-static bool	is_builtin_cmd(const char *cmd)
+bool	is_builtin_cmd(const char *cmd)
 {
 	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo")
 		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
@@ -76,10 +75,20 @@ int	get_arg_count(t_token *token)
 	int	count;
 
 	count = 0;
-	while (token && token->type == T_WORD)
+	while (token && token->type != T_PIPE)
 	{
-		count++;
-		token = token->next;
+		if (token && (token->type == T_REDIR_IN
+				|| token->type == T_HEREDOC || token->type == T_REDIR_OUT
+				|| token->type == T_APPEND))
+		{
+			if (token->next)
+				token = token->next->next;
+		}
+		else
+		{
+			count++;
+			token = token->next;
+		}
 	}
 	return (count);
 }
@@ -105,8 +114,10 @@ static int	set_cmd_args(t_token *token)
 	token->data->cmd->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!token->data->cmd->args)
 		return (1);
+	token->data->cmd->args[arg_count] = NULL;
 	if (merge_word_tokens(token, i))
 		return (1);
+	clean_arg_tokens(token);
 	return (0);
 }
 
@@ -121,28 +132,28 @@ static int	set_cmd_args(t_token *token)
 int	merge_word_tokens(t_token *token, int i)
 {
 	t_token	*cursor;
-	t_token	*to_free;
 	char	*dup;
 
 	if (!token || token->type != T_WORD)
 		return (1);
 	cursor = token;
-	i = 0;
-	while (cursor && cursor->type == T_WORD)
+	while (cursor && cursor->type != T_PIPE)
 	{
 		if (!token->data->cmd->args)
 			return (1);
-		dup = ft_strdup(cursor->str);
-		if (!dup)
-			return (1);
-		token->data->cmd->args[i] = dup;
-		to_free = cursor;
-		cursor = cursor->next;
-		if (i > 0)
-			free_token(to_free);
-		i++;
+		if (cursor && cursor->type == T_WORD)
+		{
+			dup = ft_strdup(cursor->str);
+			if (!dup)
+				return (1);
+			token->data->cmd->args[i] = dup;
+			i++;
+			cursor = cursor->next;
+		}
+		else if (cursor && (cursor->type == T_REDIR_IN
+				|| cursor->type == T_HEREDOC || cursor->type == T_REDIR_OUT
+				|| cursor->type == T_APPEND))
+			cursor = cursor->next->next;
 	}
-	token->data->cmd->args[i] = NULL;
-	token->next = cursor;
 	return (0);
 }

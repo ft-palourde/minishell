@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_proto.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 15:07:06 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:21:17 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,18 @@ void			print_token_list(t_token *token);
 void			debug_display_token_args(t_token *tokens);
 
 /* PARSE */
+
 t_token			*parse(char *input);
 int				parse_cmd(t_token *token);
 
 /* PARSE UTILS */
+
 int				parse_rd_file(t_token *token);
 int				parse_heredoc(t_token *token);
 int				is_word(t_token *token);
 int				is_closed(char *str, char c);
+bool			is_builtin_cmd(const char *cmd);
+void			clean_arg_tokens(t_token *token);
 
 /* EXPAND */
 

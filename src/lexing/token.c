@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:17 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/10 22:34:44 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:08:55 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	free_token(t_token *token)
 		{
 			if (token->type == T_WORD || token->type == T_CMD)
 			{
-				if (token->data->cmd)
+				if (token->data && token->data->cmd)
 					free_cmd(token->data->cmd);
 			}
 			else if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:52:50 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/13 18:08:51 by tcoeffet         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:48:04 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ static void	exec_child(t_token *token, t_ms *ms)
 		execve(cmd->path, cmd->args, ms->env);
 		retval = command_failed(token);
 	}
-		ms_full_clean(ms);
+	ms_full_clean(ms);
 	exit(retval);
 }
 
