@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:09:19 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/15 10:22:36 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:35:28 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		is_word(t_token *token);
 void	clean_arg_tokens(t_token *token);
 void	skip_rd_token_and_data(t_token *token, t_token *prev);
-int		is_redir_of_hd(t_token *token);
+int		is_redir_or_hd(t_token *token);
 t_token	*remove_token(t_token *prev, t_token *token);
 
 /**
@@ -43,12 +43,12 @@ void	clean_arg_tokens(t_token *token)
 	prev = token;
 	while (token && token->type != T_PIPE)
 	{
-		if (is_redir_of_hd(token))
+		if (is_redir_or_hd(token))
 		{
 			prev = token->next;
 			token = token->next->next;
 		}
-		if (token && token->type == T_WORD && i > 0)
+		else if (token && token->type == T_WORD && i > 0)
 			token = remove_token(prev, token);
 		else
 		{
@@ -66,7 +66,7 @@ void	skip_rd_token_and_data(t_token *token, t_token *prev)
 	token = token->next->next;
 }
 
-int	is_redir_of_hd(t_token *token)
+int	is_redir_or_hd(t_token *token)
 {
 	return (token
 		&& (token->type == T_REDIR_IN || token->type == T_HEREDOC
