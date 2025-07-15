@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:30:41 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/14 17:23:23 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:48:32 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,6 @@ int	main(int ac, char **av, char **env)
 	if (ms->exit != -1)
 		retval = ms->exit;
 	ms_full_clean(ms);
-	ft_putendl_fd("exit", 1);
+	ft_putendl_fd("exit", 2);
 	return (retval);
 }
