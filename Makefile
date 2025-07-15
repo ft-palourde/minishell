@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tcoeffet <tcoeffet@student.42.fr>          +#+  +:+       +#+         #
+#    By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 13:17:30 by rcochran          #+#    #+#              #
-#    Updated: 2025/07/12 17:59:57 by tcoeffet         ###   ########.fr        #
+#    Updated: 2025/07/15 09:43:53 by rcochran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ FILES		= 	builtin/builtin_cd\
 				builtin/builtin_utils\
 				exec/exec_cmd\
 				exec/exec_cmd_init\
+				exec_cmd_init2\
 				exec/exec_cmd_utils\
 				exec/exec_heredoc_init \
 				exec/exec_heredoc_init2 \
