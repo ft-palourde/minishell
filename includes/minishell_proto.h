@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:44:38 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/15 09:43:20 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:55:57 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int				check_quote_type(char c);
 void			add_var_to_new(char **new, char *str, int *i, t_ms *ms);
 char			*var_name_to_value(char *name, t_ms *ms);
 char			*var_expand(char *str, int *j, t_ms *ms);
-void			expand_cmd_args(t_cmd **cmd, t_ms *ms);
+void			expand_cmd_args(t_cmd *cmd, t_ms *ms);
 char			*expand_path(char *str, t_ms *ms, int exp);
 char			*ft_get_pid(void);
 

@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:24:51 by tcoeffet          #+#    #+#             */
-/*   Updated: 2025/07/15 09:43:56 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:56:05 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	init_cmd(t_tree *node, t_ms *ms)
 	t_cmd	*cmd;
 
 	cmd = node->token->data->cmd;
-	expand_cmd_args(&cmd, ms);
+	expand_cmd_args(cmd, ms);
 	cmd->is_builtin = is_builtin_cmd(cmd->args[0]);
 	if (!is_builtin(node->token))
 	{

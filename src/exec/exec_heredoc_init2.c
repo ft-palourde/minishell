@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:27:45 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/15 10:09:37 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:08:28 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ void	handle_null_line(t_ms *ms, int *fd)
 
 int	matching_lim(char *line, char *lim)
 {
-	return (!ft_strncmp(line, lim, ft_strlen(lim))
-		&& ft_strlen(line) == ft_strlen(lim));
+	if (!ft_strncmp(line, lim, ft_strlen(lim))
+		&& ft_strlen(line) == ft_strlen(lim))
+	{
+		free(line);
+		return (1);
+	}
+	return (0);
 }
