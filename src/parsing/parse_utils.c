@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:09:19 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:30:26 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:22:36 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int		is_word(t_token *token);
 void	clean_arg_tokens(t_token *token);
+void	skip_rd_token_and_data(t_token *token, t_token *prev);
+int		is_redir_of_hd(t_token *token);
+t_token	*remove_token(t_token *prev, t_token *token);
 
 /**
  * @brief Check if a token is of type T_WORD.
@@ -34,27 +37,19 @@ int	is_word(t_token *token)
 void	clean_arg_tokens(t_token *token)
 {
 	t_token	*prev;
-	t_token	*tmp;
 	int		i;
 
 	i = 0;
 	prev = token;
 	while (token && token->type != T_PIPE)
 	{
-		if (token && (token->type == T_REDIR_IN
-				|| token->type == T_HEREDOC || token->type == T_REDIR_OUT
-				|| token->type == T_APPEND))
+		if (is_redir_of_hd(token))
 		{
 			prev = token->next;
 			token = token->next->next;
 		}
 		if (token && token->type == T_WORD && i > 0)
-		{
-			prev->next = token->next;
-			tmp = token->next;
-			free_token(token);
-			token = tmp;
-		}
+			token = remove_token(prev, token);
 		else
 		{
 			prev = token;
@@ -63,6 +58,29 @@ void	clean_arg_tokens(t_token *token)
 		}
 		i++;
 	}
+}
+
+void	skip_rd_token_and_data(t_token *token, t_token *prev)
+{
+	prev = token->next;
+	token = token->next->next;
+}
+
+int	is_redir_of_hd(t_token *token)
+{
+	return (token
+		&& (token->type == T_REDIR_IN || token->type == T_HEREDOC
+			|| token->type == T_REDIR_OUT || token->type == T_APPEND));
+}
+
+t_token	*remove_token(t_token *prev, t_token *token)
+{
+	t_token	*next;
+
+	prev->next = token->next;
+	next = token->next;
+	free_token(token);
+	return (next);
 }
 /* 	while (token)
 	{
