@@ -6,7 +6,7 @@
 /*   By: rcochran <rcochran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:18:57 by rcochran          #+#    #+#             */
-/*   Updated: 2025/07/15 11:55:40 by rcochran         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:28:50 by rcochran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	expand_cmd_args(t_cmd *cmd, t_ms *ms)
 		expanded = str_expand(cmd->args[i], ms);
 		if (!expanded)
 			return (perror("minishell"));
+		free(cmd->args[i]);
 		cmd->args[i] = expanded;
 		i++;
 	}
@@ -47,7 +48,9 @@ void	clear_empty_strings(char **new_arg)
 {
 	int	i;
 
-	while (!new_arg[0][0])
+	if (!new_arg || !new_arg[0])
+		return ;
+	while (!new_arg[0][0] && new_arg[1])
 	{
 		i = 0;
 		free(new_arg[0]);
@@ -57,5 +60,6 @@ void	clear_empty_strings(char **new_arg)
 			new_arg[i] = new_arg[i + 1];
 			i++;
 		}
+		new_arg[i] = 0;
 	}
 }
